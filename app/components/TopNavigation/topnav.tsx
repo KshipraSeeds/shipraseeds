@@ -7,61 +7,71 @@ import { Menu, X } from "lucide-react";
 
 export default function TopNav() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isHidden, setIsHidden] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const pathname = usePathname(); 
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsOpen(false);
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down
+        setIsHidden(true);
+      } else if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setIsHidden(false);
       }
+      setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const linkClass = (path: string) => 
     pathname === path 
       ? "text-black font-semibold" 
-      : "hover:text-black/70";
+      : "text-black/70 hover:text-black";
 
   return (
-    <nav className="w-full flex justify-center items-start pt-12 sticky top-0 z-50">
-      <div className="w-[95%] max-w-7xl bg-white rounded-full shadow-md flex justify-between items-center px-8 py-4">
-        
-        {/* Logo */}
-        <Link href="/" className="text-2xl font-bold italic">
-          <h1 className="text-3xl font-black text-green-700 gothic-font">Shipra Seeds</h1>
-        </Link>
+    <div className={`absolute top-0 left-0 w-full z-50 transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${isHidden ? '-translate-y-full' : 'translate-y-0'}`}>
+      <nav className="w-full flex justify-center items-start pt-12">
+        <div className="w-[95%] max-w-7xl bg-white rounded-full shadow-md flex justify-between items-center px-8 py-4">
+          {/* Logo */}
+          <Link href="/" className="text-2xl font-bold italic">
+            <h1 className="text-3xl font-black text-green-700 gothic-font">Shipra Seeds</h1>
+          </Link>
 
-        {/* Desktop Links */}
-        <div className="hidden md:flex space-x-8 text-base font-medium">
-          <Link href="/" className={linkClass("/")}>Home</Link>
-          <Link href="/about" className={linkClass("/about")}>About</Link>
-          <Link href="/projects" className={linkClass("/projects")}>Products</Link>
-          <Link href="/contact" className={linkClass("/contact")}>Contact</Link>
+          {/* Desktop Links */}
+          <div className="hidden md:flex space-x-8 text-base font-medium">
+            <Link href="/" className={linkClass("/")}>Home</Link>
+            <Link href="/about" className={linkClass("/about")}>About</Link>
+            <Link href="/projects" className={linkClass("/projects")}>Products</Link>
+            <Link href="/contact" className={linkClass("/contact")}>Contact</Link>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button onClick={toggleMenu} aria-label="Toggle menu">
+              {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu Button */}
-        <div className="md:hidden">
-          <button onClick={toggleMenu} aria-label="Toggle menu">
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile dropdown */}
-      {isOpen && (
-        <div className="absolute top-32 w-[95%] max-w-7xl bg-white rounded-xl shadow-lg p-6 animate-slide-down flex flex-col space-y-4 text-center font-medium">
-          <Link href="/" onClick={closeMenu} className={linkClass("/")}>Home</Link>
-          <Link href="/about" onClick={closeMenu} className={linkClass("/about")}>About</Link>
-          <Link href="/projects" onClick={closeMenu} className={linkClass("/projects")}>Products</Link>
-          <Link href="/contact" onClick={closeMenu} className={linkClass("/contact")}>Contact</Link>
-        </div>
-      )}
-    </nav>
+        {/* Mobile dropdown */}
+        {isOpen && (
+          <div className="absolute top-32 w-[95%] max-w-7xl bg-white rounded-xl shadow-lg p-6 flex flex-col space-y-4 text-center font-medium">
+            <Link href="/" onClick={closeMenu} className={linkClass("/")}>Home</Link>
+            <Link href="/about" onClick={closeMenu} className={linkClass("/about")}>About</Link>
+            <Link href="/projects" onClick={closeMenu} className={linkClass("/projects")}>Products</Link>
+            <Link href="/contact" onClick={closeMenu} className={linkClass("/contact")}>Contact</Link>
+          </div>
+        )}
+      </nav>
+    </div>
   );
-}
+} 
