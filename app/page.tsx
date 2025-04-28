@@ -3,6 +3,8 @@
 import Image from "next/image";
 import backgroundImage from "@/public/bg1.jpg";
 import card1 from "@/public/freepik__candid-photography-with-natural-textures-and-highl__83704.png";
+import card2 from "@/public/freepik__the-style-is-candid-image-photography-with-natural__17002.png";
+import card3 from "@/public/freepik__the-style-is-candid-image-photography-with-natural__17003.jpeg";
 import card31 from "@/public/bajra.webp";
 import card32 from "@/public/wheat.jpg";
 import card33 from "@/public/JowarSeeds.avif";
@@ -89,18 +91,18 @@ export default function Home() {
               </div>
               <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 md:ml-12">
                 <motion.h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-green-800">
-                  Join Our Farmer Network
+                हमारे किसान नेटवर्क से जुड़ें
                 </motion.h3>
                 <motion.p className="text-gray-700 mb-8 text-base md:text-lg leading-relaxed">
-                  Register now to stay updated with sowing advice, seed info,
-                  new variety updates, and season-ready seed guidance.
+                  रजिस्टर करें और बुवाई की सलाह, बीज से जुड़ी जानकारी, नए सीड
+                  वैरायटी की सूचना और सीजन के लिए बीज मार्गदर्शन पाएं।
                 </motion.p>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-green-700 text-white px-8 py-4 rounded-full hover:bg-green-800 text-base font-semibold shadow-md"
                 >
-                  Register Now
+                  अभी रजिस्टर करें
                 </motion.button>
               </div>
             </motion.div>
@@ -118,7 +120,7 @@ export default function Home() {
               {/* Image section */}
               <div className="hidden md:block w-full md:w-1/2">
                 <Image
-                  src={card1}
+                  src={card2}
                   alt="Retailer Wholesaler Enquiry"
                   className="rounded-[24px] w-full object-cover h-[400px]"
                 />
@@ -127,17 +129,15 @@ export default function Home() {
               {/* Text section */}
               <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 md:ml-12">
                 <h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-orange-800">
-                  Interested in Buying Our Seeds?
+                क्या आप हमारे बीज खरीदने में रुचि रखते हैं?
                 </h3>
                 <p className="text-gray-600 mb-8 text-base md:text-lg">
-                  If you're a retailer or wholesaler and want to work with us,
-                  send your enquiry.
+                अगर आप एक रिटेलर या थोक व्यापारी हैं और हमारे साथ काम करना चाहते हैं, तो अपनी पूछताछ भेजें। 
                   <br className="hidden md:block" />
-                  We welcome new partners interested in our brand and quality
-                  seeds!
+                  हम ऐसे नए साझेदारों का स्वागत करते हैं जो हमारे ब्रांड में रुचि रखते हैं और हमसे गुणवत्तापूर्ण बीज खरीदना चाहते हैं।
                 </p>
                 <button className="bg-black text-white px-8 py-4 rounded-full hover:bg-gray-800 text-base">
-                  Send Enquiry
+                पूछताछ भेजें
                 </button>
               </div>
             </motion.div>
@@ -154,17 +154,16 @@ export default function Home() {
               className="bg-purple-100 rounded-3xl p-6 md:p-14 text-center shadow-lg hover:shadow-2xl transition-all"
             >
               <h3 className="text-2xl md:text-4xl font-bold text-purple-800 mb-4">
-                Explore Our Seeds
+              हमारे बीज देखें
               </h3>
               <p className="text-gray-700 max-w-xl mx-auto mb-6 text-sm md:text-lg">
-                Browse our wide range of seeds for different crops. View details
-                like pack sizes, usage info, and more.
+              विभिन्न फसलों और वैरायटी के लिए हमारे उत्पादों को देखें — पैक साइज और उपयोग की पूरी जानकारी के साथ।
               </p>
 
               {/* View Products Button - Hidden on mobile */}
               <div className="hidden md:block">
                 <button className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 transition text-sm md:text-base">
-                  View Products
+                उत्पाद देखें
                 </button>
               </div>
 
@@ -173,9 +172,9 @@ export default function Home() {
                 {/* Mobile layout - horizontal cards */}
                 <div className="md:hidden space-y-4">
                   {[
-                    { title: "Wheat", href: "/products/wheat", image: card32 },
-                    { title: "Bajra", href: "/products/bajra", image: card31 },
-                    { title: "Jowar", href: "/products/jowar", image: card33 },
+                    { title: "गेहूं", href: "/products/wheat", image: card32 },
+                    { title: "बाजरा", href: "/products/bajra", image: card31 },
+                    { title: "ज्वार", href: "/products/jowar", image: card33 },
                   ].map((crop, idx) => (
                     <Link key={idx} href={crop.href} className="block">
                       <motion.div
@@ -204,9 +203,9 @@ export default function Home() {
                 {/* Desktop layout - original grid */}
                 <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-6">
                   {[
-                    { title: "Wheat", href: "/products/wheat", image: card32 },
-                    { title: "Bajra", href: "/products/bajra", image: card31 },
-                    { title: "Jowar", href: "/products/jowar", image: card33 },
+                    { title: "गेहूं", href: "/products/wheat", image: card32 },
+                    { title: "बाजरा", href: "/products/bajra", image: card31 },
+                    { title: "ज्वार", href: "/products/jowar", image: card33 },
                   ].map((crop, idx) => (
                     <Link key={idx} href={crop.href} className="block">
                       <motion.div
@@ -245,7 +244,7 @@ export default function Home() {
               {/* Image Section */}
               <div className="hidden md:block w-full md:w-1/2">
                 <Image
-                  src={card1}
+                  src={card3}
                   alt="Shipra Seeds"
                   className="rounded-[24px] w-full object-cover h-[400px]"
                 />
@@ -254,13 +253,13 @@ export default function Home() {
               {/* Text Section */}
               <div className="w-full md:w-1/2 text-center md:text-left mt-8 md:mt-0 md:ml-12">
                 <h3 className="text-3xl md:text-4xl font-extrabold mb-6 text-blue-800">
-                  Behind Every Seed Bag, There’s a Story.
+                हर बीज की बोरी के पीछे एक कहानी होती है।
                 </h3>
                 <p className="text-gray-700 mb-8 text-base md:text-lg">
-                  Here’s ours — built with trust, effort, and farmers in mind.
+                यह हमारी है — भरोसे, मेहनत और किसानों के लिए बनाई गई।
                 </p>
                 <button className="bg-black text-white px-8 py-4 rounded-full hover:bg-gray-800 transition text-base">
-                  Meet Shipra Seeds
+                शिप्रा सीड्स को जानिए
                 </button>
               </div>
             </motion.div>
