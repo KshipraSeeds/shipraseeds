@@ -27,7 +27,7 @@ export const CardOne = () => {
               <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed">
                 रजिस्टर करें और बुवाई की सलाह, बीज से जुड़ी जानकारी, नए सीड वैरायटी की सूचना और सीजन के लिए बीज मार्गदर्शन पाएं।
               </p>
-              <button className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 text-sm font-semibold shadow-md">
+              <button className="bg-black text-white px-6 py-3 rounded-full transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl text-sm font-semibold shadow-md">
                 अभी रजिस्टर करें
               </button>
             </div>

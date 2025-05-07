@@ -48,10 +48,10 @@ export default function TopNav() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-8 text-base font-medium">
-            <Link href="/" className={linkClass("/")}>Home</Link>
-            <Link href="/about" className={linkClass("/about")}>About</Link>
-            <Link href="/projects" className={linkClass("/projects")}>Products</Link>
-            <Link href="/contact" className={linkClass("/contact")}>Contact</Link>
+            <Link href="/" className={linkClass("/")}>मुख पृष्ठ</Link>
+            <Link href="/about" className={linkClass("/about")}> हमारे बारे में</Link>
+            <Link href="/products" className={linkClass("/products")}>उत्पाद</Link>
+            <Link href="/contact" className={linkClass("/contact")}>संपर्क</Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -65,10 +65,10 @@ export default function TopNav() {
         {/* Mobile dropdown */}
         {isOpen && (
           <div className="absolute top-32 w-[95%] max-w-7xl bg-white rounded-xl shadow-lg p-6 flex flex-col space-y-4 text-center font-medium">
-            <Link href="/" onClick={closeMenu} className={linkClass("/")}>Home</Link>
-            <Link href="/about" onClick={closeMenu} className={linkClass("/about")}>About</Link>
-            <Link href="/projects" onClick={closeMenu} className={linkClass("/projects")}>Products</Link>
-            <Link href="/contact" onClick={closeMenu} className={linkClass("/contact")}>Contact</Link>
+            <Link href="/" onClick={closeMenu} className={linkClass("/")}>मुख पृष्ठ</Link>
+            <Link href="/about" onClick={closeMenu} className={linkClass("/about")}>हमारे बारे में</Link>
+            <Link href="/products" onClick={closeMenu} className={linkClass("/products")}>उत्पाद</Link>
+            <Link href="/contact" onClick={closeMenu} className={linkClass("/contact")}>संपर्क</Link>
           </div>
         )}
       </nav>

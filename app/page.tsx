@@ -9,6 +9,8 @@ import { CardTwo } from "@/components/cards/cardTwo";
 import { CardThree } from "@/components/cards/cardThree";
 import { CardFour } from "@/components/cards/cardFour";
 import { WhyProcessedSeedCard } from "@/components/ProcessedSeed/seeds";
+import WhyChooseUs from "@/components/WhyChooseUs";
+import Footer from "@/components/Footer";
 
 const titles = ["बीज उत्पादक", "बीज प्रसंस्करक", "बीज वितरक/आपूर्तिकर्ता।"];
 
@@ -21,7 +23,6 @@ export default function Home() {
     }, 2500);
     return () => clearInterval(interval);
   }, []);
-
 
   return (
     <>
@@ -56,7 +57,13 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -30 }}
                   transition={{ duration: 0.6 }}
-                  className="absolute text-4xl md:text-6xl font-bold text-white whitespace-nowrap"
+                  className={`absolute font-bold text-white 
+                    ${
+                      index === 2
+                        ? "text-3xl whitespace-normal"
+                        : "text-4xl whitespace-nowrap"
+                    } 
+                    md:text-6xl md:whitespace-nowrap`}
                 >
                   {titles[index]}
                 </motion.h2>
@@ -86,13 +93,16 @@ export default function Home() {
       </div>
 
       {/* Cards Section */}
-       <div className="relative w-full min-h-[400vh] px-4 sm:px-6 md:px-12 py-20 space-y-20">
-      <CardOne />
-      <CardTwo />
-      <CardThree />
-      <CardFour />
-    </div>
-    <WhyProcessedSeedCard/>
+      <div className="relative w-full min-h-[400vh] px-4 sm:px-6 md:px-12 py-20 space-y-20">
+        <CardOne />
+        <CardTwo />
+        <CardThree />
+        <CardFour />
+      </div>
+      <div className="px-4 sm:px-6 md:px-12">
+        <WhyProcessedSeedCard />
+      </div>
+      <WhyChooseUs />
     </>
   );
 }

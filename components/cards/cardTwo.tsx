@@ -27,7 +27,7 @@ export const CardTwo = () => {
                     <p className="text-gray-600 mb-6 text-base sm:text-lg leading-relaxed">
                         अगर आप एक रिटेलर या थोक व्यापारी हैं और हमारे साथ काम करना चाहते हैं, तो अपनी पूछताछ भेजें। हम ऐसे नए साझेदारों का स्वागत करते हैं जो हमारे ब्रांड में रुचि रखते हैं।
                     </p>
-                    <button className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 text-sm font-semibold shadow-md">
+                    <button className="bg-black text-white px-6 py-3 rounded-full transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl text-sm font-semibold shadow-md">
                         पूछताछ भेजें
                     </button>
                 </div>

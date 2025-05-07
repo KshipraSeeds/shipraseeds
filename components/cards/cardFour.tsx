@@ -11,7 +11,7 @@ export const CardFour = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="bg-blue-100 rounded-[32px] p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center shadow-2xl hover:shadow-3xl transition-all"
+            className="bg-blue-100 rounded-[32px] p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center shadow-xl hover:shadow-3xl transition-all"
           >
             <div className="w-full md:w-1/2">
               <Image
