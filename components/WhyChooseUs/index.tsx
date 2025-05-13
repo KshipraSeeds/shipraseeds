@@ -18,8 +18,8 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   iconColorClass,
 }) => {
   return (
-    <div className="flex flex-col bg-white rounded-xl shadow-custom-medium hover:shadow-custom-hover transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
-      <div className={`relative p-6 flex flex-col items-center text-center ${accentColorClass}-light-bg`}> {/* Custom class or inline style if needed for light bg */}
+    <div className="flex flex-col bg-white rounded-xl shadow-custom-medium hover:shadow-custom-hover transition-all duration-300 overflow-hidden group transform hover:-translate-y-1 ">
+      <div className={`relative p-6 flex flex-col items-center text-center ${accentColorClass}-light-bg `}> {/* Custom class or inline style if needed for light bg */}
         <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${accentColorClass}`}>
           <Icon className={`w-8 h-8 ${iconColorClass}`} strokeWidth={2} />
         </div>
@@ -64,7 +64,7 @@ const WhyChooseUs: React.FC = () => {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-agri-section-bg via-white to-agri-section-bg">
+    <section className="py-16 md:py-24 bg-gradient-to-br from-agri-section-bg via-white to-agri-section-bg m-4 mb-0 rounded-[30px] sm:rounded-[42px]">
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         {/* Main Section Card Styling - Applied indirectly by the page structure if every section is a card */}
         {/* If this section itself needs to be a "card" on a different page background, wrap its content or apply card styles here */}

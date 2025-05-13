@@ -29,7 +29,9 @@ module.exports = {
         'agri-card-bg': '#F8F9FA',      // Very light, clean card background
         'agri-section-bg': '#ECEFF1', 
         'agri-footer-bg': '#1F2937',   // Light, neutral section background
+
         
+
         // Futuristic accents
         'futuristic-bg': '#0D1117', // Dark background, like GitHub dark mode
         'futuristic-card': 'rgba(22, 27, 34, 0.8)', // Semi-transparent dark card
