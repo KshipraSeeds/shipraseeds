@@ -1,5 +1,5 @@
 import React from 'react'
-import card31 from "@/public/bajra.webp";
+import card31 from "@/public/Wheat.jpg";
 import card32 from "@/public/paddy1.jpg";
 import card33 from "@/public/JowarSeeds.avif";
 import Image from 'next/image';
@@ -10,7 +10,7 @@ import Link from 'next/link';
 export const CardThree = () => {
     const images = [
         { src: card32, name: "बासमती धान", href: "/products?category=paddy" },
-        { src: card31, name: "बाजरा", href: "/products?category=millet" },
+        { src: card31, name: "गेहूं", href: "/products?category=wheat " },
         { src: card33, name: "ज्वार", href: "/products?category=sorghum" },
       ];
     
