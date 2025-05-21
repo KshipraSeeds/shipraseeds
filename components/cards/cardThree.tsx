@@ -1,5 +1,5 @@
 import React from 'react'
-import card31 from "@/public/Wheat.jpg";
+import card31 from "@/public/wheat.jpg";
 import card32 from "@/public/paddy1.jpg";
 import card33 from "@/public/JowarSeeds.avif";
 import Image from 'next/image';
