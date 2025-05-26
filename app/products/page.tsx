@@ -1,8 +1,7 @@
-// app/products/page.tsx
-"use client";
+'use client';
 
-import { useRouter, usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Clock,
@@ -15,15 +14,17 @@ import {
   Sun,
   PackageSearch,
   Sprout,
+  X, // Import X icon for closing modal
 } from "lucide-react";
-import paddy31 from "@/public/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png";
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+// import paddy31 from "@/public/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png"; // No longer directly used as images are from variety data
 
 
 type CropVariety = {
   id: string;
   name: string;
   image?: string;
-  weightImages?:any;
+  weightImages?: { weight: string; url: string }[]; // Updated type for weightImages
   maturity: string;
   yield: string;
   specialTrait: string;
@@ -48,41 +49,40 @@ const allCropData: CropCategory[] = [
         id: "pb-1692",
         name: "PB-1692",
         weightImages: [
-  { weight: "5 KG", url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png" },
-  { weight: "4 KG", url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png" },
-  { weight: "3 KG", url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png" },
-],
-
+          { weight: "5 KG", url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png" },
+          { weight: "4 KG", url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png" },
+          { weight: "3 KG", url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png" },
+        ],
         maturity: "110-115 दिन",
         yield: "20-24 क्विंटल/एकड़ (देखभाल में 26-28)",
         specialTrait: "जल्दी पकने वाली, न गिरने वाली, न झड़ने वाली",
         aboutVariety: `
 इस किस्म को दो अच्छी किस्मों — पूसा बासमती 1509 और PB-1601 — को मिलाकर बनाया गया है।
-•	पूसा1509 से इसे जल्दी पकने की ताकत, ज्यादा उपज और छोटा पौधा मिला जिससे फसल संभालना आसान होता है।
-•	PB-1601 से इसे मजबूत तना मिला जो फसल को गिरने नहीं देता और दाने पकने पर भी टूटते नहीं हैं।`,
+• पूसा1509 से इसे जल्दी पकने की ताकत, ज्यादा उपज और छोटा पौधा मिला जिससे फसल संभालना आसान होता है।
+• PB-1601 से इसे मजबूत तना मिला जो फसल को गिरने नहीं देता और दाने पकने पर भी टूटते नहीं हैं।`,
         whyItCreated: `पुरानी किस्में देर से पकती थीं और गिरने का खतरा रहता था। PB-1692 को इस समस्या को दूर करने के लिए लाया गया है।
 किसानों को इससे ये फायदा होता है:
-•	फसल जल्दी काट सकते हैं
-•	कम गिरावट और नुकसान होता है
-•	कम समय में अच्छी उपज मिलती है,`,
+• फसल जल्दी काट सकते हैं
+• कम गिरावट और नुकसान होता है
+• कम समय में अच्छी उपज मिलती है,`,
       },
       {
         id: "pb-1121",
         name: "PB-1121",
-      weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
 
         maturity: "145 दिन",
         yield: "18.21 क्विंटल/एकड़ (देखभाल में 22.26)",
@@ -101,20 +101,20 @@ PB-1121 से किसान को मिलता है:
       {
         id: "pb-1718",
         name: "PB-1718",
-    weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
 
         maturity: "136-138 दिन",
         yield: "18–20 क्विंटल/एकड़ (देखभाल में 22–24)",
@@ -131,20 +131,20 @@ PB-1718 को इसलिए बनाया गया ताकि:
       {
         id: "pb-1847",
         name: "PB-1847",
-    weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
 
         maturity: "120 दिन",
         yield: "23 क्विंटल/एकड़",
@@ -162,20 +162,20 @@ PB-1847 से किसानों को ये फायदा होता 
       {
         id: "pb-1885",
         name: "PB-1885",
-      weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
 
         maturity: "140 दिन",
         yield: "18.94 क्विंटल/एकड़ (देखभाल में 20–22)",
@@ -193,20 +193,20 @@ PB-1885 को इसलिए बनाया गया ताकि:
       {
         id: "pb-1509",
         name: "PB-1509",
-    weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
 
         maturity: "115 दिन",
         yield: "20.22 क्विंटल/एकड़ (देखभाल में 26–28)",
@@ -221,20 +221,20 @@ PB-1509 इन दिक्कतों को दूर करती है औ
       {
         id: "pb-1401",
         name: "PB-1401",
-     weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
 
         maturity: "140–145 दिन",
         yield: "20.22 क्विंटल/एकड़ (अच्छे खेत में 36–38)",
@@ -249,20 +249,20 @@ PB-1401 उसी जरूरत को पूरा करती है।`,
       {
         id: "csr-30",
         name: "CSR-30 (यामिनी)",
-   weightImages: [
-  {
-    weight: "5 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "4 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-  {
-    weight: "3 KG",
-    url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
-  },
-],
+        weightImages: [
+          {
+            weight: "5 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "4 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+          {
+            weight: "3 KG",
+            url: "/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png",
+          },
+        ],
         maturity: "155 दिन",
         yield:
           "खारी ज़मीन: 8.09 | सामान्य ज़मीन: 12.13 | कुछ मामलों में: 18 क्विंटल/एकड़",
@@ -321,293 +321,509 @@ SS-17 इन सभी ज़रूरतों को पूरा करती
       },
     ],
   },
- {
-  id: "wheat",
-  name: "गेहूं",
-  icon: Zap,
-  varieties: [
-    {
-      id: "hd-2967",
-      name: "HD-2967",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "109 दिन: 120 से 162 दिन (बीजनेट)",
-      yield: "औसतन - 50–55 क्विंटल/हेक्टेयर; संभावित - 65-70 क्यू/हेक्टेयर",
-      specialTrait: "अंतिम गर्मी तनाव के प्रतिसहनशीलता। पत्ते के विस्फोट, कर्नल बंट और ध्वज स्मट रोग के प्रतिसहनशीलता।",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "hd-3406",
-      name: "HD-3406",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "120-150 दिन",
-      yield: "औसतन - 54.73 क्यू/हेक्टेयर, संभावित - 64.05 क्यू/हेक्टेयर",
-      specialTrait: "पत्ते और पट्टी की जंग के प्रति प्रतिरोधक, गेहूं के विस्फोट और कर्नल बंट के प्रति अच्छा स्तर का प्रतिरोध।",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "hd-2851",
-      name: "HD-2851",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "137 से 141 दिन",
-      yield: "",
-      specialTrait: "समय पर बोई गई; सिंचित और उच्च उर्वरक स्थितियां। पत्ते की rust, स्टेम रस्ट और पट्टी रस्ट के प्रति अत्यधिक प्रतिरोधक, यहां तक कि कृत्रिम स्थितियों में भी।",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "hd-3086",
-      name: "HD-3086",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "145 दिन",
-      yield: "5.4 टन/हेक्टेयर",
-      specialTrait: "पीले और भूरी रस्ट के प्रति प्रतिरोधक",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "hd-3386",
-      name: "HD-3386",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "144 दिन",
-      yield: "62.5 क्यू/हेक्टेयर",
-      specialTrait: "समय पर बोई गई सिंचित",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-327",
-      name: "DBW-327",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "135-140 दिन",
-      yield: "औसतन - 79.4 क्यू/हेक्टेयर, संभावित - 87.7 क्यू/हेक्टेयर",
-      specialTrait: "कर्नल बंट के प्रति प्रतिरोधक",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-333",
-      name: "DBW-333",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "140–145 दिन",
-      yield: "औसतन – 50-60 क्यू/हेक्टेयर; संभावित - 80-85 क्यू/हेक्टेयर",
-      specialTrait: "",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-371",
-      name: "DBW-371",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "102 दिन: 147 से 153 दिन (SeedNet)",
-      yield: "75.9 क्यू/हेक्टेयर, संभावित – 87.1 क्यू/हेक्टेयर",
-      specialTrait: "जल्दी बोई गई, सिंचित स्थिति उत्तर पश्चिमी मैदानी क्षेत्र (दिल्ली, हरियाणा, हिमाचल प्रदेश, जम्मू और कश्मीर, पंजाब, राजस्थान, उत्तर प्रदेश, उत्तराखंड)। DBW 371 पत्ते के रस्ट के प्रति प्राकृतिक और कृत्रिम स्थितियों में अत्यधिक प्रतिरोधक है (जैसा कि ACI मानों से स्पष्ट है)",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-370",
-      name: "DBW-370",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "102 दिन; 148 से 153 दिन (SeedNet)",
-      yield: "74.9 क्यू/हेक्टेयर, संभावित – 86.9 क्यू/हेक्टेयर",
-      specialTrait: "जल्दी बोई गई, सिंचित स्थिति उत्तर पश्चिमी मैदानी क्षेत्र (दिल्ली, हरियाणा, हिमाचल प्रदेश, जम्मू और कश्मीर, पंजाब, राजस्थान, उत्तर प्रदेश, उत्तराखंड)",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-372",
-      name: "DBW-372",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "106 दिन: 148 से 153 दिन (SeedNet)",
-      yield: "75.3 क्यू/हेक्टेयर, संभावित – 84.9 क्यू/हेक्टेयर",
-      specialTrait: "जल्दी बोई गई, सिंचित स्थिति उत्तर पश्चिमी मैदानी क्षेत्र (दिल्ली, हरियाणा, हिमाचल प्रदेश, जम्मू और कश्मीर, पंजाब, राजस्थान, उत्तर प्रदेश, उत्तराखंड)",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-303",
-      name: "DBW-303",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "102-140 दिन",
-      yield: "80.3 क्यू/हेक्टेयर",
-      specialTrait: "प्राकृतिक और कृत्रिम स्थितियों में पत्ते की बीमारियों के प्रति प्रतिरोधक। यह काले, भूरे और पीले रस्ट के प्रति अत्यधिक प्रतिरोधक है, जैसा कि ACI मानों से स्पष्ट है। इसके अलावा, DBW 303 गेहूं के विस्फोट रोग के प्रति अत्यधिक प्रतिरोधक है। सिंचित, समय पर बोई गई, उच्च उर्वरक स्थिति — केंद्रीय क्षेत्र (MP, राजस्थान, गुजरात, छत्तीसगढ़)",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-222",
-      name: "DBW-222",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "139 से 150 दिन",
-      yield: "82.1 क्यू/हेक्टेयर",
-      specialTrait: "DBW 222 उच्चतम उत्पादन देने वाली प्रजाति है, दोनों समय पर बोई और देर से बोई गई स्थितियों में, और इसमें उच्च अनाज संख्या/स्पाइक और 1000-अनाज वजन है। यह प्राकृतिक और कृत्रिम स्थितियों में पट्टी और पत्ते की रस्ट के प्रति प्रतिरोधक है।",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "dbw-187",
-      name: "DBW-187",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "120 दिन बुवाई के बाद",
-      yield: "औसतन: 61.28 क्यू/हेक्टेयर",
-      specialTrait: "",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "pbw-872",
-      name: "PBW-872",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "135 से 163 दिन",
-      yield: "93.4 क्यू/हेक्टेयर",
-      specialTrait: "PBW 872 पट्टी और पत्ते की रस्ट के प्रति प्रतिरोधक है, जैसा कि ACI मानों से स्पष्ट है।",
-      aboutVariety: "",
-      whyItCreated: ""
-    },
-    {
-      id: "pbw-826",
-      name: "PBW-826",
-      image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
-      maturity: "125 से 165 दिन",
-      yield: "84.4 क्यू/हेक्टेयर",
-      specialTrait: "समय पर बोई गई, सिंचित स्थितियां",
-      aboutVariety: "",
-      whyItCreated: ""
-    }
-  ]
-}
+  {
+    id: "wheat",
+    name: "गेहूं",
+    icon: Zap,
+    varieties: [
+      {
+        id: "hd-2967",
+        name: "HD-2967",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "109 दिन: 120 से 162 दिन (बीजनेट)",
+        yield: "औसतन - 50–55 क्विंटल/हेक्टेयर; संभावित - 65-70 क्यू/हेक्टेयर",
+        specialTrait: "अंतिम गर्मी तनाव के प्रतिसहनशीलता। पत्ते के विस्फोट, कर्नल बंट और ध्वज स्मट रोग के प्रतिसहनशीलता।",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "hd-3406",
+        name: "HD-3406",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "120-150 दिन",
+        yield: "औसतन - 54.73 क्यू/हेक्टेयर, संभावित - 64.05 क्यू/हेक्टेयर",
+        specialTrait: "पत्ते और पट्टी की जंग के प्रति प्रतिरोधक, गेहूं के विस्फोट और कर्नल बंट के प्रति अच्छा स्तर का प्रतिरोध।",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "hd-2851",
+        name: "HD-2851",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "137 से 141 दिन",
+        yield: "",
+        specialTrait: "समय पर बोई गई; सिंचित और उच्च उर्वरक स्थितियां। पत्ते की rust, स्टेम रस्ट और पट्टी रस्ट के प्रति अत्यधिक प्रतिरोधक, यहां तक कि कृत्रिम स्थितियों में भी।",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "hd-3086",
+        name: "HD-3086",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "145 दिन",
+        yield: "5.4 टन/हेक्टेयर",
+        specialTrait: "पीले और भूरी रस्ट के प्रति प्रतिरोधक",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "hd-3386",
+        name: "HD-3386",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "144 दिन",
+        yield: "62.5 क्यू/हेक्टेयर",
+        specialTrait: "समय पर बोई गई सिंचित",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-327",
+        name: "DBW-327",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "135-140 दिन",
+        yield: "औसतन - 79.4 क्यू/हेक्टेयर, संभावित - 87.7 क्यू/हेक्टेयर",
+        specialTrait: "कर्नल बंट के प्रति प्रतिरोधक",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-333",
+        name: "DBW-333",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "140–145 दिन",
+        yield: "औसतन – 50-60 क्यू/हेक्टेयर; संभावित - 80-85 क्यू/हेक्टेयर",
+        specialTrait: "",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-371",
+        name: "DBW-371",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "102 दिन: 147 से 153 दिन (SeedNet)",
+        yield: "75.9 क्यू/हेक्टेयर, संभावित – 87.1 क्यू/हेक्टेयर",
+        specialTrait: "जल्दी बोई गई, सिंचित स्थिति उत्तर पश्चिमी मैदानी क्षेत्र (दिल्ली, हरियाणा, हिमाचल प्रदेश, जम्मू और कश्मीर, पंजाब, राजस्थान, उत्तर प्रदेश, उत्तराखंड)। DBW 371 पत्ते के रस्ट के प्रति प्राकृतिक और कृत्रिम स्थितियों में अत्यधिक प्रतिरोधक है (जैसा कि ACI मानों से स्पष्ट है)",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-370",
+        name: "DBW-370",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "102 दिन; 148 से 153 दिन (SeedNet)",
+        yield: "74.9 क्यू/हेक्टेयर, संभावित – 86.9 क्यू/हेक्टेयर",
+        specialTrait: "जल्दी बोई गई, सिंचित स्थिति उत्तर पश्चिमी मैदानी क्षेत्र (दिल्ली, हरियाणा, हिमाचल प्रदेश, जम्मू और कश्मीर, पंजाब, राजस्थान, उत्तर प्रदेश, उत्तराखंड)",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-372",
+        name: "DBW-372",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "106 दिन: 148 से 153 दिन (SeedNet)",
+        yield: "75.3 क्यू/हेक्टेयर, संभावित – 84.9 क्यू/हेक्टेयर",
+        specialTrait: "जल्दी बोई गई, सिंचित स्थिति उत्तर पश्चिमी मैदानी क्षेत्र (दिल्ली, हरियाणा, हिमाचल प्रदेश, जम्मू और कश्मीर, पंजाब, राजस्थान, उत्तर प्रदेश, उत्तराखंड)",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-303",
+        name: "DBW-303",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "102-140 दिन",
+        yield: "80.3 क्यू/हेक्टेयर",
+        specialTrait: "प्राकृतिक और कृत्रिम स्थितियों में पत्ते की बीमारियों के प्रति प्रतिरोधक। यह काले, भूरे और पीले रस्ट के प्रति अत्यधिक प्रतिरोधक है, जैसा कि ACI मानों से स्पष्ट है। इसके अलावा, DBW 303 गेहूं के विस्फोट रोग के प्रति अत्यधिक प्रतिरोधक है। सिंचित, समय पर बोई गई, उच्च उर्वरक स्थिति — केंद्रीय क्षेत्र (MP, राजस्थान, गुजरात, छत्तीसगढ़)",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-222",
+        name: "DBW-222",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "139 से 150 दिन",
+        yield: "82.1 क्यू/हेक्टेयर",
+        specialTrait: "DBW 222 उच्चतम उत्पादन देने वाली प्रजाति है, दोनों समय पर बोई और देर से बोई गई स्थितियों में, और इसमें उच्च अनाज संख्या/स्पाइक और 1000-अनाज वजन है। यह प्राकृतिक और कृत्रिम स्थितियों में पट्टी और पत्ते की रस्ट के प्रति प्रतिरोधक है।",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "dbw-187",
+        name: "DBW-187",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "120 दिन बुवाई के बाद",
+        yield: "औसतन: 61.28 क्यू/हेक्टेयर",
+        specialTrait: "",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "pbw-872",
+        name: "PBW-872",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "135 से 163 दिन",
+        yield: "93.4 क्यू/हेक्टेयर",
+        specialTrait: "PBW 872 पट्टी और पत्ते की रस्ट के प्रति प्रतिरोधक है, जैसा कि ACI मानों से स्पष्ट है।",
+        aboutVariety: "",
+        whyItCreated: ""
+      },
+      {
+        id: "pbw-826",
+        name: "PBW-826",
+        image: "bagPics/wheat/wheat-20250519T122832Z-1-001/wheat/wheat1.jpg",
+        maturity: "125 से 165 दिन",
+        yield: "84.4 क्यू/हेक्टेयर",
+        specialTrait: "समय पर बोई गई, सिंचित स्थितियां",
+        aboutVariety: "",
+        whyItCreated: ""
+      }
+    ]
+  }
 
 ];
 
-
-
+// --- VarietyCard Component (Modified for Modal Trigger) ---
 interface VarietyCardProps {
-  variety: any;
-  isOpen: boolean;
-  onToggle: () => void;
+  variety: CropVariety; // Use the defined CropVariety type
+  onViewDetails: (variety: CropVariety) => void; // New prop to trigger modal
 }
 
 const VarietyCard: React.FC<VarietyCardProps> = ({
   variety,
-  isOpen,
-  onToggle,
+  onViewDetails,
 }) => {
-  return (
-    <div className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl border border-gray-200/80 flex flex-col">
-   {variety.weightImages ? (
-  <div className="p-3 overflow-x-auto flex gap-4">
-    {variety.weightImages.map((img: any, index: number) => (
-      <div key={index} className="min-w-[100px] flex-shrink-0 text-center">
-        <img
-          src={img.url}
-          alt={`${variety.name} ${img.weight}`}
-          className="h-24 w-auto object-contain mx-auto border border-gray-200 rounded-lg"
-        />
-        <p className="text-xs mt-1 text-gray-600 font-medium">{img.weight}</p>
-      </div>
-    ))}
-  </div>
-) : (
-  variety.image && (
-    <img
-      src={variety.image}
-      alt={variety.name}
-      className="w-full h-48 object-cover"
-    />
-  )
-)}
+  // State to manage the current image index for weightImages carousel
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-      <div className="p-5 flex flex-col flex-grow">
-        <h3 className="text-2xl font-bold text-agri-green-deep mb-3">
+  const goToNextImage = () => {
+    if (variety.weightImages) {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex + 1) % variety.weightImages!.length
+      );
+    }
+  };
+
+  const goToPreviousImage = () => {
+    if (variety.weightImages) {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex - 1 + variety.weightImages!.length) % variety.weightImages!.length
+      );
+    }
+  };
+
+  const displayImage = variety.weightImages?.[currentImageIndex]?.url || variety.image;
+  const displayWeight = variety.weightImages?.[currentImageIndex]?.weight;
+
+  return (
+    <div
+      className="bg-white rounded-xl shadow-lg transition-all duration-300 hover:shadow-2xl border border-gray-200/80 flex flex-col p-4" // Simplified styling for general display
+    >
+      {/* Image Section */}
+      {displayImage && (
+        <div className="relative flex flex-col w-full h-48 justify-center items-center mb-4">
+          <img
+            src={displayImage}
+            alt={`${variety.name} ${displayWeight || ''}`}
+            className="w-full h-full object-contain mx-auto border border-gray-200 rounded-lg"
+          />
+          {/* Display weight below the image, centered and slightly transparent on large screens */}
+          {displayWeight && (
+            <p className="text-sm mt-2 text-gray-700 font-medium">
+              {displayWeight}
+            </p>
+          )}
+
+
+          {/* Navigation Arrows for ALL screens */}
+          {variety.weightImages && variety.weightImages.length > 1 && (
+            <>
+              <button
+                onClick={(e) => { e.stopPropagation(); goToPreviousImage(); }} // Prevent card click
+                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-1 hover:bg-black/75 transition-colors duration-200 z-10"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={(e) => { e.stopPropagation(); goToNextImage(); }} // Prevent card click
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-1 hover:bg-black/75 transition-colors duration-200 z-10"
+                aria-label="Next image"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </>
+          )}
+
+          {/* Optional: Add Dots for Pagination below image on mobile */}
+          {variety.weightImages && variety.weightImages.length > 1 && (
+            <div className="flex justify-center mt-3 gap-2">
+              {variety.weightImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => { e.stopPropagation(); setCurrentImageIndex(index); }}
+                  className={`w-2 h-2 rounded-full ${
+                    index === currentImageIndex ? 'bg-agri-green-medium' : 'bg-gray-300'
+                  }`}
+                  aria-label={`Go to image ${index + 1}`}
+                ></button>
+              ))}
+            </div>
+          )}
+
+        </div>
+      )}
+
+      {/* Content Section */}
+      <div className="flex flex-col flex-grow">
+        <h3 className="text-xl font-bold text-agri-green-deep mb-2">
           {variety.name}
         </h3>
-        <div className="space-y-2 text-sm mb-4 text-gray-700">
+        <div className="space-y-1 text-sm mb-4 text-gray-700">
           <div className="flex items-center">
-            <Clock
-              size={16}
-              className="mr-2 text-agri-orange-harvest flex-shrink-0"
-            />
+            <Clock size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
               <strong>पकने की अवधि:</strong> {variety.maturity}
             </span>
           </div>
           <div className="flex items-center">
-            <TrendingUp
-              size={16}
-              className="mr-2 text-agri-orange-harvest flex-shrink-0"
-            />
+            <TrendingUp size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
               <strong>उपज:</strong> {variety.yield}
             </span>
           </div>
           <div className="flex items-center">
-            <Star
-              size={16}
-              className="mr-2 text-agri-orange-harvest flex-shrink-0"
-            />
+            <Star size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
               <strong>विशेष गुण:</strong> {variety.specialTrait}
             </span>
           </div>
         </div>
-        {/* <p className="text-gray-600 text-sm leading-relaxed mb-4 flex-grow">
-          {variety.shortSummary}
-        </p> */}
         <button
-          onClick={onToggle}
+          onClick={() => onViewDetails(variety)} // Trigger modal on click
           className="w-full mt-auto inline-flex items-center justify-center px-4 py-2.5 bg-agri-green-medium text-white text-sm font-semibold rounded-lg hover:bg-agri-green-deep transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-agri-green-light focus:ring-offset-2"
         >
-          {!isOpen ? "कम दिखाएं" : "और जानें"}
-          {!isOpen ? (
-            <ChevronUp size={18} className="ml-2" />
-          ) : (
-            <ChevronDown size={18} className="ml-2" />
-          )}
+          विवरण देखें
+          <ChevronRight size={18} className="ml-2" />
         </button>
       </div>
-      {!isOpen && (
-        <div className="p-5 border-t border-gray-200 bg-gray-50">
-          {/* About the Variety Section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {variety.name} के बारे में
-            </h3>
-            <div
-              className="prose prose-sm max-w-none text-gray-700 mt-2"
-              dangerouslySetInnerHTML={{ __html: variety.aboutVariety }}
-            />
-          </div>
-
-          {/* Why it was Created Section */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900">
-              क्यों बनाई गई?
-            </h3>
-            <div
-              className="prose prose-sm max-w-none text-gray-700 mt-2"
-              dangerouslySetInnerHTML={{ __html: variety.whyItCreated }}
-            />
-          </div>
-        </div>
-      )}
     </div>
   );
 };
 
+// --- VarietyDetailsModal Component (New) ---
+interface VarietyDetailsModalProps {
+  variety: CropVariety | null;
+  onClose: () => void;
+}
+
+const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onClose }) => {
+  // State to manage the current image index for weightImages carousel within the modal
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    // Reset image index when variety changes (modal opens for a new one)
+    setCurrentImageIndex(0);
+  }, [variety]);
+
+  const goToNextImage = useCallback(() => {
+    if (variety?.weightImages) {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex + 1) % variety.weightImages.length
+      );
+    }
+  }, [variety]);
+
+  const goToPreviousImage = useCallback(() => {
+    if (variety?.weightImages) {
+      setCurrentImageIndex((prevIndex) =>
+        (prevIndex - 1 + variety.weightImages.length) % variety.weightImages.length
+      );
+    }
+  }, [variety]);
+
+  // Handle keyboard navigation for modal images
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (variety) { // Only active if modal is open
+        if (event.key === 'ArrowLeft') {
+          goToPreviousImage();
+        } else if (event.key === 'ArrowRight') {
+          goToNextImage();
+        } else if (event.key === 'Escape') {
+          onClose();
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [variety, goToNextImage, goToPreviousImage, onClose]);
+
+
+  if (!variety) return null; // Don't render if no variety is selected
+
+  const displayImage = variety.weightImages?.[currentImageIndex]?.url || variety.image;
+  const displayWeight = variety.weightImages?.[currentImageIndex]?.weight;
+
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+    >
+      {/* Background Overlay */}
+      <div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm" // Darkened and blurred background
+        onClick={onClose} // Close modal on overlay click
+      ></div>
+
+      {/* Modal Content */}
+      <motion.div
+        initial={{ y: 50, opacity: 0, scale: 0.9 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        exit={{ y: -50, opacity: 0, scale: 0.9 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="relative bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto flex flex-col lg:flex-row"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="variety-modal-title"
+      >
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-700 p-2 rounded-full bg-white/70 hover:bg-white transition-colors z-10"
+          aria-label="Close details"
+        >
+          <X size={24} />
+        </button>
+
+        {/* Image Section in Modal (with carousel) */}
+        {displayImage && (
+          <div className="relative p-4 flex flex-col w-full lg:w-1/2 lg:flex-shrink-0 justify-center items-center">
+            <img
+              src={displayImage}
+              alt={`${variety.name} ${displayWeight || ''}`}
+              className="w-full max-h-72 object-contain mx-auto border border-gray-200 rounded-lg lg:max-h-full lg:rounded-none lg:rounded-l-xl"
+            />
+            {displayWeight && (
+              <p className="text-base mt-3 font-semibold text-gray-800">
+                {displayWeight}
+              </p>
+            )}
+
+            {variety.weightImages && variety.weightImages.length > 1 && (
+              <>
+                <button
+                  onClick={goToPreviousImage}
+                  className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black/75 transition-colors duration-200"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button
+                  onClick={goToNextImage}
+                  className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-black/50 text-white rounded-full p-2 hover:bg-black/75 transition-colors duration-200"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </>
+            )}
+            {variety.weightImages && variety.weightImages.length > 1 && (
+              <div className="flex justify-center mt-4 gap-2">
+                {variety.weightImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-3 h-3 rounded-full ${
+                      index === currentImageIndex ? 'bg-agri-green-medium' : 'bg-gray-300'
+                    }`}
+                    aria-label={`Go to image ${index + 1}`}
+                  ></button>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+
+        {/* Text Content Section in Modal */}
+        <div className="p-6 flex flex-col w-full lg:w-1/2">
+          <h2 id="variety-modal-title" className="text-3xl font-bold text-agri-green-deep mb-4">
+            {variety.name}
+          </h2>
+
+          <div className="space-y-3 text-base mb-6 text-gray-700">
+            <div className="flex items-center">
+              <Clock size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
+              <span>
+                <strong>पकने की अवधि:</strong> {variety.maturity}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <TrendingUp size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
+              <span>
+                <strong>उपज:</strong> {variety.yield}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <Star size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
+              <span>
+                <strong>विशेष गुण:</strong> {variety.specialTrait}
+              </span>
+            </div>
+          </div>
+
+          {/* About the Variety Section */}
+          {variety.aboutVariety && (
+            <div className="mb-6">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                {variety.name} के बारे में
+              </h3>
+              <div
+                className="prose prose-sm max-w-none text-gray-700"
+                dangerouslySetInnerHTML={{ __html: variety.aboutVariety }}
+              />
+            </div>
+          )}
+
+          {/* Why it was Created Section */}
+          {variety.whyItCreated && (
+            <div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                क्यों बनाई गई?
+              </h3>
+              <div
+                className="prose prose-sm max-w-none text-gray-700"
+                dangerouslySetInnerHTML={{ __html: variety.whyItCreated }}
+              />
+            </div>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+};
+
+
+// --- ProductsPage Component (Modified) ---
 const ProductsPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
+const searchParams = useSearchParams()
+  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
+  //   allCropData.length > 0 ? allCropData[0].id : null
+  // );
+  const [modalOpenVariety, setModalOpenVariety] = useState<CropVariety | null>(null);
 
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-    allCropData.length > 0 ? allCropData[0].id : null
-  );
-  // New state for the currently selected variety
-  const [selectedVarietyId, setSelectedVarietyId] = useState<string | null>(
-    null
-  );
-  const [openVarietyId, setOpenVarietyId] = useState<string | null>(null);
+    const selectedCategoryId = useMemo(() => {
+    const categoryFromUrl = searchParams.get("category");
+    if (categoryFromUrl && allCropData.some((c) => c.id === categoryFromUrl)) {
+      return categoryFromUrl;
+    }
+    // Default to the first category if none is specified or found
+    return allCropData.length > 0 ? allCropData[0].id : null;
+  }, [searchParams]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -615,8 +831,8 @@ const ProductsPage: React.FC = () => {
       const categoryFromUrl = currentParams.get("category");
       const varietyFromUrl = currentParams.get("variety");
 
-      let newSelectedCategoryId = selectedCategoryId; // Persist current state unless overridden by URL
-      let newSelectedVarietyId = null; // Always reset variety unless explicitly found for the category
+      let newSelectedCategoryId = selectedCategoryId;
+      let varietyToOpenInModal: CropVariety | null = null;
 
       if (
         categoryFromUrl &&
@@ -628,16 +844,12 @@ const ProductsPage: React.FC = () => {
         allCropData.length > 0 &&
         !newSelectedCategoryId
       ) {
-        // Fallback to default if no category in URL and none set (e.g. initial load from base path)
         newSelectedCategoryId = allCropData[0].id;
       }
 
-      let categoryActuallyChanged = false;
-      if (newSelectedCategoryId !== selectedCategoryId) {
-        setSelectedCategoryId(newSelectedCategoryId);
-        setOpenVarietyId(null); // Reset accordion if category changes
-        categoryActuallyChanged = true;
-      }
+      // if (newSelectedCategoryId !== selectedCategoryId) {
+      //   setSelectedCategoryId(newSelectedCategoryId);
+      // }
 
       if (newSelectedCategoryId) {
         const categoryData = allCropData.find(
@@ -645,67 +857,53 @@ const ProductsPage: React.FC = () => {
         );
         if (
           categoryData &&
-          varietyFromUrl &&
-          categoryData.varieties.find((v) => v.id === varietyFromUrl)
+          varietyFromUrl
         ) {
-          newSelectedVarietyId = varietyFromUrl;
+          varietyToOpenInModal = categoryData.varieties.find((v) => v.id === varietyFromUrl) || null;
         }
       }
-
-      // Only update variety if it's different or if the category changed (which would have nulled it)
-      if (
-        newSelectedVarietyId !== selectedVarietyId ||
-        categoryActuallyChanged
-      ) {
-        setSelectedVarietyId(newSelectedVarietyId);
-        setOpenVarietyId(newSelectedVarietyId); // Open card if a variety is selected (new or same)
-      } else if (
-        newSelectedVarietyId &&
-        newSelectedVarietyId !== openVarietyId
-      ) {
-        // If variety in URL is already selected but card is closed, open it.
-        setOpenVarietyId(newSelectedVarietyId);
-      }
+      setModalOpenVariety(varietyToOpenInModal);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]); // Keep existing dependency; ideal would be useSearchParams if allowed.
+  }, [pathname, selectedCategoryId]); // Added selectedCategoryId to dependencies to ensure re-run if it changes outside of URL effect
 
   const handleCategorySelect = (categoryId: string) => {
-    setSelectedCategoryId(categoryId);
-    setSelectedVarietyId(null); // Reset selected variety
-    setOpenVarietyId(null); // Close any open variety card details
+    // setSelectedCategoryId(categoryId);
+    setModalOpenVariety(null);
     router.push(`${pathname}?category=${categoryId}`, { scroll: false });
   };
 
-  // New handler for selecting a variety from the sub-navigation
-  const handleVarietySelect = (varietyId: string) => {
-    setSelectedVarietyId(varietyId);
-    setOpenVarietyId(varietyId); // Open the details of the selected variety card
+  const handleViewDetails = (variety: CropVariety) => {
+    setModalOpenVariety(variety);
     if (selectedCategoryId) {
       router.push(
-        `${pathname}?category=${selectedCategoryId}&variety=${varietyId}`,
+        `${pathname}?category=${selectedCategoryId}&variety=${variety.id}`,
         { scroll: false }
       );
     }
   };
 
-  const toggleVarietyDetails = (varietyId: string) => {
-    setOpenVarietyId(openVarietyId === varietyId ? null : varietyId);
+  const handleCloseModal = () => {
+    setModalOpenVariety(null);
+    if (selectedCategoryId) {
+      router.push(`${pathname}?category=${selectedCategoryId}`, { scroll: false });
+    } else {
+      router.push(pathname, { scroll: false });
+    }
   };
+
 
   const selectedCategoryData = allCropData.find(
     (cat) => cat.id === selectedCategoryId
   );
 
-  // Dynamically generate subtitles from crop data for the hero animation
   const subtitles = React.useMemo(
     () => allCropData.map((cat) => cat.name),
-    [allCropData]
-  ); // Added allCropData dependency
+    []
+  );
   const [currentSubtitleIndex, setCurrentSubtitleIndex] = useState(0);
 
   useEffect(() => {
-    if (subtitles.length === 0) return; // Guard against empty subtitles
+    if (subtitles.length === 0) return;
     const intervalId = setInterval(() => {
       setCurrentSubtitleIndex(
         (prevIndex) => (prevIndex + 1) % subtitles.length
@@ -796,8 +994,10 @@ const ProductsPage: React.FC = () => {
         className="container mx-auto px-4 py-10 relative z-20"
       >
         <div className="flex flex-col md:flex-row gap-8">
-          {/* Sidebar (remains mostly unchanged) */}
-          <aside className="w-full md:w-1/3 lg:w-1/4 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 self-start sticky top-0 md:top-28">
+          {/* Sidebar */}
+          {/* Removed `sticky` for mobile to prevent overflow/z-index issues. */}
+          {/* Will now scroll normally with content on small screens. */}
+          <aside className="w-full md:w-1/3 lg:w-1/4 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 md:self-start md:sticky md:top-28 z-0">
             <h2 className="text-xl font-semibold text-agri-green-deep mb-5 border-b pb-3">
               फसल श्रेणियाँ
             </h2>
@@ -807,11 +1007,11 @@ const ProductsPage: React.FC = () => {
                   <button
                     onClick={() => handleCategorySelect(cat.id)}
                     className={`w-full flex items-center text-left px-4 py-3 rounded-lg transition-all duration-200 ease-in-out group
-                                  ${
-                                    selectedCategoryId === cat.id
-                                      ? "bg-agri-green-medium text-white shadow-lg transform scale-105"
-                                      : "text-gray-700 hover:bg-gray-100 hover:text-agri-green-deep"
-                                  }`}
+                              ${
+                                selectedCategoryId === cat.id
+                                  ? "bg-agri-green-medium text-white shadow-lg transform scale-105"
+                                  : "text-gray-700 hover:bg-gray-100 hover:text-agri-green-deep"
+                              }`}
                   >
                     {cat.icon && (
                       <cat.icon
@@ -830,8 +1030,8 @@ const ProductsPage: React.FC = () => {
             </ul>
           </aside>
 
-          {/* Main content area for varieties */}
-          <main className="md:w-2/3 lg:w-3/4">
+          {/* Main content area for varieties - Added z-10 to ensure it's above sidebar on mobile if needed */}
+          <main className="md:w-2/3 lg:w-3/4 z-10">
             {selectedCategoryData ? (
               <>
                 <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 mb-8">
@@ -851,14 +1051,13 @@ const ProductsPage: React.FC = () => {
                       {selectedCategoryData.varieties.map((variety) => (
                         <li key={variety.id}>
                           <button
-                            onClick={() => handleVarietySelect(variety.id)}
+                            onClick={() => handleViewDetails(variety)}
                             className={`px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-agri-green-dark focus:ring-opacity-50
-                                                        ${
-                                                          selectedVarietyId ===
-                                                          variety.id
-                                                            ? "bg-agri-green-deep text-white shadow-md "
-                                                            : "bg-gray-200 text-gray-700 hover:bg-agri-green-light hover:text-agri-green-deep hover:shadow-sm"
-                                                        }`}
+                                          ${
+                                            modalOpenVariety?.id === variety.id
+                                              ? "bg-agri-green-deep text-white shadow-md "
+                                              : "bg-gray-200 text-gray-700 hover:bg-agri-green-light hover:text-agri-green-deep hover:shadow-sm"
+                                          }`}
                           >
                             {variety.name}
                           </button>
@@ -874,50 +1073,18 @@ const ProductsPage: React.FC = () => {
                   </div>
                 )}
 
-                {/* Display selected variety card */}
-                {selectedVarietyId
-                  ? (() => {
-                      // IIFE to find and render the selected variety
-                      const varietyToShow = selectedCategoryData.varieties.find(
-                        (v) => v.id === selectedVarietyId
-                      );
-                      if (varietyToShow) {
-                        return (
-                          <div className="grid grid-cols-1 gap-8">
-                            {" "}
-                            {/* Displaying a single card */}
-                            <VarietyCard
-                              key={varietyToShow.id}
-                              variety={varietyToShow}
-                              isOpen={openVarietyId === varietyToShow.id}
-                              onToggle={() =>
-                                toggleVarietyDetails(varietyToShow.id)
-                              }
-                            />
-                          </div>
-                        );
-                      }
-                      // This case should ideally not be reached if selectedVarietyId is valid and data is consistent
-                      return (
-                        <div className="text-center py-10 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80">
-                          <p className="text-xl text-gray-600">
-                            चयनित किस्म नहीं मिली। कृपया पुनः प्रयास करें।
-                          </p>
-                        </div>
-                      );
-                    })()
-                  : // Show message if a category is selected but no specific variety is chosen yet
-                    selectedCategoryData.varieties &&
-                    selectedCategoryData.varieties.length > 0 && (
-                      <div className="text-center py-10 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80">
-                        <p className="text-xl text-gray-600">
-                          ऊपर दी गई सूची में से एक किस्म चुनें।
-                        </p>
-                      </div>
-                    )}
+                {/* Display all variety cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {selectedCategoryData.varieties.map((variety) => (
+                    <VarietyCard
+                      key={variety.id}
+                      variety={variety}
+                      onViewDetails={handleViewDetails}
+                    />
+                  ))}
+                </div>
               </>
             ) : (
-              // Fallback if no category is selected or data is not loaded
               <div className="text-center py-10 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80">
                 <p className="text-xl text-gray-600">
                   लोड हो रहा है या श्रेणी उपलब्ध नहीं है... कृपया एक फसल श्रेणी
@@ -928,6 +1095,16 @@ const ProductsPage: React.FC = () => {
           </main>
         </div>
       </div>
+
+      {/* Modal Rendered Conditionally */}
+      <AnimatePresence>
+        {modalOpenVariety && (
+          <VarietyDetailsModal
+            variety={modalOpenVariety}
+            onClose={handleCloseModal}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
