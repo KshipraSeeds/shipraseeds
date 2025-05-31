@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { FaLanguage } from "react-icons/fa6";
+import { useLanguage } from "../context/LanguageContext";
 
 export default function TopNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -15,50 +16,52 @@ export default function TopNav() {
   const pathname = usePathname();
 
   // Translations object
-  const translations: { [key: string]: { [key: string]: string } } = {
-    Hindi: {
-      home: "मुख पृष्ठ",
-      about: "हमारे बारे में",
-      products: "उत्पाद",
-      registration: "किसान पंजीकरण",
-      retailers: "रिटेलर कॉर्नर",
-      changeLanguage: "भाषा बदलें",
-      selectLanguage: "भाषा चुनें:",
-      hindiShort: "हिं",
-      englishShort: "En",
-      punjabiShort: "पं",
-      shipraSeeds: "Shipra Seeds",
-    },
-    English: {
-      home: "Home",
-      about: "About Us",
-      products: "Products",
-      registration: "Farmer Registration",
-      retailers: "Retailer Corner",
-      changeLanguage: "Change Language",
-      selectLanguage: "Select Language:",
-      hindiShort: "Hin",
-      englishShort: "En",
-      punjabiShort: "Pun",
-      shipraSeeds: "Shipra Seeds",
-    },
-    Punjabi: {
-      home: "ਮੁੱਖ ਪੰਨਾ",
-      about: "ਸਾਡੇ ਬਾਰੇ",
-      products: "ਉਤਪਾਦ",
-      registration: "ਕਿਸਾਨ ਰਜਿਸਟ੍ਰੇਸ਼ਨ",
-      retailers: "ਪ੍ਰਚੂਨ ਵਿਕਰੇਤਾ ਕਾਰਨਰ",
-      changeLanguage: "ਭਾਸ਼ਾ ਬਦਲੋ",
-      selectLanguage: "ਭਾਸ਼ਾ ਚੁਣੋ:",
-      hindiShort: "ਹਿੰ",
-      englishShort: "En",
-      punjabiShort: "ਪੰ",
-      shipraSeeds: "Shipra Seeds",
-    },
-  };
+  // const translations: { [key: string]: { [key: string]: string } } = {
+  //   Hindi: {
+  //     home: "मुख पृष्ठ",
+  //     about: "हमारे बारे में",
+  //     products: "उत्पाद",
+  //     registration: "किसान पंजीकरण",
+  //     retailers: "रिटेलर कॉर्नर",
+  //     changeLanguage: "भाषा बदलें",
+  //     selectLanguage: "भाषा चुनें:",
+  //     hindiShort: "हिं",
+  //     englishShort: "En",
+  //     punjabiShort: "पं",
+  //     shipraSeeds: "Shipra Seeds",
+  //   },
+  //   English: {
+  //     home: "Home",
+  //     about: "About Us",
+  //     products: "Products",
+  //     registration: "Farmer Registration",
+  //     retailers: "Retailer Corner",
+  //     changeLanguage: "Change Language",
+  //     selectLanguage: "Select Language:",
+  //     hindiShort: "Hin",
+  //     englishShort: "En",
+  //     punjabiShort: "Pun",
+  //     shipraSeeds: "Shipra Seeds",
+  //   },
+  //   Punjabi: {
+  //     home: "ਮੁੱਖ ਪੰਨਾ",
+  //     about: "ਸਾਡੇ ਬਾਰੇ",
+  //     products: "ਉਤਪਾਦ",
+  //     registration: "ਕਿਸਾਨ ਰਜਿਸਟ੍ਰੇਸ਼ਨ",
+  //     retailers: "ਪ੍ਰਚੂਨ ਵਿਕਰੇਤਾ ਕਾਰਨਰ",
+  //     changeLanguage: "ਭਾਸ਼ਾ ਬਦਲੋ",
+  //     selectLanguage: "ਭਾਸ਼ਾ ਚੁਣੋ:",
+  //     hindiShort: "ਹਿੰ",
+  //     englishShort: "En",
+  //     punjabiShort: "ਪੰ",
+  //     shipraSeeds: "Shipra Seeds",
+  //   },
+  // };
 
-  const t = (key: string) =>
-    translations[selectedLanguage]?.[key] || key; // Fallback to key if translation not found
+  // const t = (key: string) =>
+  //   translations[selectedLanguage]?.[key] || key; // Fallback to key if translation not found
+
+  const { t, setLang } = useLanguage();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
@@ -190,19 +193,19 @@ export default function TopNav() {
                     onMouseLeave={closeLanguageDropdown}
                   >
                     <button
-                      onClick={() => handleLanguageChange("Hindi")}
+                      onClick={() => {setLang("hi");handleLanguageChange("Hindi")}}
                       className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors duration-200"
                     >
                       हिन्दी
                     </button>
                     <button
-                      onClick={() => handleLanguageChange("English")}
+                      onClick={() => {setLang("en");handleLanguageChange("English")}}
                       className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors duration-200"
                     >
                       English
                     </button>
                     <button
-                      onClick={() => handleLanguageChange("Punjabi")}
+                      onClick={() => {setLang("pa");handleLanguageChange("Punjabi")}}
                       className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors duration-200"
                     >
                       ਪੰਜਾਬੀ
@@ -300,7 +303,7 @@ export default function TopNav() {
               {" "}
               {/* Reduced space between buttons */}
               <button
-                onClick={() => handleLanguageChange("Hindi")}
+                onClick={() => {setLang("hi");handleLanguageChange("Hindi")}}
                 className={`flex items-center justify-center w-12 h-12 rounded-full text-base font-semibold transition-all duration-300
                   ${
                     selectedLanguage === "Hindi"
@@ -311,7 +314,7 @@ export default function TopNav() {
                 {t("hindiShort")}
               </button>
               <button
-                onClick={() => handleLanguageChange("English")}
+                onClick={() => {setLang("en");handleLanguageChange("English")}}
                 className={`flex items-center justify-center w-12 h-12 rounded-full text-base font-semibold transition-all duration-300
                   ${
                     selectedLanguage === "English"
@@ -322,7 +325,7 @@ export default function TopNav() {
                 {t("englishShort")}
               </button>
               <button
-                onClick={() => handleLanguageChange("Punjabi")}
+                onClick={() =>{setLang("pa");handleLanguageChange("Punjabi")}}
                 className={`flex items-center justify-center w-12 h-12 rounded-full text-base font-semibold transition-all duration-300
                   ${
                     selectedLanguage === "Punjabi"

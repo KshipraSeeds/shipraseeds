@@ -5,6 +5,7 @@ import card33 from "@/public/JowarSeeds.avif";
 import Image from 'next/image';
 import { motion, AnimatePresence } from "framer-motion";
 import Link from 'next/link';
+import { useLanguage } from '@/app/context/LanguageContext';
 
 
 export const CardThree = () => {
@@ -13,6 +14,10 @@ export const CardThree = () => {
         { src: card31, name: "गेहूं", href: "/products?category=wheat " },
         { src: card33, name: "ज्वार", href: "/products?category=sorghum" },
       ];
+
+               const { t } = useLanguage();
+           
+      
     
       return (
         <div className="relative sticky top-4 z-[30]">
@@ -31,7 +36,7 @@ export const CardThree = () => {
                 विभिन्न फसलों और वैरायटी के लिए हमारे उत्पादों को देखें — पैक साइज और उपयोग की पूरी जानकारी के साथ।
               </p>
               <button className="bg-black text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl">
-  उत्पाद देखें
+  {t("viewProducts")}
 </button>
 
             </div>

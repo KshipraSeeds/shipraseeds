@@ -2,8 +2,12 @@ import Image from 'next/image';
 import React from 'react'
 import { motion} from "framer-motion";
 import card1 from "@/public/freepik__candid-photography-with-natural-textures-and-highl__83704.png";
+import { useLanguage } from '@/app/context/LanguageContext';
 
 export const CardOne = () => {
+  // const { t } = useTranslation();
+    const { t } = useLanguage();
+  
     return (
         <div className="relative sticky top-4 z-[10]">
           <motion.div
@@ -28,7 +32,7 @@ export const CardOne = () => {
                 रजिस्टर करें और बुवाई की सलाह, बीज से जुड़ी जानकारी, नए सीड वैरायटी की सूचना और सीजन के लिए बीज मार्गदर्शन पाएं।
               </p>
               <button className="bg-black text-white px-6 py-3 rounded-full transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl text-sm font-semibold shadow-md">
-                अभी रजिस्टर करें
+                 {t("registerNow")}
               </button>
             </div>
           </motion.div>

@@ -2,8 +2,12 @@ import React from 'react'
 import Image from 'next/image';
 import { motion, AnimatePresence } from "framer-motion";
 import card3 from "@/public/freepik__the-style-is-candid-image-photography-with-natural__17003.jpeg";
+import { useLanguage } from '@/app/context/LanguageContext';
 
 export const CardFour = () => {
+     const { t } = useLanguage();
+ 
+  
     return (
         <div className="relative sticky top-4 z-[40]">
           <motion.div
@@ -28,7 +32,7 @@ export const CardFour = () => {
                 यह हमारी है — भरोसे, मेहनत और किसानों के लिए बनाई गई।
               </p>
               <button className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 text-sm font-semibold shadow-md">
-                शिप्रा सीड्स को जानिए
+                {t("knowShipraSeeds")}
               </button>
             </div>
           </motion.div>

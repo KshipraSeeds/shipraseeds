@@ -8,15 +8,15 @@ import {
   TrendingUp,
   Star,
   ChevronDown,
-  ChevronUp,
   Leaf,
   Zap,
   Sun,
   PackageSearch,
   Sprout,
-  X, // Import X icon for closing modal
+  X, 
 } from "lucide-react";
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useLanguage } from "../context/LanguageContext";
 // import paddy31 from "@/public/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png"; // No longer directly used as images are from variety data
 
 
@@ -815,6 +815,9 @@ const searchParams = useSearchParams()
   //   allCropData.length > 0 ? allCropData[0].id : null
   // );
   const [modalOpenVariety, setModalOpenVariety] = useState<CropVariety | null>(null);
+       const { t } = useLanguage();
+
+
 
     const selectedCategoryId = useMemo(() => {
     const categoryFromUrl = searchParams.get("category");
@@ -999,7 +1002,7 @@ const searchParams = useSearchParams()
           {/* Will now scroll normally with content on small screens. */}
           <aside className="w-full md:w-1/3 lg:w-1/4 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 md:self-start md:sticky md:top-28 z-0">
             <h2 className="text-xl font-semibold text-agri-green-deep mb-5 border-b pb-3">
-              फसल श्रेणियाँ
+               {t("cropCategories")}
             </h2>
             <ul className="space-y-2">
               {allCropData.map((cat) => (
@@ -1045,7 +1048,7 @@ const searchParams = useSearchParams()
                 selectedCategoryData.varieties.length > 0 ? (
                   <nav className="mb-8 p-4 bg-gray-50 rounded-lg shadow-md border border-gray-200/60">
                     <h3 className="text-lg font-semibold text-agri-green-dark mb-3">
-                      उपलब्ध किस्में:
+                       {t("availableVarieties")}
                     </h3>
                     <ul className="flex flex-wrap gap-3">
                       {selectedCategoryData.varieties.map((variety) => (

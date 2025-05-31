@@ -2,8 +2,12 @@ import React from 'react';
 import Image from 'next/image';
 import { motion } from "framer-motion";
 import card2 from "@/public/freepik__the-style-is-candid-image-photography-with-natural__17002.png";
+import { useLanguage } from '@/app/context/LanguageContext';
 
 export const CardTwo = () => {
+     const { t } = useLanguage();
+ 
+    
     return (
         <div className="relative sticky top-4 z-[20]">
             <motion.div
@@ -28,7 +32,7 @@ export const CardTwo = () => {
                         अगर आप एक रिटेलर या थोक व्यापारी हैं और हमारे साथ काम करना चाहते हैं, तो अपनी पूछताछ भेजें। हम ऐसे नए साझेदारों का स्वागत करते हैं जो हमारे ब्रांड में रुचि रखते हैं।
                     </p>
                     <button className="bg-black text-white px-6 py-3 rounded-full transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl text-sm font-semibold shadow-md">
-                        पूछताछ भेजें
+                        {t("sendInquiry")}
                     </button>
                 </div>
             </motion.div>

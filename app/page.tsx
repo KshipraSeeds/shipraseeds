@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import backgroundImage from "@/public/bg1.jpg";
@@ -10,19 +10,27 @@ import { CardThree } from "@/components/cards/cardThree";
 import { CardFour } from "@/components/cards/cardFour";
 import { WhyProcessedSeedCard } from "@/components/ProcessedSeed/seeds";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import Footer from "@/components/Footer";
-
-const titles = ["बीज उत्पादक", "बीज प्रसंस्करक", "बीज वितरक/आपूर्तिकर्ता।"];
+import Link from "next/link";
+import { useLanguage } from "@/app/context/LanguageContext"; // 👈 import the context
 
 export default function Home() {
+  const { t, setLang } = useLanguage(); // 👈 use translation function from context
   const [index, setIndex] = useState(0);
+
+  const titles = [
+    t("seedProducer"),
+    t("seedProcessor"),
+    t("seedDistributorSupplier"),
+  ];
+
+
 
   useEffect(() => {
     const interval = setInterval(() => {
       setIndex((prev) => (prev + 1) % titles.length);
     }, 2500);
     return () => clearInterval(interval);
-  }, []);
+  }, [titles.length]);
 
   return (
     <>
@@ -46,7 +54,7 @@ export default function Home() {
               transition={{ duration: 1 }}
               className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg"
             >
-              हम कौन हैं
+              {t("whoAreWe")}
             </motion.h1>
 
             <div className="h-[60px] md:h-[72px] flex items-center justify-center relative mb-6">
@@ -76,7 +84,7 @@ export default function Home() {
               transition={{ duration: 1, delay: 0.3 }}
               className="text-4xl md:text-6xl font-extrabold drop-shadow-lg"
             >
-              आपका भरोसेमंद बीज साथी।
+              {t("yourTrustedSeedPartner")}
             </motion.h3>
           </div>
 
@@ -86,7 +94,7 @@ export default function Home() {
             transition={{ duration: 1.2, delay: 0.6 }}
             className="bg-white text-green-700 font-semibold rounded-full px-8 py-4 flex items-center space-x-2 hover:bg-gray-100 transition-all shadow-lg mb-8 md:mb-12"
           >
-            <span>हमारे बारे में अधिक जानें</span>
+            <Link href="/about">{t("learnMoreAboutUs")}</Link>
             <span className="text-2xl">→</span>
           </motion.button>
         </div>

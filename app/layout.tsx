@@ -1,12 +1,12 @@
 // app/layout.tsx
 
-import React, { Suspense } from 'react';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import TopNav from "./components/TopNavigation/topnav";
+import TopNav from "./TopNavigation/topnav";
 import Footer from "@/components/Footer";
-import I18nProvider from "../components/I18nProvider"; // <--- Import your new client                
+import ProvidersWrapper from "@/app/Components/ProvidersWrapper";
+import React, { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,17 +33,19 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
       >
-        {/* Top Navigation */}
-        <div className="absolute top-0 left-0 w-full z-50">
-          <TopNav />
-        </div>
+        <ProvidersWrapper>
+          <div className="absolute top-0 left-0 w-full z-50">
+            <TopNav />
+          </div>
 
-        {/* Main Content */}
-        <main className=" min-h-screen">
-          {/* <I18nextProvider i18n={i18n}>{children}</I18nextProvider>  <--- REMOVE THIS */}
-          <I18nProvider><Suspense fallback={<div>Loading product data...</div>}>{children}</Suspense></I18nProvider> {/* <--- USE YOUR CLIENT PROVIDER HERE */}
-        </main>
-        <Footer />
+          <main className="min-h-screen">
+            <Suspense fallback={<div>Loading product data...</div>}>
+              {children}
+            </Suspense>
+          </main>
+
+          <Footer />
+        </ProvidersWrapper>
       </body>
     </html>
   );
