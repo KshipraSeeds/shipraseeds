@@ -1,10 +1,13 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
-    ignoreDuringBuilds: true, 
+    ignoreDuringBuilds: true,
   },
-}
+  images: { // <--- Add the 'images' object here
+    domains: ['cdn.sanity.io'],
+  },
+};
 
-export default nextConfig
+export default nextConfig;

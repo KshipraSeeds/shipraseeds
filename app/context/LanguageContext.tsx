@@ -1,8 +1,7 @@
-
 // app/context/LanguageContext.tsx
 'use client';
 
-import { createContext, useState, useContext, useEffect } from 'react';
+import { createContext, useState, useContext, useEffect, useMemo } from 'react';
 
 const LanguageContext = createContext<any>(null);
 
@@ -16,8 +15,16 @@ export const LanguageProvider = ({ children }: { children: React.ReactNode }) =>
       .then((data) => setTranslations(data));
   }, [lang]);
 
+  const t = useMemo(() => {
+    return (key: string) => translations[key] || key;
+  }, [translations]);
+
+  const contextValue = useMemo(() => {
+    return { lang, setLang, t };
+  }, [lang, t]);
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang, t: (key: string) => translations[key] || key }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   );

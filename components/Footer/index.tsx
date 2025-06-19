@@ -50,22 +50,6 @@ const Footer: React.FC = () => {
     <footer className="bg-slate-900 text-slate-300 m-4 rounded-[30px] sm:rounded-[42px]">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-10 md:gap-12 mb-14 md:mb-18">
-          {/* Company Info Section */}
-          {/* <div
-            className="md:col-span-3 lg:col-span-2 mb-8 md:mb-0 animate-fadeInUp"
-            style={{ animationFillMode: 'backwards', animationDelay: `100ms` }}
-          >
-            <Link href="/" legacyBehavior>
-              <a className="inline-flex items-center mb-5 group">
-                <h1 className="text-4xl font-bold text-green-400 italic gothic-font group-hover:text-green-300 transition-colors duration-300 ease-in-out">
-                  Shipra Seeds
-                </h1>
-              </a>
-            </Link>
-            <p className="mt-1 text-base leading-relaxed text-slate-400">
-              Dedicated to providing the highest quality agricultural products and knowledge to help you grow.
-            </p>
-          </div> */}
 
           {/* Footer Sections */}
           {footerSections.map((section, index) => (
