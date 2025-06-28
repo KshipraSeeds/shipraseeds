@@ -35,5 +35,18 @@
   "availableVarieties": "Available Varieties:",
   "learnInDetail":"Learn in detail",
   "Example":"Example",
-  "Analogy":"Analogy"
+  "Analogy":"Analogy",
+  "KnowMore":"Know More",
+  "aboutTitleInfo":"Building trust, improving crops, and advancing agriculture",
+  "aboutUs":"About Us",
+  "expYear":"Years of experience",
+  "stateNames": [
+  "Haryana",
+  "Punjab",
+  "Uttar Pradesh",
+  "Madhya Pradesh",
+  "Jammu",
+  "Andhra Pradesh"
+]
+
 }
