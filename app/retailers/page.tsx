@@ -1,22 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   UserCircle,
   Leaf,
   Sprout,
   CheckCircle,
-  Mail,
   ClipboardList,
   AlertTriangle,
   Send,
-  Languages,
   MapPin,
-  ChevronDown,
 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+import { client, urlFor } from "@/sanity";
 
-// Helper component for form input fields for better structure
 const FormInput = ({
   label,
   name,
@@ -44,7 +42,6 @@ const FormInput = ({
       className="flex items-center text-md font-medium text-white mb-1"
     >
       {" "}
-      {/* Text color changed to white */}
       {Icon && <Icon className="w-4 h-4 mr-2 text-amber-500" />}
       {label}
       {required && <span className="text-red-400 ml-1">*</span>}
@@ -63,6 +60,8 @@ const FormInput = ({
 );
 
 const RetailerPage = () => {
+    const { lang: language, t } = useLanguage();
+  
   const [formData, setFormData] = useState({
     name: "",
     mobileNumber: "",
@@ -84,18 +83,47 @@ const RetailerPage = () => {
     setFormData({
       name: "",
       mobileNumber: "",
-      businessType: "", // <-- new field
+      businessType: "",
       district: "",
       state: "",
     });
   };
 
-  //   const benefits = [
-  //     "Get crop advice and seasonal farming tips",
-  //     "Receive updates about new varieties we offer",
-  //     "Get useful messages on yield, traits, and field performance",
-  //     "Stay informed through direct farmer notifications",
-  //   ];
+    const [cardData, setCardData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+      useEffect(() => {
+        const fetchCardData = async () => {
+          try {
+            setLoading(true);
+            // Your GROQ query is already correct for fetching the data structure.
+            const data =
+              await client.fetch(`*[_type == "retailerSection"][0]{
+    item1,
+    item2,
+    item3,
+    item4,
+    
+                     }`);
+            setCardData(data);
+          } catch (err) {
+            setError("Failed to load content.");
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchCardData();
+      }, []);
+
+        if (loading) {
+    return <div className="text-center py-10">Loading Card Content...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden py-5 px-4">
@@ -114,9 +142,7 @@ const RetailerPage = () => {
           <section className="text-center">
             <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
               {" "}
-              {/* This text is directly on gradient, kept dark for now for yellow bg contrast */}
-              यह पेज उन लोगों के लिए है: जो रिटेलर, होलसेलर या बीज विक्रेता हैं
-              और Shipra Seeds के बीज बेचने में रुचि रखते हैं।
+              {cardData.item1?.[language] || cardData.item1?.hi}
             </p>
           </section>
 
@@ -124,76 +150,59 @@ const RetailerPage = () => {
             <UserCircle className="mx-auto text-amber-500 h-12 w-12 sm:h-16 sm:h-16 mb-3" />
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 drop-shadow-sm">
               {" "}
-              {/* Main title kept dark green for contrast on light gradient top */}
-              👨‍🌾 व्यापारी जानकारी फॉर्म
+              👨‍🌾{cardData.item2?.[language] || cardData.item2?.hi}
+
             </h1>
           </header>
 
-          {/* Sections now have darker backgrounds to support white text */}
           <section className="bg-green-700/80 p-6 rounded-xl shadow-lg backdrop-blur-sm">
             {" "}
-            {/* BG Updated */}
             <ul className="space-y-2.5">
               {
                 <li className="flex items-start">
                   <CheckCircle className="w-5 h-5 text-amber-500 mr-2.5 mt-0.5 flex-shrink-0" />
-                  <span className="text-base sm:text-lg text-white mb-4">{`अगर आप हमारे बीज बेचना चाहते हैं या रिटेलर / डिस्ट्रीब्यूटर के रूप
-              में हमारे साथ काम करना चाहते हैं, तो कृपया यह फॉर्म भरें। हमारी
-              टीम आपकी जानकारी की समीक्षा करेगी और अगर कोई उपयुक्त अवसर होगा, तो
-              हम आपसे संपर्क करेंगे।`}</span>{" "}
+                  <span className="text-base sm:text-lg text-white mb-4">  {cardData.item3?.[language] || cardData.item3?.hi}</span>{" "}
                   {/* Text color changed to white */}
                 </li>
               }
             </ul>
           </section>
 
-          {/* <section className="text-center space-y-2">
-            <p className="text-lg sm:text-xl font-semibold text-amber-600">
-              Get updates straight from Shipra Seeds. Stay connected. Grow
-              better with us.
-            </p>
-            <p className="flex items-center justify-center text-slate-700 text-sm sm:text-base">
-              {" "}
-              <Mail className="w-5 h-5 mr-2 text-amber-500" />
-              Fill and join in — it takes less than a minute.
-            </p>
-          </section> */}
-
           <section className="bg-green-700/80 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
             {/* BG Updated */}
             <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6">
               <ClipboardList className="w-7 h-7 mr-3 text-amber-500" />
-              कृपया अपनी बुनियादी जानकारी साझा करें:
+             {t("basicFormInfo")}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <FormInput
-                label="दुकान / व्यवसाय का नाम"
+                label={t("retailerNameLabel")}
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="आपका पूरा नाम"
+                placeholder={t("retailerNamePlaceholder")}
                 icon={UserCircle}
               />
 
               <FormInput
-                label="मोबाइल नंबर"
+                label={t("retailerMobileNumberLabel")}
                 name="mobileNumber"
                 type="tel"
                 value={formData.mobileNumber}
                 onChange={handleChange}
-                placeholder="आपका मोबाइल नंबर"
+                placeholder={t("retailerMobileNumberPlaceholder")}
                 icon={Send}
               />
 
               {/* व्यवसायकाप्रकार (रिटेलर / होलसेलर) */}
               <div>
-                <label className="flex items-center text-lg font-medium text-white mb-2">
+                <label className="flex items-center text-md font-medium text-white mb-2">
                   <ClipboardList className="w-5 h-5 mr-2 text-amber-500" />
-                  व्यवसाय का प्रकार:
+                  {t("retailerBusinessType")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
-                <div className="flex gap-6 text-white text-sm">
+                <div className="flex gap-6 text-white text-xs">
                   <label className="flex items-center space-x-2">
                     <input
                       type="radio"
@@ -201,10 +210,10 @@ const RetailerPage = () => {
                       value="रिटेलर"
                       checked={formData.businessType === "रिटेलर"}
                       onChange={handleChange}
-                      className="w-6 h-6 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
+                      className="w-4 h-4 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
                       required
                     />
-                    <span className="text-base">रिटेलर</span>
+                    <span className="text-base text-sm">{t("retailer")}</span>
                   </label>
                   <label className="flex items-center space-x-2">
                     <input
@@ -213,10 +222,10 @@ const RetailerPage = () => {
                       value="होलसेलर"
                       checked={formData.businessType === "होलसेलर"}
                       onChange={handleChange}
-                      className="w-6 h-6 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
+                      className="w-4 h-4 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
                       required
                     />
-                    <span className="text-base">होलसेलर</span>
+                    <span className="text-base text-sm">{t("wholesaler")}</span>
                   </label>
                 </div>
               </div>
@@ -224,7 +233,7 @@ const RetailerPage = () => {
               <div>
                 <label className="flex items-center text-md font-medium text-white mb-2">
                   <MapPin className="w-4 h-4 mr-2 text-amber-500" />
-                  स्थान:
+                  {t("place")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -233,7 +242,7 @@ const RetailerPage = () => {
                     name="district"
                     value={formData.district}
                     onChange={handleChange}
-                    placeholder="जिला"
+                    placeholder={t("district")}
                     required
                     className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300"
                   />
@@ -242,7 +251,7 @@ const RetailerPage = () => {
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
-                    placeholder="राज्य"
+                    placeholder={t("state")}
                     required
                     className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300"
                   />
@@ -256,26 +265,21 @@ const RetailerPage = () => {
                 className="w-full flex items-center justify-center p-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg shadow-md transition-colors duration-300 text-base sm:text-lg"
               >
                 <Send className="w-5 h-5 mr-2" />
-                पूछताछ भेजें
+                {t("sendInquiry")}
               </motion.button>
             </form>
           </section>
 
           <section className="bg-green-700/80 p-4 rounded-xl shadow-lg backdrop-blur-sm">
             {" "}
-            {/* BG Updated */}
             <div className="flex items-start">
               <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-amber-500 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-amber-500 mb-1">नोट:</h3>{" "}
-                {/* Accent color kept for heading */}
+                <h3 className="font-semibold text-amber-500 mb-1">{t("note")}</h3>{" "}
                 <p className="text-sm text-white leading-relaxed">
                   {" "}
-                  {/* Text color changed to white */}
-                  यह फॉर्म केवल उन बीज विक्रेताओं के लिए है जो Shipra Seeds के
-                  साथ संपर्क में रहना चाहते हैं। आपकी जानकारी सिर्फ हमारी टीम
-                  द्वारा इस्तेमाल की जाएगी — कोई स्पैम नहीं, और नहीं किसी तीसरे
-                  पक्ष के साथ साझा की जाएगी।
+                                {cardData.item4?.[language] || cardData.item4?.hi}
+
                 </p>
               </div>
             </div>

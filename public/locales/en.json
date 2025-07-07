@@ -47,6 +47,31 @@
   "Madhya Pradesh",
   "Jammu",
   "Andhra Pradesh"
-]
+],
+"benefits" : [
+  "Farming-related advice and seasonal tips",
+  "Information about our new varieties",
+  "Useful details about yield, quality, and field performance",
+  "Updates sent directly for farmers"
+],
+"retailerNameLabel": "Shop / Business Name",
+"retailerNamePlaceholder": "full name",
+"retailerMobileNumberLabel": "Mobile Number",
+"retailerMobileNumberPlaceholder": "mobile number",
+"retailerBusinessType": "Type of Business:",
+"place": "Location:",
+"district": "District",
+"state":"State",
+"wholesaler":"Wholesaler",
+"retailer":"Retailer",
+"basicFormInfo":"Please share your basic information:",
+"note":"Note",
+"registrationFormIntro":"If you grow paddy or wheat, this form is for you. By registering here, you will get:",
+"farmingLocation":"Your farming location:",
+"language":"Your Language",
+"farmerNameLabel":"Name",
+"registrationFormInfo": "Please fill in your details below:"
+
+
 
 }

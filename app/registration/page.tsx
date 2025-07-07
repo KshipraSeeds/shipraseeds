@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   UserCircle,
@@ -14,6 +14,8 @@ import {
   Languages,
   MapPin,
 } from "lucide-react";
+import { useLanguage } from "../context/LanguageContext";
+import { client, urlFor } from "@/sanity";
 
 import { db } from "@/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
@@ -62,6 +64,8 @@ const FormInput = ({
 );
 
 const FarmerRegistrationPage = () => {
+  const { lang: language, t } = useLanguage();
+
   const [formData, setFormData] = useState({
     name: "",
     mobileNumber: "",
@@ -96,13 +100,46 @@ const FarmerRegistrationPage = () => {
     }
   };
 
-  const benefits = [
-    "खेती से जुड़ी सलाह और मौसमी सुझाव",
-    "हमारी नई वैरायटीज़ की जानकारी",
-    "उपज, गुण और फील्ड परफॉर्मेंस से जुड़ी उपयोगी जानकारी",
-    "किसानों के लिए सीधे भेजे जाने वाले अपडेट",
-  ];
+  const benefits = Array.isArray(t("benefits")) ? t("benefits") : [];
+const languages = ["हिंदी", "English", "ਪੰਜਾਬੀ"];
 
+const [cardData, setCardData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+      useEffect(() => {
+        const fetchCardData = async () => {
+          try {
+            setLoading(true);
+            // Your GROQ query is already correct for fetching the data structure.
+            const data =
+              await client.fetch(`*[_type == "farmerSection"][0]{
+    item1,
+    item2,
+    item3,
+    item4,
+    item5,
+
+    
+                     }`);
+            setCardData(data);
+          } catch (err) {
+            setError("Failed to load content.");
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        fetchCardData();
+      }, []);
+
+        if (loading) {
+    return <div className="text-center py-10">Loading Card Content...</div>;
+  }
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">{error}</div>;
+  }
   return (
     <div className="relative w-full min-h-screen overflow-hidden py-5 px-4">
       <div className="absolute m-4 mb-0 sm:m-5 sm:mb-0 inset-0 bg-gradient-to-br from-green-700 via-teal-800 to-blue-900 opacity-95 rounded-[30px] sm:rounded-[42px]" />
@@ -118,20 +155,20 @@ const FarmerRegistrationPage = () => {
         >
           <section className="text-center">
             <p className="text-green-200 text-sm sm:text-base leading-relaxed">
-              यह एक फॉर्म है किसानों, उगाने वालों और कृषकों के लिए, हमसे जुड़ने हेतु।
+             {cardData.item1?.[language] || cardData.item1?.hi}
             </p>
           </section>
 
           <header className="text-center">
             <UserCircle className="mx-auto text-yellow-400 h-12 w-12 sm:h-16 mb-3" />
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-md">
-              👨‍🌾 किसान रजिस्ट्रेशन फॉर्म
+              👨‍🌾 {cardData.item2?.[language] || cardData.item2?.hi}
             </h1>
           </header>
 
           <section className="bg-white/5 p-6 rounded-xl shadow-lg backdrop-blur-sm">
             <p className="text-base sm:text-lg text-green-100 mb-4">
-              अगर आप धान या गेहूं की खेती करते हैं, तो यह फॉर्म आपके लिए है। इसमें रजिस्ट्रेशन करके आप पाएंगे:
+              {t("registrationFormIntro")}
             </p>
             <ul className="space-y-2.5">
               {benefits.map((benefit, index) => (
@@ -145,50 +182,63 @@ const FarmerRegistrationPage = () => {
 
           <section className="text-center space-y-2">
             <p className="text-lg sm:text-xl font-semibold text-yellow-300">
-              शिप्रा सीड्स से सीधा जुड़ाव रखें। अपडेट पाएं। बेहतर खेती करें।
+              {cardData.item3?.[language] || cardData.item3?.hi}
             </p>
             <p className="flex items-center justify-center text-green-100 text-sm sm:text-base">
               <Mail className="w-5 h-5 mr-2 text-yellow-400" />
-              फॉर्म भरने में एक मिनट से भी कम समय लगेगा।
+              {cardData.item4?.[language] || cardData.item4?.hi}
             </p>
           </section>
 
           <section className="bg-white/5 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
             <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6">
               <ClipboardList className="w-7 h-7 mr-3 text-yellow-400" />
-              कृपया नीचे अपनी जानकारी भरें:
+              {t("registrationFormInfo")}
             </h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <FormInput
-                label="आपका नाम"
+                label={t("farmerNameLabel")}
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="आपका पूरा नाम"
+                placeholder={t("retailerNamePlaceholder")}
                 icon={UserCircle}
               />
               <FormInput
-                label=" मोबाइल नंबर"
+                label={t("retailerMobileNumberLabel")}
                 name="mobileNumber"
                 type="tel"
                 value={formData.mobileNumber}
                 onChange={handleChange}
-                placeholder="आपका मोबाइल नंबर"
+                placeholder={t("retailerMobileNumberPlaceholder")}
                 icon={Send}
               />
-              <FormInput
-                label="पसंदीदा भाषा"
-                name="preferredLanguage"
-                value={formData.preferredLanguage}
-                onChange={handleChange}
-                placeholder="उदाहरण: हिन्दी, अंग्रेज़ी, पंजाबी"
-                icon={Languages}
-              />
+              <div>
+                <label className="flex items-center text-md font-medium text-green-100 mb-2">
+                  <Languages className="w-4 h-4 mr-2 text-yellow-400" />
+                  {t("language")}
+                  <span className="text-red-400 ml-1">*</span>
+                </label>
+                <select
+                  name="preferredLanguage"
+                  value={formData.preferredLanguage}
+                  onChange={handleChange}
+                  required
+                  className="w-full p-3 bg-white/10 border border-green-400/50 rounded-lg text-white placeholder-green-200/70 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all duration-300"
+                >
+                  {languages.map((lang, index) => (
+                    <option className="text-black" key={index} value={lang}>
+                      {lang}
+                    </option>
+                  ))}
+                </select>
+                
+              </div>
 
               <div>
                 <label className="flex items-center text-md font-medium text-green-100 mb-2">
                   <MapPin className="w-4 h-4 mr-2 text-yellow-400" />
-                  आपका खेती करने का स्थान:
+                  {t("farmingLocation")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -197,7 +247,7 @@ const FarmerRegistrationPage = () => {
                     name="district"
                     value={formData.district}
                     onChange={handleChange}
-                    placeholder="जिला"
+                    placeholder={t("district")}
                     required
                     className="w-full p-3 bg-white/10 border border-green-400/50 rounded-lg text-white placeholder-green-200/70 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all duration-300"
                   />
@@ -206,7 +256,7 @@ const FarmerRegistrationPage = () => {
                     name="state"
                     value={formData.state}
                     onChange={handleChange}
-                    placeholder="राज्य"
+                    placeholder={t("state")}
                     required
                     className="w-full p-3 bg-white/10 border border-green-400/50 rounded-lg text-white placeholder-green-200/70 focus:ring-2 focus:ring-yellow-400 focus:border-transparent outline-none transition-all duration-300"
                   />
@@ -220,7 +270,7 @@ const FarmerRegistrationPage = () => {
                 className="w-full flex items-center justify-center p-3.5 bg-yellow-500 hover:bg-yellow-600 text-green-900 font-bold rounded-lg shadow-md transition-colors duration-300 text-base sm:text-lg"
               >
                 <Send className="w-5 h-5 mr-2" />
-                अभी रजिस्टर करें
+                {t("registerNow")}
               </motion.button>
             </form>
           </section>
@@ -229,9 +279,11 @@ const FarmerRegistrationPage = () => {
             <div className="flex items-start">
               <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-yellow-400 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-yellow-300 mb-1">नोट:</h3>
+                <h3 className="font-semibold text-yellow-300 mb-1">
+                  {t("note")}
+                </h3>
                 <p className="text-sm text-green-100 leading-relaxed">
-                  यह फॉर्म केवल उन किसानों के लिए है जो शिप्रा सीड्स से जुड़े रहना चाहते हैं। आपकी जानकारी केवल हमारी टीम के उपयोग के लिए है — कहीं और साझा नहीं की जाएगी।
+                  {cardData.item5?.[language] || cardData.item5?.hi}
                 </p>
               </div>
             </div>

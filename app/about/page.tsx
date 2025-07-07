@@ -85,6 +85,8 @@ const AboutUsPage = () => {
   const [coreValuesData, setCoreValuesData] = useState(null);
   const [founderData, setFounderData] = useState(null);
   const [expData, setExpData] = useState(null);
+  const [goalData, setGoalData] = useState(null);
+
 
 
 
@@ -251,6 +253,32 @@ item24,
 item25
                  }`);
         setExpData(data);
+      } catch (err) {
+        setError("Failed to load content.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCardData();
+  }, []);
+
+      useEffect(() => {
+    const fetchCardData = async () => {
+      try {
+        setLoading(true);
+        // Your GROQ query is already correct for fetching the data structure.
+        const data =
+          await client.fetch(`*[_type == "About_OurGoalSection"][0]{
+item1,
+item2,
+item3,
+item4,
+item5,
+item6,
+item7,
+                 }`);
+        setGoalData(data);
       } catch (err) {
         setError("Failed to load content.");
       } finally {
@@ -609,26 +637,29 @@ const storyFullContent = (
         {/* Card 4: Our Mission */}
         <section className="bg-agri-card-bg p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
           <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
-            🎯 हमारा उद्देश्य
+            🎯 {goalData.item1?.[language] || goalData.item1?.hi}
           </h2>
           <p className="font-semibold text-xl mb-4 text-shipra-green-500">
-            किसानों के साथ मिलकर — एक मजबूत कल के लिए।
+            {goalData.item2?.[language] || goalData.item2?.hi}
           </p>
           <p className="mb-4">
-            शिप्रा सीड्स में, हमारा उद्देश्य सिर्फ बीज बेचना नहीं है — बल्कि
-            किसानों का भरोसा जीतना और खेती को सफल बनाना है।
+                        {goalData.item3?.[language] || goalData.item3?.hi}
+
           </p>
-          <p className="mb-2">हर बीज जो हम देते हैं, उसमें छिपा होता है:</p>
+          <p className="mb-2">            {goalData.item4?.[language] || goalData.item4?.hi}
+</p>
           <ul className="list-disc list-inside space-y-2 text-shipra-text mb-4">
-            <li>🌱 गुणवत्ता का भरोसा</li>
-            <li>🌾 बेहतर अंकुरण, बेहतर बढ़वार, और अधिक उपज</li>
-            <li>🚜 खेती को अधिक लाभदायक और टिकाऊ बनाना</li>
+            <li>🌱             {goalData.item5?.[language] || goalData.item5?.hi}
+</li>
+            <li>🌾             {goalData.item6?.[language] || goalData.item6?.hi}
+</li>
+            <li>🚜            {goalData.item7?.[language] || goalData.item7?.hi}
+</li>
           </ul>
-          <p>
-            हम मानते हैं कि खेती सिर्फ काम नहीं — एक जीवनशैली है। जब किसान आगे
-            बढ़ता है, तो पूरा समाज मजबूत होता है। हम सिर्फ फसल नहीं उगाते — हम
-            भरोसा, अवसर और आशा उगाते हैं।
-          </p>
+          {/* <p>
+                        {goalData.item1?.[language] || goalData.item1?.hi}
+
+          </p> */}
         </section>
 
         {/* Card 5: Core Values */}
