@@ -70,7 +70,19 @@
 "farmingLocation":"आपका खेती करने का स्थान:",
 "language":"पसंदीदा भाषा",
 "farmerNameLabel":"आपका नाम",
-"registrationFormInfo":"कृपया नीचे अपनी जानकारी भरें:"
+"registrationFormInfo":"कृपया नीचे अपनी जानकारी भरें:",
+"viewDetails":"विवरण देखें",
+"maturity":"पकने की अवधि",
+"yield":"उपज",
+"specialTrait":"विशेष गुण",
+"varieties":"की किस्में",
+"details":"के बारे में",
+"why":"क्यों बनाई गई?"
+
+
+
+
+
 
 
 }

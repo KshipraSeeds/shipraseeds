@@ -70,7 +70,15 @@
 "farmingLocation":"Your farming location:",
 "language":"Your Language",
 "farmerNameLabel":"Name",
-"registrationFormInfo": "Please fill in your details below:"
+"registrationFormInfo": "Please fill in your details below:",
+"viewDetails":"View Details",
+"maturity":"Maturity",
+"yield":"Yield",
+"specialTrait":"Special Trait",
+"varieties":"Varieties",
+"details":"Details",
+"why":"Why was it developed?"
+
 
 
 

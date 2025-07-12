@@ -18,7 +18,8 @@ import {
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useLanguage } from "../context/LanguageContext";
 // import paddy31 from "@/public/bagPics/paddy/3 KG PADDY-20250519T122821Z-1-001/3 KG PADDY/Render_Mockup_1080_1920_2025-05-15 (3).png"; // No longer directly used as images are from variety data
-
+import { client, urlFor } from "@/sanity";
+import imageUrlBuilder from '@sanity/image-url';
 
 type CropVariety = {
   id: string;
@@ -485,15 +486,21 @@ SS-17 इन सभी ज़रूरतों को पूरा करती
 interface VarietyCardProps {
   variety: CropVariety; // Use the defined CropVariety type
   onViewDetails: (variety: CropVariety) => void; // New prop to trigger modal
+  language: string;
 }
 
 const VarietyCard: React.FC<VarietyCardProps> = ({
   variety,
   onViewDetails,
+  language,
+
 }) => {
+       const { t } = useLanguage();
+
   // State to manage the current image index for weightImages carousel
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+const extractLocaleString = (obj) =>
+    obj?._type === "localeString" ? (obj[language] || obj.hi || "") : obj || "";
   const goToNextImage = () => {
     if (variety.weightImages) {
       setCurrentImageIndex((prevIndex) =>
@@ -511,7 +518,8 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
   };
 
   const displayImage = variety.weightImages?.[currentImageIndex]?.url || variety.image;
-  const displayWeight = variety.weightImages?.[currentImageIndex]?.weight;
+ const displayWeight = extractLocaleString(variety.weightImages?.[currentImageIndex]?.weight);
+
 
   return (
     <div
@@ -522,7 +530,7 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
         <div className="relative flex flex-col w-full h-48 justify-center items-center mb-4">
           <img
             src={displayImage}
-            alt={`${variety.name} ${displayWeight || ''}`}
+            alt={`${extractLocaleString(variety.name)} ${displayWeight || ''}`}
             className="w-full h-full object-contain mx-auto border border-gray-200 rounded-lg"
           />
           {/* Display weight below the image, centered and slightly transparent on large screens */}
@@ -554,7 +562,7 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
           )}
 
           {/* Optional: Add Dots for Pagination below image on mobile */}
-          {variety.weightImages && variety.weightImages.length > 1 && (
+          {/* {variety.weightImages && variety.weightImages.length > 1 && (
             <div className="flex justify-center mt-3 gap-2">
               {variety.weightImages.map((_, index) => (
                 <button
@@ -567,7 +575,7 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
                 ></button>
               ))}
             </div>
-          )}
+          )} */}
 
         </div>
       )}
@@ -575,25 +583,27 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
       {/* Content Section */}
       <div className="flex flex-col flex-grow">
         <h3 className="text-xl font-bold text-agri-green-deep mb-2">
-          {variety.name}
+         {extractLocaleString(variety.name)}
         </h3>
         <div className="space-y-1 text-sm mb-4 text-gray-700">
           <div className="flex items-center">
             <Clock size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
-              <strong>पकने की अवधि:</strong> {variety.maturity}
+              <strong>{t("maturity")}:</strong> {extractLocaleString(variety.maturity)}
             </span>
           </div>
           <div className="flex items-center">
             <TrendingUp size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
-              <strong>उपज:</strong> {variety.yield}
+              <strong>{t("yield")}:</strong>  {extractLocaleString(variety.yield)}
             </span>
           </div>
           <div className="flex items-center">
             <Star size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
-              <strong>विशेष गुण:</strong> {variety.specialTrait}
+              <strong>{t("specialTrait")}:</strong>{extractLocaleString(variety.specialTrait).length > 80
+    ? extractLocaleString(variety.specialTrait).slice(0, 80) + "..."
+    : extractLocaleString(variety.specialTrait)}
             </span>
           </div>
         </div>
@@ -601,7 +611,7 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
           onClick={() => onViewDetails(variety)} // Trigger modal on click
           className="w-full mt-auto inline-flex items-center justify-center px-4 py-2.5 bg-agri-green-medium text-white text-sm font-semibold rounded-lg hover:bg-agri-green-deep transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-agri-green-light focus:ring-offset-2"
         >
-          विवरण देखें
+          {t("viewDetails")}
           <ChevronRight size={18} className="ml-2" />
         </button>
       </div>
@@ -613,14 +623,15 @@ const VarietyCard: React.FC<VarietyCardProps> = ({
 interface VarietyDetailsModalProps {
   variety: CropVariety | null;
   onClose: () => void;
+  language: string;
+
 }
 
-const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onClose }) => {
-  // State to manage the current image index for weightImages carousel within the modal
+const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onClose, language }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+       const { t } = useLanguage();
 
   useEffect(() => {
-    // Reset image index when variety changes (modal opens for a new one)
     setCurrentImageIndex(0);
   }, [variety]);
 
@@ -640,29 +651,26 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
     }
   }, [variety]);
 
-  // Handle keyboard navigation for modal images
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (variety) { // Only active if modal is open
-        if (event.key === 'ArrowLeft') {
-          goToPreviousImage();
-        } else if (event.key === 'ArrowRight') {
-          goToNextImage();
-        } else if (event.key === 'Escape') {
-          onClose();
-        }
+      if (variety) {
+        if (event.key === 'ArrowLeft') goToPreviousImage();
+        else if (event.key === 'ArrowRight') goToNextImage();
+        else if (event.key === 'Escape') onClose();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [variety, goToNextImage, goToPreviousImage, onClose]);
 
+  if (!variety) return null;
 
-  if (!variety) return null; // Don't render if no variety is selected
+  // ✅ Locale extractor
+  const extractLocaleString = (obj: any) =>
+    obj?._type === "localeString" ? (obj[language] || obj.hi || "") : obj || "";
 
   const displayImage = variety.weightImages?.[currentImageIndex]?.url || variety.image;
-  const displayWeight = variety.weightImages?.[currentImageIndex]?.weight;
-
+  const displayWeight = extractLocaleString(variety.weightImages?.[currentImageIndex]?.weight);
 
   return (
     <motion.div
@@ -672,13 +680,11 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
       transition={{ duration: 0.3 }}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
     >
-      {/* Background Overlay */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm" // Darkened and blurred background
-        onClick={onClose} // Close modal on overlay click
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
       ></div>
 
-      {/* Modal Content */}
       <motion.div
         initial={{ y: 50, opacity: 0, scale: 0.9 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
@@ -697,12 +703,11 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
           <X size={24} />
         </button>
 
-        {/* Image Section in Modal (with carousel) */}
         {displayImage && (
           <div className="relative p-4 flex flex-col w-full lg:w-1/2 lg:flex-shrink-0 justify-center items-center">
             <img
               src={displayImage}
-              alt={`${variety.name} ${displayWeight || ''}`}
+              alt={`${extractLocaleString(variety.name)} ${displayWeight || ''}`}
               className="w-full max-h-72 object-contain mx-auto border border-gray-200 rounded-lg lg:max-h-full lg:rounded-none lg:rounded-l-xl"
             />
             {displayWeight && (
@@ -710,7 +715,6 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
                 {displayWeight}
               </p>
             )}
-
             {variety.weightImages && variety.weightImages.length > 1 && (
               <>
                 <button
@@ -746,56 +750,56 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
           </div>
         )}
 
-
-        {/* Text Content Section in Modal */}
         <div className="p-6 flex flex-col w-full lg:w-1/2">
           <h2 id="variety-modal-title" className="text-3xl font-bold text-agri-green-deep mb-4">
-            {variety.name}
+            {extractLocaleString(variety.name)}
           </h2>
 
           <div className="space-y-3 text-base mb-6 text-gray-700">
             <div className="flex items-center">
               <Clock size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
               <span>
-                <strong>पकने की अवधि:</strong> {variety.maturity}
+                <strong>{t("maturity")}:</strong> {extractLocaleString(variety.maturity)}
               </span>
             </div>
             <div className="flex items-center">
               <TrendingUp size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
               <span>
-                <strong>उपज:</strong> {variety.yield}
+                <strong>{t("yield")}:</strong> {extractLocaleString(variety.yield)}
               </span>
             </div>
             <div className="flex items-center">
               <Star size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
               <span>
-                <strong>विशेष गुण:</strong> {variety.specialTrait}
+                <strong>{t("specialTrait")}:</strong> {extractLocaleString(variety.specialTrait)}
               </span>
             </div>
           </div>
 
-          {/* About the Variety Section */}
           {variety.aboutVariety && (
             <div className="mb-6">
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {variety.name} के बारे में
+                {extractLocaleString(variety.name)} {t("details")}
               </h3>
               <div
                 className="prose prose-sm max-w-none text-gray-700"
-                dangerouslySetInnerHTML={{ __html: variety.aboutVariety }}
+                dangerouslySetInnerHTML={{
+                  __html: extractLocaleString(variety.aboutVariety),
+                }}
               />
             </div>
           )}
 
-          {/* Why it was Created Section */}
           {variety.whyItCreated && (
             <div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                क्यों बनाई गई?
+                {t("why")}
               </h3>
               <div
                 className="prose prose-sm max-w-none text-gray-700"
-                dangerouslySetInnerHTML={{ __html: variety.whyItCreated }}
+                dangerouslySetInnerHTML={{
+                  __html: extractLocaleString(variety.whyItCreated),
+                }}
               />
             </div>
           )}
@@ -806,27 +810,117 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
 };
 
 
+
 // --- ProductsPage Component (Modified) ---
 const ProductsPage: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
 const searchParams = useSearchParams()
-  // const [selectedCategoryId, setSelectedCategoryId] = useState<string | null>(
-  //   allCropData.length > 0 ? allCropData[0].id : null
-  // );
+
+const builder = imageUrlBuilder(client);
+
+function urlFor(source) {
+  return builder.image(source).url();
+}
+
+  const { lang: language } = useLanguage();
+
+  const [expData, setExpData] = useState([]);
+const [loading, setLoading] = useState(true);
+const [error, setError] = useState(null);
+
+// ✅ Set default language for displaying localized fields
+const DEFAULT_LANG = "hi";
+
+// ✅ Extract string value from locale object like { hi: "...", en: "...", pa: "..." }
+function extractLocaleString(localeObj) {
+  if (!localeObj || localeObj._type !== "localeString") return "";
+  return localeObj[DEFAULT_LANG] || "";
+}
+
+// ✅ Normalize fetched data into required shape
+function normalizeCropData(data) {
+  return data.map((category) => ({
+    id: category._id,
+    name: category.name,    // keep entire locale object
+    icon: category.icon,
+    varieties:
+      category.varieties?.map((variety) => ({
+        id: variety._id,
+        name: variety.name,
+        maturity: variety.maturity,
+        yield: variety.yield,
+        specialTrait: variety.specialTrait,
+        aboutVariety: variety.aboutVariety,
+        whyItCreated: variety.whyItCreated,
+        weightImages:
+          variety.weightImages?.map((wi) => ({
+            weight: wi.weight,
+            url: wi.image ? urlFor(wi.image) : "",
+          })) ?? [],
+      })) ?? [],
+  }));
+}
+
+
+// ✅ Fetch and set normalized data
+useEffect(() => {
+  const fetchCardData = async () => {
+    try {
+      setLoading(true);
+
+      const data = await client.fetch(`
+        *[_type == "cropCategory"]{
+          _id,
+          name,
+          icon,
+          varieties[]->{
+            _id,
+            name,
+            maturity,
+            yield,
+            specialTrait,
+            aboutVariety,
+            whyItCreated,
+            weightImages[]{
+              weight,
+              image
+            }
+          }
+        }
+      `);
+
+      const normalized = normalizeCropData(data);
+      setExpData(normalized);
+    } catch (err) {
+      console.error("Error fetching:", err);
+      setError("Failed to load content.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchCardData();
+}, []);
+
+
+
+  console.log("1234",expData)
+
+
   const [modalOpenVariety, setModalOpenVariety] = useState<CropVariety | null>(null);
        const { t } = useLanguage();
 
 
 
-    const selectedCategoryId = useMemo(() => {
-    const categoryFromUrl = searchParams.get("category");
-    if (categoryFromUrl && allCropData.some((c) => c.id === categoryFromUrl)) {
-      return categoryFromUrl;
-    }
-    // Default to the first category if none is specified or found
-    return allCropData.length > 0 ? allCropData[0].id : null;
-  }, [searchParams]);
+   const selectedCategoryId = useMemo(() => {
+  const categoryFromUrl = searchParams.get("category");
+  if (categoryFromUrl && expData.some((c) => c.id === categoryFromUrl)) {
+    return categoryFromUrl;
+  }
+  return expData.length > 0 ? expData[0].id : null;
+}, [searchParams, expData]);
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -895,14 +989,15 @@ const searchParams = useSearchParams()
   };
 
 
-  const selectedCategoryData = allCropData.find(
+  const selectedCategoryData = expData.find(
     (cat) => cat.id === selectedCategoryId
   );
 
-  const subtitles = React.useMemo(
-    () => allCropData.map((cat) => cat.name),
-    []
-  );
+ const subtitles = React.useMemo(
+  () => expData.map((cat) => cat.name?.[language] || cat.name?.hi),
+  [expData, language]
+);
+
   const [currentSubtitleIndex, setCurrentSubtitleIndex] = useState(0);
 
   useEffect(() => {
@@ -1005,7 +1100,7 @@ const searchParams = useSearchParams()
                {t("cropCategories")}
             </h2>
             <ul className="space-y-2">
-              {allCropData.map((cat) => (
+              {expData.map((cat) => (
                 <li key={cat.id}>
                   <button
                     onClick={() => handleCategorySelect(cat.id)}
@@ -1026,7 +1121,7 @@ const searchParams = useSearchParams()
                         }`}
                       />
                     )}
-                    <span className="font-medium text-sm">{cat.name}</span>
+                    <span className="font-medium text-sm">{cat.name?.[language] || cat.name?.hi}</span>
                   </button>
                 </li>
               ))}
@@ -1039,7 +1134,7 @@ const searchParams = useSearchParams()
               <>
                 <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 mb-8">
                   <h2 className="text-2xl md:text-3xl font-bold text-agri-green-deep">
-                    {selectedCategoryData.name} की किस्में
+                    {selectedCategoryData.name?.[language] || selectedCategoryData.name?.hi} {t("varieties")}
                   </h2>
                 </div>
 
@@ -1062,7 +1157,7 @@ const searchParams = useSearchParams()
                                               : "bg-gray-200 text-gray-700 hover:bg-agri-green-light hover:text-agri-green-deep hover:shadow-sm"
                                           }`}
                           >
-                            {variety.name}
+                            {variety.name?.[language] || variety.name?.hi}
                           </button>
                         </li>
                       ))}
@@ -1083,6 +1178,7 @@ const searchParams = useSearchParams()
                       key={variety.id}
                       variety={variety}
                       onViewDetails={handleViewDetails}
+                      language={language}
                     />
                   ))}
                 </div>
@@ -1105,6 +1201,7 @@ const searchParams = useSearchParams()
           <VarietyDetailsModal
             variety={modalOpenVariety}
             onClose={handleCloseModal}
+            language={language}
           />
         )}
       </AnimatePresence>

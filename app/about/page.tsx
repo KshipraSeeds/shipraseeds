@@ -297,7 +297,7 @@ item7,
     return <div className="text-center py-10 text-red-500">{error}</div>;
   }
 
-  if (!cardData) {
+  if (!cardData || !coreValuesData || !founderData || !expData || !goalData) {
     return <div className="text-center py-10">No card content found.</div>;
   }
 
