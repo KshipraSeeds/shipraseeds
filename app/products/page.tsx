@@ -1027,7 +1027,7 @@ useEffect(() => {
           >
             <PackageSearch className="mx-auto text-white h-16 w-16 md:h-20 md:w-20 mb-4 opacity-80" />
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold !leading-tight mb-5 md:mb-6 drop-shadow-lg">
-              हमारे <span className="text-agri-yellow-sun">उत्पाद</span>
+              {t("our")} <span className="text-agri-yellow-sun">{t("ourproducts")}</span>
             </h1>
             <div className="h-[35px] md:h-[45px] flex items-center justify-center relative mb-6 md:mb-8">
               {subtitles.length > 0 && (
@@ -1068,7 +1068,7 @@ useEffect(() => {
               className="group flex flex-col items-center text-white opacity-80 hover:opacity-100 transition-opacity duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-agri-green-deep rounded-full p-2"
             >
               <span className="text-xs sm:text-sm font-medium mb-1 tracking-wider group-hover:text-agri-yellow-sun transition-colors">
-                नीचे स्क्रॉल करें
+               {t("scrollDown")}
               </span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
