@@ -55,7 +55,7 @@
     "किसानों के लिए सीधे भेजे जाने वाले अपडेट"
   ],
 "retailerNameLabel":"दुकान / व्यवसाय का नाम",
-"retailerNamePlaceholder":"आपका पूरा नाम",
+"retailerNamePlaceholder":"आपके व्यवसाय का नाम",
 "retailerMobileNumberLabel":"मोबाइल नंबर",
 "retailerMobileNumberPlaceholder":"आपका मोबाइल नंबर",
 "retailerBusinessType":"व्यवसाय का प्रकार:",
@@ -80,7 +80,13 @@
 "why":"क्यों बनाई गई?",
 "our":"हमारे",
 "ourproducts":"उत्पाद",
-"scrollDown":"नीचे स्क्रॉल करें"
+"scrollDown":"नीचे स्क्रॉल करें",
+"registrationSuccessTitle":"रजिस्ट्रेशन सफल!",
+"registrationSuccessMessage":"आपका फॉर्म सफलतापूर्वक सबमिट हो गया है।",
+"retailerSuccessTitle":"सफल!",
+"retailerSuccessMessage":"आपकी पूछताछ सफलतापूर्वक सबमिट हो गई है।",
+"retailerLabel":"रिटेलर",
+"wholesalerLabel":"होलसेलर"
 
 
 

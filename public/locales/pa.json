@@ -55,7 +55,7 @@
   "ਕਿਸਾਨਾਂ ਲਈ ਸਿੱਧੇ ਭੇਜੇ ਜਾਣ ਵਾਲੇ ਅਪਡੇਟ"
 ],
 "retailerNameLabel": "ਦੁਕਾਨ / ਕਾਰੋਬਾਰ ਦਾ ਨਾਮ",
-"retailerNamePlaceholder": "ਤੁਹਾਡਾ ਪੂਰਾ ਨਾਮ",
+"retailerNamePlaceholder": "ਤੁਹਾਡੇ ਵਪਾਰ ਦਾ ਨਾਂ",
 "retailerMobileNumberLabel": "ਮੋਬਾਈਲ ਨੰਬਰ",
 "retailerMobileNumberPlaceholder": "ਤੁਹਾਡਾ ਮੋਬਾਈਲ ਨੰਬਰ",
 "retailerBusinessType": "ਕਾਰੋਬਾਰ ਦੀ ਕਿਸਮ:",
@@ -80,7 +80,13 @@
 "why":"ਇਹ ਕਿਉਂ ਬਣਾਈ ਗਈ?",
 "our":"ਸਾਡੇ",
 "ourproducts":"ਉਤਪਾਦ",
-"scrollDown":"ਹੇਠਾਂ ਸਕ੍ਰੋਲ ਕਰੋ"
+"scrollDown":"ਹੇਠਾਂ ਸਕ੍ਰੋਲ ਕਰੋ",
+"registrationSuccessTitle":"ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਸਫਲ ਹੋਇਆ!",
+"registrationSuccessMessage":"ਤੁਹਾਡਾ ਫਾਰਮ ਸਫਲਤਾਪੂਰਵਕ ਭੇਜ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
+"retailerSuccessTitle":"ਸਫਲ!",
+"retailerSuccessMessage":"ਤੁਹਾਡੀ ਪੁੱਛਗਿੱਛ ਸਫਲਤਾਪੂਰਵਕ ਭੇਜੀ ਗਈ ਹੈ।",
+"retailerLabel":"ਰਿਟੇਲਰ",
+"wholesalerLabel":"ਹੋਲਸੇਲਰ"
 
 
 

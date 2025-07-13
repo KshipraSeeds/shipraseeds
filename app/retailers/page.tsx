@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import statesAndDistricts from "@/components/statesAndDistricts.json";
+
 import {
   UserCircle,
   Leaf,
@@ -13,8 +15,11 @@ import {
   MapPin,
 } from "lucide-react";
 import { useLanguage } from "../context/LanguageContext";
-import { client, urlFor } from "@/sanity";
+import { client } from "@/sanity";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { db } from "@/firebase";
 
+// --------------------- Form Input Component ---------------------
 const FormInput = ({
   label,
   name,
@@ -23,7 +28,6 @@ const FormInput = ({
   onChange,
   placeholder,
   icon: Icon,
-  required = true,
 }: {
   label: string;
   name: string;
@@ -34,17 +38,14 @@ const FormInput = ({
   ) => void;
   placeholder?: string;
   icon?: React.ElementType;
-  required?: boolean;
 }) => (
   <div>
     <label
       htmlFor={name}
       className="flex items-center text-md font-medium text-white mb-1"
     >
-      {" "}
       {Icon && <Icon className="w-4 h-4 mr-2 text-amber-500" />}
       {label}
-      {required && <span className="text-red-400 ml-1">*</span>}
     </label>
     <input
       type={type}
@@ -53,77 +54,258 @@ const FormInput = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      required={required}
-      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300" // BG, text, placeholder, border updated
+      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300"
     />
   </div>
 );
 
+// --------------------- Retailer Page ---------------------
 const RetailerPage = () => {
-    const { lang: language, t } = useLanguage();
-  
+  const { lang: language, t } = useLanguage();
+
   const [formData, setFormData] = useState({
+    state: "",
+    district: "",
     name: "",
     mobileNumber: "",
-    businessType: "रिटेलर", // <-- new field
-    district: "",
-    state: "",
+    businessType: "रिटेलर",
   });
+
+  const [availableStates, setAvailableStates] = useState<string[]>([]);
+  const [availableDistricts, setAvailableDistricts] = useState<string[]>([]);
+  const [errors, setErrors] = useState<any>({});
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    setAvailableStates(Object.keys(statesAndDistricts));
+  }, []);
+
+  const handleStateChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedState = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      state: selectedState,
+      district: "",
+    }));
+    setAvailableDistricts(statesAndDistricts[selectedState] || []);
+    validateField("state", selectedState);
+    validateField("district", "");
+  };
+
+  const handleDistrictChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedDistrict = e.target.value;
+    setFormData((prev) => ({
+      ...prev,
+      district: selectedDistrict,
+    }));
+    validateField("district", selectedDistrict);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    validateField(name, value);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log("Farmer Registration Data:", formData);
-    alert("Registration submitted! (Check console for data)");
-    setFormData({
-      name: "",
-      mobileNumber: "",
-      businessType: "",
-      district: "",
-      state: "",
+  // --------------------- Validation ---------------------
+  const validateField = (name: string, value: string) => {
+    setErrors((prevErrors) => {
+      const newErrors = { ...prevErrors };
+
+      // Define error text dictionary here (or outside the component)
+      const errorText = {
+        name: {
+          hi: "नाम आवश्यक है",
+          en: "Name is required",
+          pa: "ਨਾਮ ਲਾਜ਼ਮੀ ਹੈ",
+        },
+        mobileRequired: {
+          hi: "मोबाइल नंबर आवश्यक है",
+          en: "Mobile number is required",
+          pa: "ਮੋਬਾਈਲ ਨੰਬਰ ਲਾਜ਼ਮੀ ਹੈ",
+        },
+        mobileInvalid: {
+          hi: "कृपया 10 अंकों का वैध मोबाइल नंबर दर्ज करें",
+          en: "Please enter a valid 10-digit mobile number",
+          pa: "ਕਿਰਪਾ ਕਰਕੇ 10 ਅੰਕਾਂ ਵਾਲਾ ਠੀਕ ਮੋਬਾਈਲ ਨੰਬਰ ਦਰਜ ਕਰੋ",
+        },
+        preferredLanguage: {
+          hi: "भाषा आवश्यक है",
+          en: "Language is required",
+          pa: "ਭਾਸ਼ਾ ਲਾਜ਼ਮੀ ਹੈ",
+        },
+        state: {
+          hi: "राज्य आवश्यक है",
+          en: "State is required",
+          pa: "ਰਾਜ ਲਾਜ਼ਮੀ ਹੈ",
+        },
+        district: {
+          hi: "जिला आवश्यक है",
+          en: "District is required",
+          pa: "ਜ਼ਿਲ੍ਹਾ ਲਾਜ਼ਮੀ ਹੈ",
+        },
+      };
+
+      // Remove error if valid
+      switch (name) {
+        case "name":
+          if (!value.trim())
+            newErrors.name = errorText.name[language] || errorText.name.hi;
+          else delete newErrors.name;
+          break;
+
+        case "mobileNumber":
+          if (!value.trim())
+            newErrors.mobileNumber =
+              errorText.mobileRequired[language] || errorText.mobileRequired.hi;
+          else if (!/^\d{10}$/.test(value.trim()))
+            newErrors.mobileNumber =
+              errorText.mobileInvalid[language] || errorText.mobileInvalid.hi;
+          else delete newErrors.mobileNumber;
+          break;
+
+        case "preferredLanguage":
+          if (!value)
+            newErrors.preferredLanguage =
+              errorText.preferredLanguage[language] ||
+              errorText.preferredLanguage.hi;
+          else delete newErrors.preferredLanguage;
+          break;
+
+        case "state":
+          if (!value)
+            newErrors.state = errorText.state[language] || errorText.state.hi;
+          else delete newErrors.state;
+          break;
+
+        case "district":
+          if (!value)
+            newErrors.district =
+              errorText.district[language] || errorText.district.hi;
+          else delete newErrors.district;
+          break;
+
+        default:
+          break;
+      }
+
+      return newErrors;
     });
   };
 
-    const [cardData, setCardData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-      useEffect(() => {
-        const fetchCardData = async () => {
-          try {
-            setLoading(true);
-            // Your GROQ query is already correct for fetching the data structure.
-            const data =
-              await client.fetch(`*[_type == "retailerSection"][0]{
-    item1,
-    item2,
-    item3,
-    item4,
+  const validate = () => {
+    const errorText = {
+      name: {
+        hi: "नाम आवश्यक है",
+        en: "Name is required",
+        pa: "ਨਾਮ ਲਾਜ਼ਮੀ ਹੈ",
+      },
+      mobileRequired: {
+        hi: "मोबाइल नंबर आवश्यक है",
+        en: "Mobile number is required",
+        pa: "ਮੋਬਾਈਲ ਨੰਬਰ ਲਾਜ਼ਮੀ ਹੈ",
+      },
+      mobileInvalid: {
+        hi: "कृपया 10 अंकों का वैध मोबाइल नंबर दर्ज करें",
+        en: "Please enter a valid 10-digit mobile number",
+        pa: "ਕਿਰਪਾ ਕਰਕੇ 10 ਅੰਕਾਂ ਵਾਲਾ ਠੀਕ ਮੋਬਾਈਲ ਨੰਬਰ ਦਰਜ ਕਰੋ",
+      },
+      preferredLanguage: {
+        hi: "भाषा आवश्यक है",
+        en: "Language is required",
+        pa: "ਭਾਸ਼ਾ ਲਾਜ਼ਮੀ ਹੈ",
+      },
+      state: {
+        hi: "राज्य आवश्यक है",
+        en: "State is required",
+        pa: "ਰਾਜ ਲਾਜ਼ਮੀ ਹੈ",
+      },
+      district: {
+        hi: "जिला आवश्यक है",
+        en: "District is required",
+        pa: "ਜ਼ਿਲ੍ਹਾ ਲਾਜ਼ਮੀ ਹੈ",
+      },
+    };
+
+    const newErrors: Record<string, string> = {};
+
+    if (!formData.name.trim())
+      newErrors.name = errorText.name[language] || errorText.name.hi;
+
+    if (!formData.mobileNumber.trim()) {
+      newErrors.mobileNumber =
+        errorText.mobileRequired[language] || errorText.mobileRequired.hi;
+    } else if (!/^\d{10}$/.test(formData.mobileNumber.trim())) {
+      newErrors.mobileNumber =
+        errorText.mobileInvalid[language] || errorText.mobileInvalid.hi;
+    }
+
     
-                     }`);
-            setCardData(data);
-          } catch (err) {
-            setError("Failed to load content.");
-          } finally {
-            setLoading(false);
-          }
-        };
-    
-        fetchCardData();
-      }, []);
+    if (!formData.state)
+      newErrors.state = errorText.state[language] || errorText.state.hi;
+    if (!formData.district)
+      newErrors.district =
+        errorText.district[language] || errorText.district.hi;
 
-        if (loading) {
-    return <div className="text-center py-10">Loading Card Content...</div>;
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-  if (error) {
-    return <div className="text-center py-10 text-red-500">{error}</div>;
-  }
+  // --------------------- Firestore Submit ---------------------
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!validate()) return;
+
+    try {
+      await addDoc(collection(db, "Retailer Queries"), {
+        ...formData,
+        timestamp: serverTimestamp(),
+      });
+
+      setShowSuccess(true);
+      setFormData({
+        name: "",
+        mobileNumber: "",
+        businessType: "रिटेलर",
+        district: "",
+        state: "",
+      });
+      setErrors({});
+    } catch (error) {
+      console.error("Error saving retailer registration:", error);
+      alert(t("submissionError") || "Something went wrong. Please try again!");
+    }
+  };
+
+  // --------------------- CMS content ---------------------
+  const [cardData, setCardData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCardData = async () => {
+      try {
+        setLoading(true);
+        const data = await client.fetch(`*[_type == "retailerSection"][0]{
+          item1, item2, item3, item4
+        }`);
+        setCardData(data);
+      } catch (err) {
+        setError("Failed to load content.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCardData();
+  }, []);
+
+  if (loading) return <div className="text-center py-10">Loading...</div>;
+  if (error) return <div className="text-center py-10 text-red-500">{error}</div>;
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden py-5 px-4">
@@ -141,61 +323,66 @@ const RetailerPage = () => {
         >
           <section className="text-center">
             <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
-              {" "}
               {cardData.item1?.[language] || cardData.item1?.hi}
             </p>
           </section>
 
           <header className="text-center">
-            <UserCircle className="mx-auto text-amber-500 h-12 w-12 sm:h-16 sm:h-16 mb-3" />
+            <UserCircle className="mx-auto text-amber-500 h-12 w-12 sm:h-16 mb-3" />
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 drop-shadow-sm">
-              {" "}
-              👨‍🌾{cardData.item2?.[language] || cardData.item2?.hi}
-
+              👨‍🌾 {cardData.item2?.[language] || cardData.item2?.hi}
             </h1>
           </header>
 
           <section className="bg-green-700/80 p-6 rounded-xl shadow-lg backdrop-blur-sm">
-            {" "}
             <ul className="space-y-2.5">
-              {
-                <li className="flex items-start">
-                  <CheckCircle className="w-5 h-5 text-amber-500 mr-2.5 mt-0.5 flex-shrink-0" />
-                  <span className="text-base sm:text-lg text-white mb-4">  {cardData.item3?.[language] || cardData.item3?.hi}</span>{" "}
-                  {/* Text color changed to white */}
-                </li>
-              }
+              <li className="flex items-start">
+                <CheckCircle className="w-5 h-5 text-amber-500 mr-2.5 mt-0.5 flex-shrink-0" />
+                <span className="text-base sm:text-lg text-white mb-4">
+                  {cardData.item3?.[language] || cardData.item3?.hi}
+                </span>
+              </li>
             </ul>
           </section>
 
           <section className="bg-green-700/80 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
-            {/* BG Updated */}
             <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6">
               <ClipboardList className="w-7 h-7 mr-3 text-amber-500" />
-             {t("basicFormInfo")}
+              {t("basicFormInfo")}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <FormInput
-                label={t("retailerNameLabel")}
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder={t("retailerNamePlaceholder")}
-                icon={UserCircle}
-              />
+              <div>
+                <FormInput
+                  label={t("retailerNameLabel")}
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder={t("retailerNamePlaceholder")}
+                  icon={UserCircle}
+                />
+                {errors.name && (
+                  <p className="text-red-400 text-sm mt-1">{errors.name}</p>
+                )}
+              </div>
 
-              <FormInput
-                label={t("retailerMobileNumberLabel")}
-                name="mobileNumber"
-                type="tel"
-                value={formData.mobileNumber}
-                onChange={handleChange}
-                placeholder={t("retailerMobileNumberPlaceholder")}
-                icon={Send}
-              />
+              <div>
+                <FormInput
+                  label={t("retailerMobileNumberLabel")}
+                  name="mobileNumber"
+                  type="tel"
+                  value={formData.mobileNumber}
+                  onChange={handleChange}
+                  placeholder={t("retailerMobileNumberPlaceholder")}
+                  icon={Send}
+                />
+                {errors.mobileNumber && (
+                  <p className="text-red-400 text-sm mt-1">
+                    {errors.mobileNumber}
+                  </p>
+                )}
+              </div>
 
-              {/* व्यवसायकाप्रकार (रिटेलर / होलसेलर) */}
               <div>
                 <label className="flex items-center text-md font-medium text-white mb-2">
                   <ClipboardList className="w-5 h-5 mr-2 text-amber-500" />
@@ -203,31 +390,23 @@ const RetailerPage = () => {
                   <span className="text-red-400 ml-1">*</span>
                 </label>
                 <div className="flex gap-6 text-white text-xs">
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="businessType"
-                      value="रिटेलर"
-                      checked={formData.businessType === "रिटेलर"}
-                      onChange={handleChange}
-                      className="w-4 h-4 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
-                      required
-                    />
-                    <span className="text-base text-sm">{t("retailer")}</span>
-                  </label>
-                  <label className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      name="businessType"
-                      value="होलसेलर"
-                      checked={formData.businessType === "होलसेलर"}
-                      onChange={handleChange}
-                      className="w-4 h-4 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
-                      required
-                    />
-                    <span className="text-base text-sm">{t("wholesaler")}</span>
-                  </label>
+                  {[t("retailerLabel"), t("wholesalerLabel")].map((type) => (
+                    <label key={type} className="flex items-center space-x-2">
+                      <input
+                        type="radio"
+                        name="businessType"
+                        value={type}
+                        checked={formData.businessType === type}
+                        onChange={handleChange}
+                        className="w-4 h-4 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
+                      />
+                      <span className="text-sm">{t(type)}</span>
+                    </label>
+                  ))}
                 </div>
+                {errors.businessType && (
+                  <p className="text-red-400 text-sm mt-1">{errors.businessType}</p>
+                )}
               </div>
 
               <div>
@@ -237,24 +416,43 @@ const RetailerPage = () => {
                   <span className="text-red-400 ml-1">*</span>
                 </label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    name="district"
-                    value={formData.district}
-                    onChange={handleChange}
-                    placeholder={t("district")}
-                    required
-                    className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300"
-                  />
-                  <input
-                    type="text"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    placeholder={t("state")}
-                    required
-                    className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300"
-                  />
+                  <div>
+                    <select
+                      name="state"
+                      value={formData.state}
+                      onChange={handleStateChange}
+                      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                    >
+                      <option value="">{t("state")}</option>
+                      {availableStates.map((state) => (
+                        <option key={state} value={state}>
+                          {state}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.state && (
+                      <p className="text-red-400 text-sm mt-1">{errors.state}</p>
+                    )}
+                  </div>
+                  <div>
+                    <select
+                      name="district"
+                      value={formData.district}
+                      onChange={handleDistrictChange}
+                      disabled={!formData.state}
+                      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                    >
+                      <option value="">{t("district")}</option>
+                      {availableDistricts.map((district) => (
+                        <option key={district} value={district}>
+                          {district}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.district && (
+                      <p className="text-red-400 text-sm mt-1">{errors.district}</p>
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -271,21 +469,41 @@ const RetailerPage = () => {
           </section>
 
           <section className="bg-green-700/80 p-4 rounded-xl shadow-lg backdrop-blur-sm">
-            {" "}
             <div className="flex items-start">
               <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-amber-500 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-amber-500 mb-1">{t("note")}</h3>{" "}
+                <h3 className="font-semibold text-amber-500 mb-1">
+                  {t("note")}
+                </h3>
                 <p className="text-sm text-white leading-relaxed">
-                  {" "}
-                                {cardData.item4?.[language] || cardData.item4?.hi}
-
+                  {cardData.item4?.[language] || cardData.item4?.hi}
                 </p>
               </div>
             </div>
           </section>
         </motion.div>
       </div>
+
+      {showSuccess && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
+          <div className="bg-green-800 w-full max-w-md sm:max-w-sm rounded-2xl shadow-xl text-center text-green-50 px-5 py-6 sm:px-6 sm:py-8">
+            <CheckCircle className="w-12 h-12 mx-auto text-yellow-400 mb-4" />
+            <h2 className="text-xl sm:text-2xl font-bold mb-2">
+              {t("retailerSuccessTitle") || "🎉 Successful!"}
+            </h2>
+            <p className="text-sm sm:text-base mb-4">
+              {t("retailerSuccessMessage") ||
+                "Your inquiry has been submitted successfully."}
+            </p>
+            <button
+              onClick={() => setShowSuccess(false)}
+              className="mt-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-green-900 font-bold rounded-lg shadow transition-colors text-sm sm:text-base"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

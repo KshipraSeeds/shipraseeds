@@ -55,7 +55,7 @@
   "Updates sent directly for farmers"
 ],
 "retailerNameLabel": "Shop / Business Name",
-"retailerNamePlaceholder": "full name",
+"retailerNamePlaceholder": "business name",
 "retailerMobileNumberLabel": "Mobile Number",
 "retailerMobileNumberPlaceholder": "mobile number",
 "retailerBusinessType": "Type of Business:",
@@ -80,7 +80,13 @@
 "why":"Why was it developed?",
 "our":"Explore",
 "ourproducts":"Our Products",
-"scrollDown":"Scroll Down"
+"scrollDown":"Scroll Down",
+"registrationSuccessTitle":"Registration Successful!",
+"registrationSuccessMessage":"Your form has been submitted successfully.",
+"retailerSuccessTitle":"Successful!",
+"retailerSuccessMessage":"Your inquiry has been submitted successfully.",
+"retailerLabel":"Retailer",
+"wholesalerLabel":"Wholesaler"
 
 
 
