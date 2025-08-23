@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
   const latitude = 29.390889;
   const longitude = 76.812139;
   const googleMapsUrl = `https://maps.google.com/?q=${latitude},${longitude}`;
-  const emailId = "info@yourdomain.com"; // Replace with your actual email
+  const emailId = "kshipra@shipraseeds.com";
 
   const footerSections = [
   {

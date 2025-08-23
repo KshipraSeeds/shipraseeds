@@ -35,6 +35,7 @@ module.exports = {
         'agri-card-bg': '#E8F5E9',      // This is identical to agri-card-bg from the first snippet, kept.
         'agri-section-bg': '#ECEFF1',
         'agri-footer-bg': '#1F2937',
+        'grayish': '#6B7280',
 
         // Futuristic accents (kept from second config)
         'futuristic-bg': '#0D1117',
