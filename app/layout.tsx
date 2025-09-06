@@ -35,6 +35,23 @@ export default function RootLayout({
           name="facebook-domain-verification"
           content="dqup99llq80yapwoq3ovi6zh7kbzio"
         />
+        <meta
+          property="og:title"
+          content="Shipra Seeds – Quality Seeds for Better Harvests"
+        />
+        <meta
+          property="og:description"
+          content="Shipra Seeds offers high-quality seeds for farmers and retailers, ensuring better yield and healthy crops."
+        />
+        <meta
+          property="og:image"
+          content="https://shipraseeds.com/path-to-your-image.jpg"
+        />
+        <meta property="og:url" content="https://shipraseeds.com" />
+        <meta property="og:type" content="website" />
+
+        <meta property="og:site_name" content="Shipra Seeds" />
+        <meta property="og:locale" content="en_IN" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
