@@ -1,9 +1,9 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
-import card3 from "@/public/freepik__the-style-is-candid-image-photography-with-natural__17003.jpeg";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { client, urlFor } from "@/sanity";
+import Link from "next/link";
 
 export const CardFour = () => {
   const { lang: language, t } = useLanguage();
@@ -75,9 +75,11 @@ export const CardFour = () => {
           <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed">
             {localizedDescription}
           </p>
+          <Link href="/about">
           <button className="bg-black text-white px-6 py-3 rounded-full hover:bg-gray-800 text-sm font-semibold shadow-md">
             {t("knowShipraSeeds")}
           </button>
+          </Link>
         </div>
       </motion.div>
     </div>

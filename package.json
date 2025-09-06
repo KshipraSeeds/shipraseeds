@@ -30,6 +30,7 @@
     "react-icons": "^5.4.0",
     "react-select": "^5.10.0",
     "react-super-responsive-table": "^6.0.0",
+    "twilio": "^5.8.0",
     "typescript-cookie": "^1.0.6",
     "yup": "^1.6.1"
   },

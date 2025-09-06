@@ -1,5 +1,6 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { client, urlFor } from "@/sanity";
@@ -70,9 +71,11 @@ export const CardThree = () => {
           <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed">
             {localizedDescription}
           </p>
+          <Link href="/products">
           <button className="bg-black text-white px-6 py-3 rounded-full text-sm font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl">
             {t("viewProducts")}
           </button>
+          </Link>
         </div>
         <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 ">
           {cardData.crops?.map((crop, i) => (

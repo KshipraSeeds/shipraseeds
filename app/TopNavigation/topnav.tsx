@@ -23,9 +23,10 @@ export default function TopNav() {
        const res = await fetch("https://ipapi.co/json/");
         const data = await res.json();
         const region = data?.region?.toLowerCase() || "";
+        const regionCode = data?.region_code || "";
 
 
-        if (region.includes("punjab")) {
+        if (region.includes("punjab") || regionCode === "PB") {
           setLang("pa");
           setSelectedLanguage("Punjabi");
         } else {

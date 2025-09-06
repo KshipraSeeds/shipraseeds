@@ -1,8 +1,10 @@
-import Image from 'next/image';
+"use client";
 import React, { useEffect, useState } from 'react'
 import { motion} from "framer-motion";
 import { useLanguage } from '@/app/context/LanguageContext';
 import { client, urlFor } from '@/sanity';
+import Link from 'next/link';
+
 
 export const CardOne = () => {
   // const { t } = useTranslation();
@@ -77,9 +79,12 @@ export const CardOne = () => {
               <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed">
                  {localizedDescription}
               </p>
-              <button className="bg-black text-white px-6 py-3 rounded-full transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl text-sm font-semibold shadow-md">
+              <Link href="/registration">
+              <button  className="bg-black text-white px-6 py-3 rounded-full transition-all duration-300 ease-in-out hover:bg-white hover:text-black hover:scale-105 hover:shadow-xl text-sm font-semibold shadow-md">
                  {t("registerNow")}
               </button>
+              </Link>
+
             </div>
           </motion.div>
         </div>
