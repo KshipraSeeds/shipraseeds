@@ -20,12 +20,13 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shipraseeds.com"),
-  title: {
-    default: "Shipra Seeds – Quality Seeds for Better Harvests",
-    template: "%s | Shipra Seeds",
-  },
-  description:
-    "Shipra Seeds offers high-quality seeds for farmers and retailers, ensuring better yield and healthy crops.",
+title: {
+  default: "Shipra Seeds – Basmati Rice & Crop Seeds for Farmers",
+  template: "%s | Shipra Seeds",
+},
+description:
+  "Shipra Seeds offers premium basmati rice and crop seeds for farmers and retailers. Ensure high yield and healthy crops with our verified seed varieties.",
+
   alternates: {
     canonical: "https://shipraseeds.com",
   },
