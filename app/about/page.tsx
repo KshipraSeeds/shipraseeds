@@ -186,6 +186,7 @@ item25
         // Your GROQ query is already correct for fetching the data structure.
         const data =
           await client.fetch(`*[_type == "About_FounderSection"][0]{
+            mainImage,
 item1,
 item2,
 item3,
@@ -202,13 +203,6 @@ item15,
 item16,
 item17,
 item18,
-item19,
-item20,
-item21,
-item22,
-item23,
-item24,
-item25
                  }`);
         setFounderData(data);
       } catch (err) {
@@ -526,9 +520,9 @@ const storyFullContent = (
               <div className="flex-shrink-0 w-32 h-32 rounded-full overflow-hidden border-4 border-shipra-green-500 flex items-center justify-center">
                 {/* You can replace this placeholder with a real image */}
                 <img
-                  src="https://placehold.co/128x128/5E8C61/FFFFFF?text=FOUNDER"
+                  src={urlFor(founderData.mainImage).url()}
                   alt="Dr. Satya Narain Vashishtha - Founder, Shipra Seeds"
-                  className="object-cover w-full h-full"
+                  className="object-cover object-top w-full h-full"
                 />
               </div>
               <div className="flex-grow text-center md:text-left">
