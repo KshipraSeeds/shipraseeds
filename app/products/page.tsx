@@ -905,7 +905,6 @@ useEffect(() => {
 
 
 
-  console.log("1234",expData)
 
 
   const [modalOpenVariety, setModalOpenVariety] = useState<CropVariety | null>(null);
@@ -921,6 +920,14 @@ useEffect(() => {
   return expData.length > 0 ? expData[0].id : null;
 }, [searchParams, expData]);
 
+useEffect(() => {
+  if (searchParams.get("category") && selectedCategoryId) {
+    const section = document.getElementById("product-listing-section");
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
+}, [selectedCategoryId, searchParams.get("category")]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {

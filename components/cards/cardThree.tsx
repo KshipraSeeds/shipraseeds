@@ -85,7 +85,7 @@ export const CardThree = () => {
         </div>
         <div className="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-4 ">
           {cardData.crops?.map((crop, i) => (
-            <Link key={i} href={crop.href} className="block w-full">
+            <Link key={i} href={`/products?category=${crop.href}`}  className="block w-full">
               <motion.div
                 whileHover={{
                   y: -8,

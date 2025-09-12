@@ -226,7 +226,7 @@ const Footer: React.FC = () => {
           }}
         >
           <p className="text-base text-slate-400">
-            © {currentYear} Shipra Seeds. All rights reserved.
+            © {currentYear} Shipra seeds. All rights reserved.
           </p>
         </div>
       </div>
