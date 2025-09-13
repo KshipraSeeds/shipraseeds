@@ -15,19 +15,14 @@ export default function WhatsAppDashboard() {
   const [farmers, setFarmers] = useState([]);
   const [selectedFarmers, setSelectedFarmers] = useState([]);
   const [message, setMessage] = useState("");
-  const [templates, setTemplates] = useState([
-    { id: 1, text: "Hello {name}, your appointment is confirmed for {date}." },
-    { id: 2, text: "Hi {name}, we have a special offer just for you!" },
-    {
-      id: 3,
-      text: "Dear {name}, thank you for your inquiry. We will get back to you soon.",
-    },
-  ]);
+const [templates, setTemplates] = useState([]);
   const [isSending, setIsSending] = useState(false);
   const [sendStatus, setSendStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedState, setSelectedState] = useState("");
+  const [selectedTemplate, setSelectedTemplate] = useState<{id: string, text: string, language?: string} | null>(null);
 
+console.log(farmers);
   // Fetch farmers from Firebase
   useEffect(() => {
     const fetchFarmers = async () => {
@@ -86,84 +81,16 @@ export default function WhatsAppDashboard() {
     }
   };
 
-  const applyTemplate = (template) => {
-    setMessage(template.text);
-  };
+const applyTemplate = (template) => {
+  setSelectedTemplate(template); // store selected template
+  setMessage(template.text);     // populate textarea
+};
 
   const handleStateChange = (e) => {
     setSelectedState(e.target.value);
   };
 
-  // const sendMessages = async () => {
-  //   if (selectedFarmers.length === 0) {
-  //     setSendStatus("Please select at least one farmer");
-  //     return;
-  //   }
-
-  //   if (!message.trim()) {
-  //     setSendStatus("Please enter a message");
-  //     return;
-  //   }
-
-  //   setIsSending(true);
-  //   setSendStatus("Sending...");
-
-  //   try {
-  //     // Get selected farmer details
-  //     const recipients = farmers.filter((farmer) =>
-  //       selectedFarmers.includes(farmer.id)
-  //     );
-
-  //     // Call your Cloud Function
-  //     const response = await fetch("/api/send-whatsapp", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         recipients,
-  //         message,
-  //         timestamp: new Date().toISOString(),
-  //       }),
-  //     });
-
-  //     const result = await response?.json();
-
-  //     if (response.ok) {
-  //       setSendStatus(`Successfully sent ${result.successCount} messages`);
-
-  //       // Log this activity to Firebase
-  //       await addDoc(collection(db, "messageLogs"), {
-  //         recipients: selectedFarmers,
-  //         message,
-  //         timestamp: serverTimestamp(),
-  //         status: "success",
-  //         successCount: result.successCount,
-  //         errorCount: result.errorCount,
-  //       });
-
-  //       // Clear selection after successful send
-  //       setSelectedFarmers([]);
-  //       setMessage("");
-  //     } else {
-  //       setSendStatus(`Error: ${result.error}`);
-
-  //       // Log error to Firebase
-  //       await addDoc(collection(db, "messageLogs"), {
-  //         recipients: selectedFarmers,
-  //         message,
-  //         timestamp: serverTimestamp(),
-  //         status: "error",
-  //         error: result.error,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error sending messages:", error);
-  //     setSendStatus("Failed to send messages. Please try again.");
-  //   } finally {
-  //     setIsSending(false);
-  //   }
-  // };
+  
 
   const formatPhoneNumber = (num: string) => {
   // Remove spaces, dashes, etc.
@@ -177,14 +104,223 @@ export default function WhatsAppDashboard() {
   return `+${clean}`;
 };
 
+   const token = process.env.WHATSAPP_ACCESS_TOKEN;
+    const phoneNumberId = process.env.PHONE_NUMBER_ID;
+
+
+
+useEffect(() => {
+  const fetchTemplates = async () => {
+    try {
+      const res = await fetch("/api/send-template");
+      const data = await res.json();
+
+      // Map Meta templates to a simple format for UI
+      const mappedTemplates = (data.templates || []).map((template) => ({
+        id: template.id,
+        name: template.name,
+        text: template.components.find((c) => c.type === "BODY")?.text || "",
+        language: template.language,
+      }));
+
+      setTemplates(mappedTemplates);
+      console.log("Fetched templates:", mappedTemplates);
+    } catch (err) {
+      console.error("Error fetching templates:", err);
+    }
+  };
+
+  fetchTemplates();
+}, []);
+
+
+// const sendMessages = async () => {
+//   if (selectedFarmers.length === 0) {
+//     setSendStatus("Please select at least one farmer");
+//     return;
+//   }
+
+//   setIsSending(true);
+//   setSendStatus("Sending...");
+
+//   try {
+//     // Format selected farmers
+//     const recipients = farmers
+//       .filter((farmer) => selectedFarmers.includes(farmer.id))
+//       .map((farmer) => ({
+//         ...farmer,
+//         mobileNumber: formatPhoneNumber(farmer.mobileNumber), // digits only, intl format
+//       }));
+
+//     const results: Array<{ number: string; status: string; error?: string }> = [];
+
+//     // Send template message to each farmer
+//     for (const recipient of recipients) {
+//       try {
+//         const response = await fetch("/api/send-message", {
+//           method: "POST",
+//           headers: { "Content-Type": "application/json" },
+//           body: JSON.stringify({
+//             recipients: [
+//               {
+//                 ...recipient,
+//               },
+//             ],
+//             templateName: selectedTemplate?.id, // ← your approved template
+//             timestamp: new Date().toISOString(),
+//           }),
+//         });
+
+//         const data = await response.json().catch(() => ({ error: "Invalid JSON response" }));
+
+//         if (response.ok && !data.error) {
+//           results.push({ number: recipient.mobileNumber, status: "success" });
+//         } else {
+//           results.push({ number: recipient.mobileNumber, status: "failed", error: data.error });
+//         }
+//       } catch (err: any) {
+//         results.push({ number: recipient.mobileNumber, status: "failed", error: err.message });
+//       }
+//     }
+
+//     // Count successes and failures
+//     const successCount = results.filter((r) => r.status === "success").length;
+//     const errorCount = results.filter((r) => r.status === "failed").length;
+
+//     // Update status in UI
+//     setSendStatus(`Sent ${successCount} messages, ${errorCount} failed`);
+
+//     // Log to Firestore
+//     await addDoc(collection(db, "messageLogs"), {
+//       recipients: selectedFarmers,
+//       templateName: "hello_world",
+//       timestamp: serverTimestamp(),
+//       results,
+//     });
+
+//     setSelectedFarmers([]);
+//     setMessage("");
+//   } catch (error) {
+//     console.error("Error sending messages:", error);
+//     setSendStatus("Failed to send messages. Please try again.");
+//   } finally {
+//     setIsSending(false);
+//   }
+// };
+
+
+
+// async function sendMessages(recipients, message) {
+//   const results = [];
+
+//   for (const number of recipients) {
+//     try {
+//       const response = await fetch(`https://graph.facebook.com/v17.0/${phoneNumberId}/messages`, {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: `Bearer ${token}`,
+//         },
+//         body: JSON.stringify({
+//           messaging_product: "whatsapp",
+//           to: number,
+//           text: { body: message },
+//         }),
+//       });
+
+//       const data = await response.json();
+
+//       if (response.ok) {
+//         // Sandbox special: Meta returns a "messages" array with message IDs
+//         if (data.messages && data.messages.length > 0) {
+//           results.push({ number, status: "success", messageId: data.messages[0].id });
+//         } else {
+//           results.push({ number, status: "failed", error: "No message ID returned" });
+//         }
+//       } else {
+//         // If API returns an error
+//         results.push({ number, status: "failed", error: data.error || "Unknown error" });
+//       }
+//     } catch (err) {
+//       results.push({ number, status: "failed", error: err.message });
+//     }
+//   }
+
+//   // Return results array so your UI can display success/fail for each number
+//   return results;
+// }
+
+// const sendMessages = async () => {
+//   if (!selectedTemplate) {
+//     setSendStatus("Please select a template first");
+//     return;
+//   }
+
+//   if (selectedFarmers.length === 0) {
+//     setSendStatus("Please select at least one farmer");
+//     return;
+//   }
+
+//   setIsSending(true);
+//   setSendStatus("Sending...");
+
+//   try {
+//     const recipients = farmers
+//       .filter((farmer) => selectedFarmers.includes(farmer.id))
+//       .map((farmer) => ({
+//         ...farmer,
+//         mobileNumber: formatPhoneNumber(farmer.mobileNumber),
+//       }));
+
+//     const results = [];
+
+//     for (const recipient of recipients) {
+//       // 🟢 Build dynamic parameters from placeholders in template text
+//       const placeholderMatches = selectedTemplate.text.match(/{{\d+}}/g) || [];
+//       const parameters = placeholderMatches.map((match, i) => {
+//         if (i === 0) return { type: "text", text: recipient.name || "Farmer" };
+//         return { type: "text", text: "N/A" }; // fallback for other placeholders
+//       });
+
+//       const response = await fetch("/api/send-message", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           recipients: [recipient],
+//           templateName: selectedTemplate.id,
+//           language: selectedTemplate.language,
+//           parameters,
+//         }),
+//       });
+
+//       const data = await response.json();
+
+//       results.push({
+//         number: recipient.mobileNumber,
+//         status: response.ok ? "success" : "failed",
+//         error: data.error,
+//       });
+//     }
+
+//     const successCount = results.filter((r) => r.status === "success").length;
+//     const errorCount = results.filter((r) => r.status === "failed").length;
+//     setSendStatus(`Sent ${successCount} messages, ${errorCount} failed`);
+//   } catch (error) {
+//     console.error("Error sending messages:", error);
+//     setSendStatus("Failed to send messages. Please try again.");
+//   } finally {
+//     setIsSending(false);
+//   }
+// };
+
 const sendMessages = async () => {
-  if (selectedFarmers.length === 0) {
-    setSendStatus("Please select at least one farmer");
+  if (!selectedTemplate) {
+    setSendStatus("Please select a template first");
     return;
   }
 
-  if (!message.trim()) {
-    setSendStatus("Please enter a message");
+  if (selectedFarmers.length === 0) {
+    setSendStatus("Please select at least one farmer");
     return;
   }
 
@@ -192,7 +328,6 @@ const sendMessages = async () => {
   setSendStatus("Sending...");
 
   try {
-    // ✅ Format farmer phone numbers correctly
     const recipients = farmers
       .filter((farmer) => selectedFarmers.includes(farmer.id))
       .map((farmer) => ({
@@ -200,58 +335,62 @@ const sendMessages = async () => {
         mobileNumber: formatPhoneNumber(farmer.mobileNumber),
       }));
 
-    // Call your Cloud Function
-    const response = await fetch("/api/send-whatsapp", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        recipients,
-        message,
-        timestamp: new Date().toISOString(),
-      }),
-    });
+    const results = [];
 
-    let result: any = {};
-    try {
-      result = await response.json();
-    } catch {
-      result = { error: "Invalid JSON response from API" };
+
+    for (const recipient of recipients) {
+      // Build dynamic parameters from placeholders in template text
+      const placeholderMatches = selectedTemplate.text.match(/{{\d+}}/g) || [];
+      const parameters = placeholderMatches.map((match, i) => {
+        if (i === 0) return { type: "text", text: recipient.name || "Farmer" };
+        if (i === 1) return { type: "text", text: recipient.district + ", " + recipient.state};
+
+        return { type: "text", text: "N/A" };
+      });
+
+      const response = await fetch("/api/send-message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          recipients: [recipient],
+          templateName: selectedTemplate.id,
+          language: selectedTemplate.language,
+          parameters,
+        }),
+      });
+
+      const data = await response.json();
+
+      results.push({
+        number: recipient.mobileNumber,
+        status: response.ok ? "success" : "failed",
+        error: data.error,
+      });
     }
 
-    if (response.ok) {
-      const successCount = result.successCount ?? 0;
-      const errorCount = result.errorCount ?? 0;
+    const successCount = results.filter((r) => r.status === "success").length;
+    const errorCount = results.filter((r) => r.status === "failed").length;
 
-      setSendStatus(`Successfully sent ${successCount} messages`);
+    if (errorCount > 0) {
+      // Show popup if there are errors
+      alert(`❌ ${errorCount} message(s) failed. Please check console for details.`);
+      console.error("Failed messages:", results.filter((r) => r.status === "failed"));
+    }
 
-      await addDoc(collection(db, "messageLogs"), {
-        recipients: selectedFarmers,
-        message,
-        timestamp: serverTimestamp(),
-        status: "success",
-        successCount,
-        errorCount,
-      });
+    setSendStatus(`✅ Sent ${successCount} messages, ${errorCount} failed`);
 
+    // ✅ Reset everything only if all succeeded
+    if (successCount > 0 && errorCount === 0) {
       setSelectedFarmers([]);
+      setSelectedTemplate(null);
       setMessage("");
-    } else {
-      const errorMsg = result.error ?? "Unknown error";
-      setSendStatus(`Error: ${errorMsg}`);
-
-      await addDoc(collection(db, "messageLogs"), {
-        recipients: selectedFarmers,
-        message,
-        timestamp: serverTimestamp(),
-        status: "error",
-        error: errorMsg,
-      });
+      setSearchTerm("");
+      setSelectedState("");
     }
   } catch (error) {
     console.error("Error sending messages:", error);
-    setSendStatus("Failed to send messages. Please try again.");
+    alert("❌ Failed to send messages. Please check your network or try again.");
+    setSendStatus("Failed to send messages.");
   } finally {
     setIsSending(false);
   }
@@ -273,77 +412,7 @@ const sendMessages = async () => {
             <p className="mt-1">Send messages to registered farmers</p>
           </div>
 
-          {/* Twilio Connection Panel */}
-          {/* <div className="mb-6 bg-blue-50 border-l-4 border-blue-500 p-4 rounded-md">
-            <div className="flex justify-between items-center">
-              <div>
-                <h3 className="text-lg font-medium text-blue-800">
-                  WhatsApp Connection
-                </h3>
-                <p className="text-blue-600">
-                  {twilioConnected
-                    ? "Connected to Twilio WhatsApp Sandbox"
-                    : "Connect to WhatsApp to start messaging"}
-                </p>
-              </div>
-              <button
-                onClick={() => setShowTwilioSetup(!showTwilioSetup)}
-                className="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200"
-              >
-                {showTwilioSetup ? "Hide Instructions" : "Show Setup"}
-              </button>
-            </div>
-
-            {showTwilioSetup && (
-              <div className="mt-4 space-y-4">
-                <div className="bg-white p-4 rounded-md border">
-                  <h4 className="font-medium text-gray-700 mb-2">
-                    To test WhatsApp messaging:
-                  </h4>
-                  <ol className="list-decimal list-inside space-y-2 text-sm text-gray-600">
-                    <li>Open WhatsApp on your phone</li>
-                    <li>
-                      Send{" "}
-                      <span className="font-mono bg-gray-100 px-1">
-                        {sandboxCode}
-                      </span>{" "}
-                      to
-                      <span className="font-mono bg-gray-100 px-1 ml-1">
-                        {sandboxNumber}
-                      </span>
-                    </li>
-                    <li>Wait for confirmation message</li>
-                    <li>Select your number from the list above</li>
-                    <li>Compose and send a test message</li>
-                  </ol>
-                </div>
-
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => {
-                      // Copy the message to clipboard
-                      navigator.clipboard.writeText(sandboxCode);
-                    }}
-                    className="px-3 py-1 bg-gray-100 text-gray-700 rounded-md text-sm hover:bg-gray-200"
-                  >
-                    Copy Join Code
-                  </button>
-                  <button
-                    onClick={() => {
-                      // Open WhatsApp with the number pre-filled
-                      window.open(
-                        `https://wa.me/${sandboxNumber.replace(/\D/g, "")}?text=${encodeURIComponent(sandboxCode)}`,
-                        "_blank"
-                      );
-                    }}
-                    className="px-3 py-1 bg-green-100 text-green-700 rounded-md text-sm hover:bg-green-200"
-                  >
-                    Open WhatsApp
-                  </button>
-                </div>
-              </div>
-            )}
-          </div> */}
+          
 
           <div className="p-6">
             {/* Farmer Selection */}
@@ -464,17 +533,29 @@ const sendMessages = async () => {
                 <h3 className="text-sm font-medium text-gray-700 mb-2">
                   Quick Templates
                 </h3>
-                <div className="flex flex-wrap gap-2">
-                  {templates.map((template) => (
-                    <button
-                      key={template.id}
-                      onClick={() => applyTemplate(template)}
-                      className="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-md hover:bg-green-200"
-                    >
-                      Template {template.id}
-                    </button>
-                  ))}
-                </div>
+             <div className="flex flex-wrap gap-2">
+<div className="flex flex-wrap gap-2">
+  {templates.map((template) => {
+    return (
+      <button
+        key={template.id}
+        onClick={() =>
+          applyTemplate({
+            id: template.name, // Meta expects template name, not ID
+            text: template?.text || "",
+            language: template.language,
+          })
+        }
+        className="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-md hover:bg-green-200"
+      >
+        {template.name} ({template.language})
+      </button>
+    );
+  })}
+</div>
+
+</div>
+
               </div>
 
               {/* Message Textarea */}
@@ -483,7 +564,7 @@ const sendMessages = async () => {
                   htmlFor="message"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Your Message
+                 Template Message
                 </label>
                 <textarea
                   id="message"
@@ -491,10 +572,11 @@ const sendMessages = async () => {
                   className="shadow-sm focus:ring-green-500 focus:border-green-500 block w-full sm:text-sm border border-gray-300 rounded-md p-3"
                   placeholder="Type your message here. Use {name} to include the farmer's name."
                   value={message}
+                  disabled
                   onChange={(e) => setMessage(e.target.value)}
                 />
                 <p className="mt-1 text-sm text-gray-500">
-                  {message.length} characters
+                  {message?.length} characters
                 </p>
               </div>
             </div>
@@ -510,15 +592,14 @@ const sendMessages = async () => {
                   </p>
                 )}
               </div>
-              <button
-                onClick={sendMessages}
-                disabled={isSending}
-                className={`px-4 py-2 rounded-md text-white font-medium ${isSending ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"}`}
-              >
-                {isSending
-                  ? "Sending..."
-                  : `Send to ${selectedFarmers.length} Farmers`}
-              </button>
+           <button
+  onClick={sendMessages}
+  disabled={isSending || !selectedTemplate}
+  className={`px-4 py-2 rounded-md text-white font-medium ${isSending || !selectedTemplate ? "bg-gray-400" : "bg-green-600 hover:bg-green-700"}`}
+>
+  {isSending ? "Sending..." : `Send to ${selectedFarmers.length} Farmers`}
+</button>
+
             </div>
           </div>
         </div>
