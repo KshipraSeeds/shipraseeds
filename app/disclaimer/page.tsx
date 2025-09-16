@@ -103,102 +103,102 @@ const DisclaimerPage: React.FC = () => {
     <div className="m-4 rounded-[30px] sm:rounded-[42px] flex items-center justify-center">
       <div className="w-full max-w-4xl border-green-100 sm:p-8 md:p-10 space-y-10">
         <header className="text-center mb-10 mt-6 md:mt-10">
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-700 leading-tight mt-28 sm:mt-20 md:mt-24">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-green-700 leading-tight mt-28 sm:mt-20 md:mt-24 font-heading3">
             {cardData.item1?.[language] || cardData.item1?.hi}
           </h1>
-          <p className="mt-4 text-lg sm:text-xl text-green-600 max-w-2xl mx-auto">
+          <p className="mt-4 text-lg sm:text-xl text-green-600 max-w-2xl mx-auto font-sans3">
             {cardData.item2?.[language] || cardData.item2?.hi}
           </p>
         </header>
 
         {/* Main Website Disclaimer */}
         <section className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 mb-12 border-t-8 border-green-500">
-          <h2 className="text-3xl sm:text-4xl font-bold text-green-700 mb-6 border-b-2 border-green-300 pb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold text-green-700 mb-6 border-b-2 border-green-300 pb-3 font-heading3">
             📜 {cardData.item3?.[language] || cardData.item3?.hi}
           </h2>
-          <p className="mb-6 text-lg leading-relaxed text-gray-700">
+          <p className="mb-6 text-lg leading-relaxed text-gray-700 font-sans3">
             {cardData.item4?.[language] || cardData.item4?.hi}
           </p>
 
           <ul className="space-y-6">
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item5?.[language] || cardData.item5?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item6?.[language] || cardData.item6?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item7?.[language] || cardData.item7?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item8?.[language] || cardData.item8?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item9?.[language] || cardData.item9?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item10?.[language] || cardData.item10?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item11?.[language] || cardData.item11?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item12?.[language] || cardData.item12?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item13?.[language] || cardData.item13?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item14?.[language] || cardData.item14?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item15?.[language] || cardData.item15?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item16?.[language] || cardData.item16?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item17?.[language] || cardData.item17?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item18?.[language] || cardData.item18?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-4">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-4 font-sans3">
                 {cardData.item19?.[language] || cardData.item19?.hi}
               </h3>
-              <p className="font-medium text-green-600 mb-2">
+              <p className="font-medium text-green-600 mb-2 font-sans3">
                 {cardData.item20?.[language] || cardData.item20?.hi}
               </p>
-              <p className="text-gray-700 leading-relaxed mb-4">
+              <p className="text-gray-700 leading-relaxed mb-4 font-sans3">
                 {cardData.item21?.[language] || cardData.item21?.hi}
               </p>
-              <p className="font-medium text-green-600 mb-2">
+              <p className="font-medium text-green-600 mb-2 font-sans3">
                 {cardData.item22?.[language] || cardData.item22?.hi}
               </p>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item23?.[language] || cardData.item23?.hi}
               </p>
             </li>
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-green-600 mb-2 font-sans3">
                 {cardData.item24?.[language] || cardData.item24?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item25?.[language] || cardData.item25?.hi}
               </p>
             </li>
@@ -207,16 +207,16 @@ const DisclaimerPage: React.FC = () => {
 
         {/* Promotional Messages Disclaimer */}
         <section className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 mb-12 border-t-8 border-yellow-500">
-          <h2 className="text-3xl sm:text-4xl font-bold text-yellow-700 mb-6 border-b-2 border-yellow-300 pb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold text-yellow-700 mb-6 border-b-2 border-yellow-300 pb-3 font-heading3">
             📜 {cardData.item26?.[language] || cardData.item26?.hi}
           </h2>
-          <p className="mb-6 text-lg leading-relaxed text-gray-700">
+          <p className="mb-6 text-lg leading-relaxed text-gray-700 font-sans3">
             {cardData.item27?.[language] || cardData.item27?.hi}
           </p>
-          <p className="mb-6 text-lg leading-relaxed text-gray-700 font-semibold">
+          <p className="mb-6 text-lg leading-relaxed text-gray-700 font-semibold font-sans3">
             {cardData.item28?.[language] || cardData.item28?.hi}
           </p>
-          <ul className="list-disc pl-5 space-y-3 text-gray-700">
+          <ul className="list-disc pl-5 space-y-3 text-gray-700 font-sans3">
             <li>{cardData.item29?.[language] || cardData.item29?.hi}</li>
             <li>{cardData.item30?.[language] || cardData.item30?.hi}</li>
             <li>{cardData.item31?.[language] || cardData.item31?.hi}</li>
@@ -224,46 +224,46 @@ const DisclaimerPage: React.FC = () => {
             <li>{cardData.item33?.[language] || cardData.item33?.hi}</li>
             <li>{cardData.item34?.[language] || cardData.item34?.hi}</li>
           </ul>
-          <p className="mt-6 text-lg leading-relaxed text-gray-700 italic">
+          <p className="mt-6 text-lg leading-relaxed text-gray-700 italic font-sans3">
             {cardData.item35?.[language] || cardData.item35?.hi}
           </p>
         </section>
 
         {/* Agricultural Advice Disclaimer */}
         <section className="bg-white rounded-3xl shadow-xl p-6 sm:p-8 md:p-10 mb-12 border-t-8 border-blue-500">
-          <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-6 border-b-2 border-blue-300 pb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold text-blue-700 mb-6 border-b-2 border-blue-300 pb-3 font-heading3">
             📜 {cardData.item36?.[language] || cardData.item36?.hi}
           </h2>
-          <p className="mb-6 text-lg leading-relaxed text-gray-700">
+          <p className="mb-6 text-lg leading-relaxed text-gray-700 font-sans3">
             {cardData.item37?.[language] || cardData.item37?.hi}
           </p>
 
           <ul className="space-y-6">
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2 font-sans3">
                 {cardData.item38?.[language] || cardData.item38?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item39?.[language] || cardData.item39?.hi}
               </p>
-              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700">
+              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700 font-sans3">
                 <li>{cardData.item40?.[language] || cardData.item40?.hi}</li>
                 <li>{cardData.item41?.[language] || cardData.item41?.hi}</li>
                 <li>{cardData.item42?.[language] || cardData.item42?.hi}</li>
               </ul>
-              <p className="text-gray-700 leading-relaxed mt-2">
+              <p className="text-gray-700 leading-relaxed mt-2 font-sans3">
                 {cardData.item43?.[language] || cardData.item43?.hi}
               </p>
             </li>
 
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2 font-sans3">
                 {cardData.item44?.[language] || cardData.item44?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item45?.[language] || cardData.item45?.hi}
               </p>
-              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700">
+              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700 font-sans3">
                 <li>{cardData.item46?.[language] || cardData.item46?.hi}</li>
                 <li>{cardData.item47?.[language] || cardData.item47?.hi}</li>
                 <li>{cardData.item48?.[language] || cardData.item48?.hi}</li>
@@ -271,19 +271,19 @@ const DisclaimerPage: React.FC = () => {
                 <li>{cardData.item50?.[language] || cardData.item50?.hi}</li>
                 <li>{cardData.item51?.[language] || cardData.item51?.hi}</li>
               </ul>
-              <p className="text-gray-700 leading-relaxed mt-2">
+              <p className="text-gray-700 leading-relaxed mt-2 font-sans3">
                 {cardData.item52?.[language] || cardData.item52?.hi}
               </p>
             </li>
             
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2 font-sans3">
                 {cardData.item53?.[language] || cardData.item53?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item54?.[language] || cardData.item54?.hi}
               </p>
-              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700">
+              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700 font-sans3">
                 <li>{cardData.item55?.[language] || cardData.item55?.hi}</li>
                 <li>{cardData.item56?.[language] || cardData.item56?.hi}</li>
                 <li>{cardData.item57?.[language] || cardData.item57?.hi}</li>
@@ -291,18 +291,18 @@ const DisclaimerPage: React.FC = () => {
             </li>
 
             <li>
-              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2">
+              <h3 className="text-xl sm:text-2xl font-semibold text-blue-600 mb-2 font-sans3">
                 {cardData.item58?.[language] || cardData.item58?.hi}
               </h3>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-gray-700 leading-relaxed font-sans3">
                 {cardData.item59?.[language] || cardData.item59?.hi}
               </p>
-              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700">
+              <ul className="list-disc pl-8 mt-2 space-y-1 text-gray-700 font-sans3">
                 <li>{cardData.item60?.[language] || cardData.item60?.hi}</li>
                 <li>{cardData.item61?.[language] || cardData.item61?.hi}</li>
                 <li>{cardData.item62?.[language] || cardData.item62?.hi}</li>
               </ul>
-              <p className="text-gray-700 leading-relaxed mt-2">
+              <p className="text-gray-700 leading-relaxed mt-2 font-sans3">
                 {cardData.item63?.[language] || cardData.item63?.hi}
               </p>
             </li>

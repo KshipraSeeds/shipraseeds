@@ -152,7 +152,7 @@ const Footer: React.FC = () => {
                 animationDelay: `${200 + index * 150}ms`,
               }}
             >
-              <h3 className="text-lg font-semibold text-sky-400 tracking-wide mb-6 border-b-2 border-sky-600/30 pb-3">
+              <h3 className="text-lg font-semibold text-sky-400 tracking-wide mb-6 border-b-2 border-sky-600/30 pb-3 font-heading3">
                 {section.title[language] || section.title.hi}
               </h3>
               <ul className="space-y-4">
@@ -171,7 +171,7 @@ const Footer: React.FC = () => {
                             {item.icon && (
                               <item.icon className="w-5 h-5 mr-3 mt-[3px] flex-shrink-0 text-sky-500 transition-colors duration-300 group-hover/link:text-sky-300" />
                             )}
-                            <span className="leading-relaxed">
+                            <span className="leading-relaxed font-sans3">
                               {text}
                               <Navigation
                                 size={14}
@@ -198,7 +198,7 @@ const Footer: React.FC = () => {
                           target={item.isExternal ? "_blank" : "_self"}
                           rel={item.isExternal ? "noopener noreferrer" : ""}
                         >
-                          <span className="hover:translate-x-1 transition-transform duration-200 inline-block">
+                          <span className="hover:translate-x-1 transition-transform duration-200 inline-block font-sans3">
                             {text}
                           </span>
                           {item.isExternal && item.type !== "address" && (

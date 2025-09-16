@@ -582,10 +582,10 @@ const extractLocaleString = (obj) =>
 
       {/* Content Section */}
       <div className="flex flex-col flex-grow">
-        <h3 className="text-xl font-bold text-agri-green-deep mb-2">
+        <h3 className="text-xl font-bold text-agri-green-deep mb-2 font-heading3">
          {extractLocaleString(variety.name)}
         </h3>
-        <div className="space-y-1 text-sm mb-4 text-gray-700">
+        <div className="space-y-1 text-sm mb-4 text-gray-700 font-sans3">
           <div className="flex items-center">
             <Clock size={16} className="mr-2 text-agri-orange-harvest flex-shrink-0" />
             <span>
@@ -751,11 +751,11 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
         )}
 
         <div className="p-6 flex flex-col w-full lg:w-1/2">
-          <h2 id="variety-modal-title" className="text-3xl font-bold text-agri-green-deep mb-4">
+          <h2 id="variety-modal-title" className="text-3xl font-bold text-agri-green-deep mb-4 font-heading3">
             {extractLocaleString(variety.name)}
           </h2>
 
-          <div className="space-y-3 text-base mb-6 text-gray-700">
+          <div className="space-y-3 text-base mb-6 text-gray-700 font-sans3">
             <div className="flex items-center">
               <Clock size={20} className="mr-3 text-agri-orange-harvest flex-shrink-0" />
               <span>
@@ -778,11 +778,11 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
 
           {variety.aboutVariety && (
             <div className="mb-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-sans3">
                 {extractLocaleString(variety.name)} {t("details")}
               </h3>
               <div
-                className="prose prose-sm max-w-none text-gray-700"
+                className="prose prose-sm max-w-none text-gray-700 font-sans3"
                 dangerouslySetInnerHTML={{
                   __html: extractLocaleString(variety.aboutVariety),
                 }}
@@ -792,11 +792,11 @@ const VarietyDetailsModal: React.FC<VarietyDetailsModalProps> = ({ variety, onCl
 
           {variety.whyItCreated && (
             <div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
+              <h3 className="text-xl font-semibold text-gray-900 mb-2 font-sans3">
                 {t("why")}
               </h3>
               <div
-                className="prose prose-sm max-w-none text-gray-700"
+                className="prose prose-sm max-w-none text-gray-700 font-sans3"
                 dangerouslySetInnerHTML={{
                   __html: extractLocaleString(variety.whyItCreated),
                 }}
@@ -1033,7 +1033,7 @@ useEffect(() => {
             className="max-w-3xl mx-auto"
           >
             <PackageSearch className="mx-auto text-white h-16 w-16 md:h-20 md:w-20 mb-4 opacity-80" />
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold !leading-tight mb-5 md:mb-6 drop-shadow-lg">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold !leading-tight mb-5 md:mb-6 drop-shadow-lg font-heading3">
               {t("our")} <span className="text-agri-yellow-sun">{t("ourproducts")}</span>
             </h1>
             <div className="h-[35px] md:h-[45px] flex items-center justify-center relative mb-6 md:mb-8">
@@ -1045,7 +1045,7 @@ useEffect(() => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -25 }}
                     transition={{ duration: 0.6, ease: "circOut" }}
-                    className="absolute text-3xl md:text-4xl font-semibold text-white opacity-95 tracking-wide"
+                    className="absolute text-3xl md:text-4xl font-semibold text-white opacity-95 tracking-wide font-sans3"
                   >
                     {subtitles[currentSubtitleIndex]}
                   </motion.p>
@@ -1103,7 +1103,7 @@ useEffect(() => {
           {/* Removed `sticky` for mobile to prevent overflow/z-index issues. */}
           {/* Will now scroll normally with content on small screens. */}
           <aside className="w-full md:w-1/3 lg:w-1/4 bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 md:self-start md:sticky md:top-28 z-0">
-            <h2 className="text-xl font-semibold text-agri-green-deep mb-5 border-b pb-3">
+            <h2 className="text-xl font-semibold text-agri-green-deep mb-5 border-b pb-3 font-heading3">
                {t("cropCategories")}
             </h2>
             <ul className="space-y-2">
@@ -1111,7 +1111,7 @@ useEffect(() => {
                 <li key={cat.id}>
                   <button
                     onClick={() => handleCategorySelect(cat.id)}
-                    className={`w-full flex items-center text-left px-4 py-3 rounded-lg transition-all duration-200 ease-in-out group
+                    className={`w-full flex items-center text-left px-4 py-3 rounded-lg transition-all duration-200 ease-in-out group font-sans3
                               ${
                                 selectedCategoryId === cat.id
                                   ? "bg-agri-green-medium text-white shadow-lg transform scale-105"
@@ -1140,7 +1140,7 @@ useEffect(() => {
             {selectedCategoryData ? (
               <>
                 <div className="bg-white p-6 rounded-xl shadow-xl border border-gray-200/80 mb-8">
-                  <h2 className="text-2xl md:text-3xl font-bold text-agri-green-deep">
+                  <h2 className="text-2xl md:text-3xl font-bold text-agri-green-deep font-heading3">
                     {selectedCategoryData.name?.[language] || selectedCategoryData.name?.hi} {t("varieties")}
                   </h2>
                 </div>
@@ -1149,7 +1149,7 @@ useEffect(() => {
                 {selectedCategoryData.varieties &&
                 selectedCategoryData.varieties.length > 0 ? (
                   <nav className="mb-8 p-4 bg-gray-50 rounded-lg shadow-md border border-gray-200/60">
-                    <h3 className="text-lg font-semibold text-agri-green-dark mb-3">
+                    <h3 className="text-lg font-semibold text-agri-green-dark mb-3 font-sans3">
                        {t("availableVarieties")}
                     </h3>
                     <ul className="flex flex-wrap gap-3">
@@ -1157,7 +1157,7 @@ useEffect(() => {
                         <li key={variety.id}>
                           <button
                             onClick={() => handleViewDetails(variety)}
-                            className={`px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-agri-green-dark focus:ring-opacity-50
+                            className={`px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-all duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-agri-green-dark focus:ring-opacity-50 font-sans3
                                           ${
                                             modalOpenVariety?.id === variety.id
                                               ? "bg-agri-green-deep text-white shadow-md "

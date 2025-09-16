@@ -297,7 +297,7 @@ item7,
 
   const whyChooseUsFullContent = (
     <>
-      <h3 className="font-semibold text-xl mb-3 text-shipra-green-700">
+      <h3 className="font-semibold text-xl mb-3 text-shipra-green-700 font-heading3">
         {cardData.item10?.[language] || cardData.item10?.hi}
       </h3>
       <p className="mb-4">
@@ -489,11 +489,11 @@ const storyFullContent = (
         style={{ clipPath: "polygon(0 0, 100% 0, 100% 90%, 0 100%)" }}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="font-montserrat text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
+          <h1 className="font-montserrat text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 font-heading3">
                         {t("aboutUs")}
 
           </h1>
-          <p className="text-lg sm:text-xl max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl max-w-2xl mx-auto font-sans3">
             {t("aboutTitleInfo")}
           </p>
         </div>
@@ -504,16 +504,16 @@ const storyFullContent = (
         <section className="bg-agri-sky-blue p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center text-center">
           <div className="font-montserrat font-bold text-shipra-green-700">
             <div className="text-6xl sm:text-7xl mb-2">
-              <span className="animate-fade-in">{yearsCount}</span>+
+              <span className="animate-fade-in font-sans3">{yearsCount}</span>+
             </div>
-            <div className="text-xl sm:text-2xl"> {t("expYear")}</div>
+            <div className="text-xl sm:text-2xl font-sans3"> {t("expYear")}</div>
           </div>
         </section>
 
         {/* Card 1: The Founder */}
         <section className="bg-agri-card-bg p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out lg:col-span-2 flex flex-col justify-between">
           <div>
-            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
+            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700 font-heading3">
               👤 {founderData.item1?.[language] || founderData.item1?.hi}
             </h2>
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-4">
@@ -526,11 +526,11 @@ const storyFullContent = (
                 />
               </div>
               <div className="flex-grow text-center md:text-left">
-                <p className="font-semibold text-lg mb-2">
+                <p className="font-semibold text-lg mb-2 font-sans3">
                   {founderData.item2?.[language] || founderData.item2?.hi}
                 </p>
                 {/* Crucial info */}
-                <p className="mb-3">
+                <p className="mb-3 font-sans3">
                   {founderData.item3?.[language] || founderData.item3?.hi}
                 </p>
               </div>
@@ -549,14 +549,14 @@ const storyFullContent = (
         {/* Card 2: The Story */}
         <section className="bg-agri-green-100 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out lg:col-span-1 flex flex-col justify-between">
           <div>
-            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
+            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700 font-heading3">
               🔬 {founderData.item6?.[language] || founderData.item6?.hi}
             </h2>
             {/* Crucial info */}
-            <p className="mb-4">
+            <p className="mb-4 font-sans3">
               {founderData.item7?.[language] || founderData.item7?.hi}
             </p>
-            <p className="italic border-l-4 border-shipra-green-500 pl-4 py-2 my-4 text-shipra-text">
+            <p className="italic border-l-4 border-shipra-green-500 pl-4 py-2 my-4 text-shipra-text font-sans3">
               {founderData.item8?.[language] || founderData.item8?.hi}
             </p>
           </div>
@@ -572,11 +572,11 @@ const storyFullContent = (
         <section className="bg-shipra-green-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 ease-in-out col-span-1 md:col-span-2 lg:col-span-3 border border-shipra-green-200">
           {" "}
           {/* Changed background and added a border */}
-          <h3 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
+          <h3 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700 font-heading3">
             📈 {expData.item1?.[language] || expData.item1?.hi}
           </h3>{" "}
           {/* Updated heading for consistency */}
-          <p className="mb-4 text-shipra-text">
+          <p className="mb-4 text-shipra-text font-sans3">
            {expData.item2?.[language] || expData.item2?.hi}
           </p>
           {/* Sub-card b: Reaching Across States - Now integrated here with enhanced styling */}
@@ -590,15 +590,15 @@ const storyFullContent = (
               🌍
             </div>{" "}
             {/* Changed emoji, could be a custom icon */}
-            <div className="text-xl sm:text-2xl mb-4 text-shipra-green-700">
+            <div className="text-xl sm:text-2xl mb-4 text-shipra-green-700 font-heading3">
               {expData.item3?.[language] || expData.item3?.hi}
             </div>{" "}
             {/* Ensured strong text color */}
-            <div className="text-lg text-shipra-text font-normal">
+            <div className="text-lg text-shipra-text font-normal font-sans3">
               <p className="mb-2">
                 {expData.item4?.[language] || expData.item4?.hi}
               </p>
-              <div className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+              <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 font-sans3">
                 {stateNames.map((state, index) => (
                   <span
                     key={state}
@@ -620,29 +620,29 @@ const storyFullContent = (
               </div>
             </div>
           </div>
-          <p className="mb-4 text-shipra-text">
+          <p className="mb-4 text-shipra-text font-sans3">
             {expData.item5?.[language] || expData.item5?.hi}
           </p>
-          <p className="mb-4 text-shipra-text">
+          <p className="mb-4 text-shipra-text font-sans3">
             {expData.item6?.[language] || expData.item6?.hi}
           </p>
         </section>
 
         {/* Card 4: Our Mission */}
         <section className="bg-agri-card-bg p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out">
-          <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
+          <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700 font-heading3">
             🎯 {goalData.item1?.[language] || goalData.item1?.hi}
           </h2>
-          <p className="font-semibold text-xl mb-4 text-shipra-green-500">
+          <p className="font-semibold text-xl mb-4 text-shipra-green-500 font-sans3">
             {goalData.item2?.[language] || goalData.item2?.hi}
           </p>
-          <p className="mb-4">
+          <p className="mb-4 font-sans3">
                         {goalData.item3?.[language] || goalData.item3?.hi}
 
           </p>
-          <p className="mb-2">            {goalData.item4?.[language] || goalData.item4?.hi}
+          <p className="mb-2 font-sans3">            {goalData.item4?.[language] || goalData.item4?.hi}
 </p>
-          <ul className="list-disc list-inside space-y-2 text-shipra-text mb-4">
+          <ul className="list-disc list-inside space-y-2 text-shipra-text mb-4 font-sans3">
             <li>🌱             {goalData.item5?.[language] || goalData.item5?.hi}
 </li>
             <li>🌾             {goalData.item6?.[language] || goalData.item6?.hi}
@@ -659,20 +659,20 @@ const storyFullContent = (
         {/* Card 5: Core Values */}
         <section className="bg-agri-green-100 p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out md:col-span-2 flex flex-col justify-between">
           <div>
-            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
+            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700 font-heading3">
               🛡️ {coreValuesData.item1?.[language] || coreValuesData.item1?.hi}
             </h2>
-            <p className="font-semibold text-xl mb-4 text-shipra-green-500">
+            <p className="font-semibold text-xl mb-4 text-shipra-green-500 font-sans3">
               {coreValuesData.item2?.[language] || coreValuesData.item2?.hi}
             </p>
             {/* Crucial info */}
-            <p className="mb-4">
+            <p className="mb-4 font-sans3">
               {coreValuesData.item3?.[language] || coreValuesData.item3?.hi}
             </p>
-            <p className="mb-4">
+            <p className="mb-4 font-sans3">
               {coreValuesData.item4?.[language] || coreValuesData.item4?.hi}
             </p>
-            <p>
+            <p className="font-sans3">
               {coreValuesData.item5?.[language] || coreValuesData.item5?.hi}
             </p>
           </div>
@@ -694,33 +694,33 @@ const storyFullContent = (
           {" "}
           {/* Changed background and added a border */}
           <div>
-            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700">
+            <h2 className="font-montserrat text-2xl font-semibold mb-4 text-shipra-green-700 font-heading3">
               {cardData.item1?.[language] || cardData.item1?.hi}
             </h2>
-            <p className="font-semibold text-xl mb-4 text-shipra-green-500">
+            <p className="font-semibold text-xl mb-4 text-shipra-green-500 font-sans3">
               {cardData.item2?.[language] || cardData.item2?.hi}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 text-center">
-              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300 font-sans3">
                 {" "}
                 {/* Changed background, stronger border, added shadow and hover effect */}
                 <span className="text-3xl mb-2 text-agri-dark-green">💰</span>{" "}
                 {cardData.item3?.[language] || cardData.item3?.hi}
               </div>
-              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300 font-sans3">
                 {" "}
                 {/* Changed background, stronger border, added shadow and hover effect */}
                 <span className="text-3xl mb-2 text-agri-dark-green">🧪</span>{" "}
                 {cardData.item4?.[language] || cardData.item4?.hi}
               </div>
-              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300 font-sans3">
                 {" "}
                 {/* Changed background, stronger border, added shadow and hover effect */}
                 <span className="text-3xl mb-2 text-agri-dark-green">🌾</span>{" "}
                 {cardData.item5?.[language] || cardData.item5?.hi}
               </div>
-              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-white p-4 rounded-lg flex flex-col items-center justify-center font-semibold text-shipra-green-700 border border-shipra-green-500 shadow-md transform hover:scale-105 transition-transform duration-300 font-sans3">
                 {" "}
                 {/* Changed background, stronger border, added shadow and hover effect */}
                 <span className="text-3xl mb-2 text-agri-dark-green">🤝</span>{" "}

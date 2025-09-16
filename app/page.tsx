@@ -52,7 +52,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 0.75, y: 0 }}
               transition={{ duration: 1 }}
-              className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg"
+              className="text-4xl md:text-6xl font-extrabold leading-tight mb-6 drop-shadow-lg font-heading3"
             >
               {t("whoAreWe")}
             </motion.h1>
@@ -65,7 +65,7 @@ export default function Home() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -30 }}
                   transition={{ duration: 0.6 }}
-                  className={`absolute font-bold text-white 
+                  className={`absolute font-bold text-white font-heading3
                     ${
                       index === 2
                         ? "text-3xl whitespace-normal"
@@ -82,7 +82,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 0.75, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="text-4xl md:text-6xl font-extrabold drop-shadow-lg"
+              className="text-4xl md:text-6xl font-extrabold drop-shadow-lg font-heading3"
             >
               {t("yourTrustedSeedPartner")}
             </motion.h3>
@@ -92,7 +92,8 @@ export default function Home() {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, delay: 0.6 }}
-            className="bg-white text-green-700 font-semibold rounded-full px-8 py-4 flex items-center space-x-2 hover:bg-gray-100 transition-all shadow-lg mb-8 md:mb-12"
+            className="bg-white text-green-700 font-semibold rounded-full px-8 py-4 flex items-center space-x-2 hover:bg-gray-100 transition-all shadow-lg mb-8 md:mb-12 font-heading3
+            "
           >
             <Link href="/about">{t("learnMoreAboutUs")}</Link>
             <span className="text-2xl">→</span>

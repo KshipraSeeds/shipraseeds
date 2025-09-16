@@ -326,39 +326,39 @@ const FarmerRegistrationPage = () => {
           className="w-full max-w-3xl mx-auto space-y-10"
         >
           <section className="text-center">
-            <p className="text-green-200 text-sm sm:text-base leading-relaxed">
+            <p className="text-green-200 text-sm sm:text-base leading-relaxed font-sans3">
               {cardData.item1?.[language] || cardData.item1?.hi}
             </p>
           </section>
 
           <header className="text-center">
             <UserCircle className="mx-auto text-yellow-400 h-12 w-12 sm:h-16 mb-3" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-md">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white drop-shadow-md font-heading3">
               👨‍🌾 {cardData.item2?.[language] || cardData.item2?.hi}
             </h1>
           </header>
 
           <section className="bg-white/5 p-6 rounded-xl shadow-lg backdrop-blur-sm">
-            <p className="text-base sm:text-lg text-green-100 mb-4">
+            <p className="text-base sm:text-lg text-green-100 mb-4 font-sans3">
               {t("registrationFormIntro")}
             </p>
             <ul className="space-y-2.5">
               {benefits.map((benefit, index) => (
                 <li key={index} className="flex items-start">
                   <CheckCircle className="w-5 h-5 text-yellow-400 mr-2.5 mt-0.5 flex-shrink-0" />
-                  <span className="text-green-50">{benefit}</span>
+                  <span className="text-green-50 font-sans3">{benefit}</span>
                 </li>
               ))}
             </ul>
           </section>
 
           <section className="bg-white/5 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
-            <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6">
+            <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6 font-heading3">
               <ClipboardList className="w-7 h-7 mr-3 text-yellow-400" />
               {t("registrationFormInfo")}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 font-sans3">
               <div>
                 <FormInput
                   label={t("farmerNameLabel")}
@@ -500,10 +500,10 @@ const FarmerRegistrationPage = () => {
             <div className="flex items-start">
               <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-yellow-400 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-yellow-300 mb-1">
+                <h3 className="font-semibold text-yellow-300 mb-1 font-heading3">
                   {t("note")}
                 </h3>
-                <p className="text-sm text-green-100 leading-relaxed">
+                <p className="text-sm text-green-100 leading-relaxed font-sans3">
                   {cardData.item5?.[language] || cardData.item5?.hi}
                 </p>
               </div>

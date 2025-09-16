@@ -322,14 +322,14 @@ const RetailerPage = () => {
           className="w-full max-w-3xl mx-auto space-y-10"
         >
           <section className="text-center">
-            <p className="text-slate-700 text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-sans3">
               {cardData.item1?.[language] || cardData.item1?.hi}
             </p>
           </section>
 
           <header className="text-center">
             <UserCircle className="mx-auto text-amber-500 h-12 w-12 sm:h-16 mb-3" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 drop-shadow-sm">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 drop-shadow-sm font-heading3">
               👨‍🌾 {cardData.item2?.[language] || cardData.item2?.hi}
             </h1>
           </header>
@@ -338,7 +338,7 @@ const RetailerPage = () => {
             <ul className="space-y-2.5">
               <li className="flex items-start">
                 <CheckCircle className="w-5 h-5 text-amber-500 mr-2.5 mt-0.5 flex-shrink-0" />
-                <span className="text-base sm:text-lg text-white mb-4">
+                <span className="text-base sm:text-lg text-white mb-4 font-sans3">
                   {cardData.item3?.[language] || cardData.item3?.hi}
                 </span>
               </li>
@@ -346,12 +346,12 @@ const RetailerPage = () => {
           </section>
 
           <section className="bg-green-700/80 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
-            <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6">
+            <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6 font-heading3">
               <ClipboardList className="w-7 h-7 mr-3 text-amber-500" />
               {t("basicFormInfo")}
             </h2>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 font-sans3">
               <div>
                 <FormInput
                   label={t("retailerNameLabel")}
@@ -472,10 +472,10 @@ const RetailerPage = () => {
             <div className="flex items-start">
               <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-amber-500 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-amber-500 mb-1">
+                <h3 className="font-semibold text-amber-500 mb-1 font-heading3">
                   {t("note")}
                 </h3>
-                <p className="text-sm text-white leading-relaxed">
+                <p className="text-sm text-white leading-relaxed font-sans3">
                   {cardData.item4?.[language] || cardData.item4?.hi}
                 </p>
               </div>
