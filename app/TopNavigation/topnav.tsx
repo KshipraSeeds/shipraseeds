@@ -135,7 +135,7 @@ export default function TopNav() {
               </h1>
             </Link>
 
-            <div className="hidden md:flex space-x-8 text-base font-medium items-center">
+            <div className="hidden md:flex space-x-8 text-base font-medium items-center font-heading3">
               <Link href="/" className={linkClass("/")}>
                 {t("home")}
               </Link>
@@ -226,7 +226,7 @@ export default function TopNav() {
           <X className="w-8 h-8" />
         </button>
 
-        <nav className="flex flex-col items-center space-y-6 text-center mt-8">
+        <nav className="flex flex-col items-center space-y-6 text-center mt-8 font-heading3">
           <Link href="/" onClick={closeMenu} className={mobileLinkClass("/")}>
             {t("home")}
           </Link>
