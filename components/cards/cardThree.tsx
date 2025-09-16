@@ -71,10 +71,10 @@ export const CardThree = () => {
         }}
       >
         <div className="max-w-4xl w-full mb-10 px-4 text-center">
-          <h3 className="text-purple-800 text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4">
+          <h3 className="text-purple-800 text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 font-heading3">
             {localizedTitle}
           </h3>
-          <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed">
+          <p className="text-gray-700 mb-6 text-base sm:text-lg leading-relaxed font-sans3">
             {localizedDescription}
           </p>
           <Link href="/products">
@@ -100,7 +100,7 @@ export const CardThree = () => {
                   className="h-10 sm:h-24 md:h-40 w-full object-cover"
                 />
                 <div className="py-1 sm:py-3 md:py-3">
-                  <h4 className="text-lg font-semibold text-gray-800">
+                  <h4 className="text-lg font-semibold text-gray-800 font-heading3">
                     {crop.name?.[language] || crop.name?.en}
                   </h4>
                 </div>

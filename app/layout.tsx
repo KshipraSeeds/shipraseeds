@@ -1,6 +1,6 @@
 // app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono,Inter, Poppins, Outfit, DM_Sans, Space_Grotesk, Work_Sans, Playfair_Display, Raleway, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import TopNav from "./TopNavigation/topnav";
 import Footer from "@/components/Footer";
@@ -17,6 +17,65 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+// const inter = Inter({
+//   subsets: ["latin"],
+//   variable: "--font-inter",
+// });
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-poppins",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-outfit",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dmsans",
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-spacegrotesk",
+});
+
+const workSans = Work_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-worksans",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-playfair",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-inter",
+});
+
+const raleway = Raleway({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-raleway",
+});
+
+const sourceSans = Source_Sans_3({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-sourcesans",
+});
+
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://shipraseeds.com"),
@@ -83,7 +142,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
+        className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} ${poppins.variable} ${outfit.variable} ${dmSans.variable} ${spaceGrotesk.variable} ${workSans.variable} ${raleway.variable} ${sourceSans.variable} antialiased relative`}
       >
         <ProvidersWrapper>
           <div className="absolute top-0 left-0 w-full z-50">

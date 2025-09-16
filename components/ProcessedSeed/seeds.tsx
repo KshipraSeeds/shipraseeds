@@ -107,7 +107,7 @@ export const WhyProcessedSeedCard = () => {
 
   return (
     <div className="bg-gradient-to-br from-purple-50 via-white to-purple-100 border border-purple-200 rounded-3xl p-4 sm:p-8 md:p-10 shadow-xl max-w-5xl mx-auto my-12 sm:my-16">
-      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-purple-800 mb-6 sm:mb-8 text-center">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-purple-800 mb-6 sm:mb-8 text-center font-heading3">
         🌾{localizedTitle}
       </h2>
 
@@ -125,7 +125,7 @@ export const WhyProcessedSeedCard = () => {
             >
               <div className="flex items-center gap-3">
                 {getIconComponent(point.icon)} {/* Render icon component */}
-                <h3 className="text-md sm:text-lg lg:text-xl font-semibold text-purple-900 group-hover:text-purple-700">
+                <h3 className="text-md sm:text-lg lg:text-xl font-semibold text-purple-900 group-hover:text-purple-700 font-heading3">
                   {point[`title_${language}`] || point.title_en} {/* Localized title */}
                 </h3>
               </div>
@@ -144,7 +144,7 @@ export const WhyProcessedSeedCard = () => {
                   : "max-h-0 opacity-0 mt-0"
               }`}
             >
-              <p className="text-gray-700 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed">
+              <p className="text-gray-700 text-sm sm:text-base mb-3 sm:mb-4 leading-relaxed font-sans3">
                 {point[`summary_${language}`] || point.summary_en} {/* Localized summary */}
               </p>
               <button
@@ -174,7 +174,7 @@ export const WhyProcessedSeedCard = () => {
             style={{ maxHeight: 'calc(100vh - 4rem)' }}
           >
             <div className="flex justify-between items-center p-4 sm:p-6 border-b border-gray-200">
-              <h3 id="modal-title" className="text-xl sm:text-2xl font-bold text-purple-800">
+              <h3 id="modal-title" className="text-xl sm:text-2xl font-bold text-purple-800 font-heading3">
                 {/* Corrected: Get the component first, then clone if it exists */}
                 {getIconComponent(modalContent.icon) && React.cloneElement(getIconComponent(modalContent.icon), { className: "w-7 h-7 text-purple-700 inline mr-2" })}
                 {modalContent[`title_${language}`] || modalContent.title_en} {/* Localized modal title */}
@@ -197,14 +197,14 @@ export const WhyProcessedSeedCard = () => {
 
                 {(modalContent[`example_${language}`] || modalContent.example_en) && (
                   <>
-                    <h4 className="text-md sm:text-lg font-semibold text-purple-700 mt-4 mb-1 sm:mb-2">{t("Example")}</h4>
-                    <p className="mb-4 sm:mb-6 italic bg-purple-50 p-3 rounded-lg border-l-4 border-purple-400">{modalContent[`example_${language}`] || modalContent.example_en}</p>
+                    <h4 className="text-md sm:text-lg font-semibold text-purple-700 mt-4 mb-1 sm:mb-2 font-heading3">{t("Example")}</h4>
+                    <p className="mb-4 sm:mb-6 italic bg-purple-50 p-3 rounded-lg border-l-4 border-purple-400 font-sans3">{modalContent[`example_${language}`] || modalContent.example_en}</p>
                   </>
                 )}
                 {(modalContent[`analogy_${language}`] || modalContent.analogy_en) && (
                   <>
-                    <h4 className="text-md sm:text-lg font-semibold text-purple-700 mt-4 mb-1 sm:mb-2">{t("Analogy")}:</h4>
-                    <p className="italic bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400">{modalContent[`analogy_${language}`] || modalContent.analogy_en}</p>
+                    <h4 className="text-md sm:text-lg font-semibold text-purple-700 mt-4 mb-1 sm:mb-2 font-heading3">{t("Analogy")}:</h4>
+                    <p className="italic bg-blue-50 p-3 rounded-lg border-l-4 border-blue-400 font-sans3">{modalContent[`analogy_${language}`] || modalContent.analogy_en}</p>
                   </>
                 )}
               </div>

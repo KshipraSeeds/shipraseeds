@@ -47,9 +47,18 @@ module.exports = {
         'futuristic-glow-from': 'rgba(88, 166, 255, 0.3)',
         'futuristic-glow-to': 'rgba(88, 166, 255, 0)',
       },
-      fontFamily: {
-        montserrat: ['Montserrat', 'sans-serif'],
-        'open-sans': ['Open Sans', 'sans-serif'],
+     fontFamily: {
+        // Replace Montserrat/Open Sans with our new setup
+        sans: ["var(--font-inter)", "sans-serif"], // default for body
+        heading: ["var(--font-poppins)", "sans-serif"], // for titles 
+         sans2: ["var(--font-dmsans)", "sans-serif"],
+    heading2: ["var(--font-outfit)", "sans-serif"],
+     sans3: ["var(--font-worksans)", "sans-serif"],  // Default for body
+    heading3: ["var(--font-spacegrotesk)", "sans-serif"], // For headings
+    sans4: ["var(--font-inter)", "sans-serif"],  // Default for body text
+    heading4: ["var(--font-playfair)", "serif"], // Elegant headings
+     sans5: ["var(--font-sourcesans)", "sans-serif"], // For paragraphs
+    heading5: ["var(--font-raleway)", "sans-serif"], // For headings
       },
       keyframes: {
         'slide-down': {

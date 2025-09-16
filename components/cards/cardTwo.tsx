@@ -87,10 +87,10 @@ export const CardTwo = () => {
           />
         </div>
         <div className="w-full md:w-1/2 text-center md:text-left mt-6 md:mt-0 md:ml-12">
-          <h3 className="text-orange-800 text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4">
+          <h3 className="text-orange-800 text-2xl sm:text-3xl md:text-4xl font-extrabold mb-4 font-heading3">
             {localizedTitle}
           </h3>
-          <p className="text-gray-600 mb-6 text-base sm:text-lg leading-relaxed">
+          <p className="text-gray-600 mb-6 text-base sm:text-lg leading-relaxed font-sans3">
             {localizedDescription}
           </p>
           <Link href="/retailers">

@@ -25,10 +25,10 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
         <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${accentColorClass}`}>
           <Icon className={`w-8 h-8 ${iconColorClass}`} strokeWidth={2} />
         </div>
-        <h3 className="text-xl font-semibold text-agri-text-dark mb-1">{title}</h3>
+        <h3 className="text-xl font-semibold text-agri-text-dark mb-1 font-heading3">{title}</h3>
       </div>
       <div className="p-6 pt-2 text-center flex-grow">
-        <p className="text-agri-text-light leading-relaxed text-sm">{description}</p>
+        <p className="text-agri-text-light leading-relaxed text-sm font-sans3">{description}</p>
       </div>
       <div className={`h-1.5 ${accentColorClass} transition-all duration-300 group-hover:h-2.5`}></div>
     </div>
@@ -113,7 +113,7 @@ const WhyChooseUs: React.FC = () => {
       <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div className="bg-white p-6 sm:p-8 md:p-12 rounded-2xl shadow-xl border border-gray-200/70">
           <div className="text-center mb-12 md:mb-16">
-            <h2 className="text-3xl font-extrabold text-agri-green-deep sm:text-4xl lg:text-5xl mb-4 tracking-tight">
+            <h2 className="text-3xl font-extrabold text-agri-green-deep sm:text-4xl lg:text-5xl mb-4 tracking-tight font-heading3">
               {localizedTitle}
             </h2>
           </div>

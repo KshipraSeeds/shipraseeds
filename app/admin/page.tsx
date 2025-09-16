@@ -5,8 +5,6 @@ import { db } from "@/firebase";
 import {
   collection,
   getDocs,
-  addDoc,
-  serverTimestamp,
   query,
   orderBy,
 } from "firebase/firestore";
