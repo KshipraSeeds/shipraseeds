@@ -20,11 +20,10 @@ export default function TopNav() {
   useEffect(() => {
     const detectLocationAndSetLang = async () => {
       try {
-       const res = await fetch("https://ipapi.co/json/");
+        const res = await fetch("https://ipapi.co/json/");
         const data = await res.json();
         const region = data?.region?.toLowerCase() || "";
         const regionCode = data?.region_code || "";
-
 
         if (region.includes("punjab") || regionCode === "PB") {
           setLang("pa");
@@ -35,8 +34,7 @@ export default function TopNav() {
         }
 
         localStorage.setItem("preferredLanguage", "set");
-      } catch (err) {
-      }
+      } catch (err) {}
     };
 
     detectLocationAndSetLang();
@@ -209,92 +207,93 @@ export default function TopNav() {
             </div>
           </div>
         </nav> */}
-           <nav className="w-full flex justify-center items-start pt-10 pb-6 md:pt-8 md:pb-4">
-  <div className="w-[90%] max-w-6xl bg-white backdrop-blur-md rounded-full shadow-lg flex justify-between items-center px-6 md:px-8"
-       style={{ height: "70px" }} // ✅ Fixed height for navbar container
-  >
-    <Link href="/" onClick={closeMenu}>
-      <img
-        src="/logo2.png"
-        alt="Shipra Seeds"
-        className="h-full max-h-16 md:max-h-16 object-contain" // ✅ Scales inside nav height
-      />
-    </Link>
-
-    <div className="hidden md:flex space-x-8 text-base font-medium items-center font-heading3">
-      <Link href="/" className={linkClass("/")}>
-        {t("home")}
-      </Link>
-      <Link href="/about" className={linkClass("/about")}>
-        {t("about")}
-      </Link>
-      <Link href="/products" className={linkClass("/products")}>
-        {t("products")}
-      </Link>
-      <Link href="/registration" className={linkClass("/registration")}>
-        {t("registration")}
-      </Link>
-      <Link href="/retailers" className={linkClass("/retailers")}>
-        {t("retailers")}
-      </Link>
-
-      <div className="relative group">
-        <button
-          onClick={toggleLanguageDropdown}
-          className="flex items-center bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 font-semibold px-4 py-2 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
-        >
-          <FaLanguage className="h-5 w-5 mr-2" />
-          <span className="text-sm">{selectedLanguage}</span>
-          <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
-        </button>
-
-        {isLanguageDropdownOpen && (
+        <nav className="w-full flex justify-center items-start pt-10 pb-6 md:pt-8 md:pb-4">
           <div
-            className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl py-2 border border-gray-100 z-50 animate-fade-in-down"
-            onMouseLeave={closeLanguageDropdown}
+            className="w-[90%] max-w-6xl bg-white backdrop-blur-md rounded-full shadow-lg flex justify-between items-center px-6 md:px-8"
+            style={{ height: "70px" }} // ✅ Fixed height for navbar container
           >
-            <button
-              onClick={() => {
-                setLang("hi");
-                handleLanguageChange("Hindi");
-              }}
-              className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700"
-            >
-              हिन्दी
-            </button>
-            <button
-              onClick={() => {
-                setLang("en");
-                handleLanguageChange("English");
-              }}
-              className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700"
-            >
-              English
-            </button>
-            <button
-              onClick={() => {
-                setLang("pa");
-                handleLanguageChange("Punjabi");
-              }}
-              className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700"
-            >
-              ਪੰਜਾਬੀ
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+            <Link href="/" onClick={closeMenu}>
+              <img
+                src="/logo2.png"
+                alt="Shipra Seeds"
+                className="h-full max-h-16 md:max-h-16 object-contain" // ✅ Scales inside nav height
+              />
+            </Link>
 
-    <div className="md:hidden">
-      <button
-        onClick={toggleMenu}
-        className="text-gray-700 hover:text-green-700 p-2"
-      >
-        <Menu className="w-7 h-7" />
-      </button>
-    </div>
-  </div>
-</nav>
+            <div className="hidden md:flex space-x-8 text-base font-medium items-center font-heading3">
+              <Link href="/" className={linkClass("/")}>
+                {t("home")}
+              </Link>
+              <Link href="/about" className={linkClass("/about")}>
+                {t("about")}
+              </Link>
+              <Link href="/products" className={linkClass("/products")}>
+                {t("products")}
+              </Link>
+              <Link href="/registration" className={linkClass("/registration")}>
+                {t("registration")}
+              </Link>
+              <Link href="/retailers" className={linkClass("/retailers")}>
+                {t("retailers")}
+              </Link>
+
+              <div className="relative group">
+                <button
+                  onClick={toggleLanguageDropdown}
+                  className="flex items-center bg-green-100 text-green-700 hover:bg-green-200 hover:text-green-800 font-semibold px-4 py-2 rounded-full transition-all duration-300 shadow-sm hover:shadow-md"
+                >
+                  <FaLanguage className="h-5 w-5 mr-2" />
+                  <span className="text-sm">{selectedLanguage}</span>
+                  <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
+                </button>
+
+                {isLanguageDropdownOpen && (
+                  <div
+                    className="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-xl py-2 border border-gray-100 z-50 animate-fade-in-down"
+                    onMouseLeave={closeLanguageDropdown}
+                  >
+                    <button
+                      onClick={() => {
+                        setLang("hi");
+                        handleLanguageChange("Hindi");
+                      }}
+                      className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700"
+                    >
+                      हिन्दी
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLang("en");
+                        handleLanguageChange("English");
+                      }}
+                      className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700"
+                    >
+                      English
+                    </button>
+                    <button
+                      onClick={() => {
+                        setLang("pa");
+                        handleLanguageChange("Punjabi");
+                      }}
+                      className="block w-full text-left px-5 py-2 text-base text-gray-700 hover:bg-green-50 hover:text-green-700"
+                    >
+                      ਪੰਜਾਬੀ
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="md:hidden">
+              <button
+                onClick={toggleMenu}
+                className="text-gray-700 hover:text-green-700 p-2"
+              >
+                <Menu className="w-7 h-7" />
+              </button>
+            </div>
+          </div>
+        </nav>
       </div>
 
       {/* Mobile Menu */}
@@ -345,13 +344,16 @@ export default function TopNav() {
             {t("retailers")}
           </Link>
 
-          <div className="mt-8 mb-6 pt-6 border-t border-gray-200 w-full text-center">
-            <Link href="/" onClick={closeMenu}>
-              <h2 className="text-3xl font-black text-green-800 gothic-font">
-                {t("shipraSeeds")}
-              </h2>
-            </Link>
-          </div>
+      <div className="mt-4 border-t border-gray-200 w-full text-center">
+  <Link href="/" onClick={closeMenu}>
+    <img
+      src="/logo2.png"
+      alt="Shipra Seeds"
+      className="mx-auto h-12 sm:h-14 object-contain"
+    />
+  </Link>
+</div>
+
 
           {/* <div className="mt-8 mb-6 pt-6 border-t border-gray-200 w-full text-center">
   <Link href="/" onClick={closeMenu}>
@@ -362,7 +364,6 @@ export default function TopNav() {
     />
   </Link>
 </div> */}
-
 
           <div className="relative mb-6 w-full flex flex-col items-center">
             <p className="text-gray-600 text-base font-semibold mb-2">
