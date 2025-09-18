@@ -5,9 +5,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap');
 
 
+/* .gothic-font {
+  font-family: 'UnifrakturCook', 'Old English Text MT', 'Georgia', serif;
+} */
+
 .gothic-font {
   font-family: 'UnifrakturCook', 'Old English Text MT', 'Georgia', serif;
+
 }
+
 
 :root {
   --background: #ffffff;

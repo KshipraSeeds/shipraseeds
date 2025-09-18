@@ -1,13 +1,24 @@
 // app/layout.tsx
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono,Inter, Poppins, Outfit, DM_Sans, Space_Grotesk, Work_Sans, Playfair_Display, Raleway, Source_Sans_3 } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Inter,
+  Poppins,
+  Outfit,
+  DM_Sans,
+  Space_Grotesk,
+  Work_Sans,
+  Playfair_Display,
+  Raleway,
+  Source_Sans_3,
+} from "next/font/google";
 import "./globals.css";
 import TopNav from "./TopNavigation/topnav";
 import Footer from "@/components/Footer";
 import ProvidersWrapper from "@/app/Components/ProvidersWrapper";
 import React, { Suspense } from "react";
 import Script from "next/script";
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,15 +88,14 @@ const sourceSans = Source_Sans_3({
   variable: "--font-sourcesans",
 });
 
-
 export const metadata: Metadata = {
   metadataBase: new URL("https://shipraseeds.com"),
-title: {
-  default: "Shipra Seeds – Basmati Rice & Crop Seeds for Farmers",
-  template: "%s | Shipra Seeds",
-},
-description:
-  "Shipra Seeds offers premium basmati rice and crop seeds for farmers and retailers. Ensure high yield and healthy crops with our verified seed varieties.",
+  title: {
+    default: "Shipra Seeds – Basmati Rice & Crop Seeds for Farmers",
+    template: "%s | Shipra Seeds",
+  },
+  description:
+    "Shipra Seeds offers premium basmati rice and crop seeds for farmers and retailers. Ensure high yield and healthy crops with our verified seed varieties.",
 
   alternates: {
     canonical: "https://shipraseeds.com",
@@ -124,9 +134,9 @@ description:
     googleBot: {
       index: true,
       follow: true,
-    "max-snippet": -1,
-    "max-image-preview": "large",
-    "max-video-preview": -1,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
     },
   },
 };
@@ -142,18 +152,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-          <head>
-        {/* ✅ Preload Gothic Font so it loads instantly on mobile */}
-        <link
-          rel="preload"
-          href={'https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap'}
-          as="style"
-        />
-      </head>
+
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} ${poppins.variable} ${outfit.variable} ${dmSans.variable} ${spaceGrotesk.variable} ${workSans.variable} ${raleway.variable} ${sourceSans.variable} antialiased relative`}
       >
-        
         <ProvidersWrapper>
           <div className="absolute top-0 left-0 w-full z-50">
             <TopNav />
@@ -167,7 +170,11 @@ export default function RootLayout({
         </ProvidersWrapper>
 
         {/* ✅ Organization Schema (JSON-LD) */}
-        <Script id="org-ld" type="application/ld+json" strategy="afterInteractive">
+        <Script
+          id="org-ld"
+          type="application/ld+json"
+          strategy="afterInteractive"
+        >
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
