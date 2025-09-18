@@ -8,6 +8,7 @@ import ProvidersWrapper from "@/app/Components/ProvidersWrapper";
 import React, { Suspense } from "react";
 import Script from "next/script";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -141,9 +142,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+          <head>
+        {/* ✅ Preload Gothic Font so it loads instantly on mobile */}
+        <link
+          rel="preload"
+          href={'https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap'}
+          as="style"
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} ${poppins.variable} ${outfit.variable} ${dmSans.variable} ${spaceGrotesk.variable} ${workSans.variable} ${raleway.variable} ${sourceSans.variable} antialiased relative`}
       >
+        
         <ProvidersWrapper>
           <div className="absolute top-0 left-0 w-full z-50">
             <TopNav />

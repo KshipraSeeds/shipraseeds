@@ -261,7 +261,7 @@ export default function TopNav() {
 
           <div className="mt-8 mb-6 pt-6 border-t border-gray-200 w-full text-center">
             <Link href="/" onClick={closeMenu}>
-              <h2 className="text-3xl font-black text-green-700 gothic-font">
+              <h2 className="text-3xl font-black text-green-800 gothic-font">
                 {t("shipraSeeds")}
               </h2>
             </Link>
