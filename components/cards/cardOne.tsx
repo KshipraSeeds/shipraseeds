@@ -61,11 +61,13 @@ export const CardOne = () => {
         transition={{ duration: 0.8 }}
         viewport={{ once: true }}
         className="bg-green-100 rounded-[32px] p-6 sm:p-10 md:p-16 flex flex-col md:flex-row items-center shadow-2xl hover:shadow-3xl transition-all"
+   
         style={{
-          backgroundColor: "#dcfce7",
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cg fill='%239C92AC' fill-opacity='0.06'%3E%3Cpath fill-rule='evenodd' d='M0 0h4v4H0V0zm4 4h4v4H4V4z'/%3E%3C/g%3E%3C/svg%3E")`,
-          backgroundRepeat: "repeat",
-        }}
+  backgroundColor: "#dcfce7",
+backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='1' viewBox='0 0 40 1' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h20v1H0z' fill='%239C92AC' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E")`,
+  backgroundRepeat: "repeat",
+}}
+
       >
         <div className="w-full md:w-1/2">
           <img
