@@ -501,7 +501,7 @@ const storyFullContent = (
       {/* --- END HEADER SECTION --- */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
         {/* NEW: 15+ Years of Experience Card (Moved to top) */}
-        <section className="bg-agri-sky-blue p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center text-center">
+        <section className="bg-[#F2F4F3] p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 ease-in-out col-span-1 md:col-span-2 lg:col-span-3 flex flex-col justify-center items-center text-center">
           <div className="font-montserrat font-bold text-shipra-green-700">
             <div className="text-6xl sm:text-7xl mb-2">
               <span className="animate-fade-in font-sans3">{yearsCount}</span>+
