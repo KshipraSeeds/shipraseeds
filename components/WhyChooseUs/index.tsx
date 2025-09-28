@@ -10,6 +10,8 @@ interface FeatureCardProps {
   description: string;
   accentColorClass: string;
   iconColorClass: string;   
+  bgColorClass: string;   
+
 }
 
 const FeatureCard: React.FC<FeatureCardProps> = ({
@@ -18,11 +20,12 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
   description,
   accentColorClass,
   iconColorClass,
+  bgColorClass
 }) => {
   return (
     <div className="flex flex-col bg-white rounded-xl shadow-custom-medium hover:shadow-custom-hover transition-all duration-300 overflow-hidden group transform hover:-translate-y-1">
-      <div className={`relative p-6 flex flex-col items-center text-center ${accentColorClass}-light-bg`}>
-        <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110 ${accentColorClass}`}>
+      <div className={`relative p-6 flex flex-col items-center text-center `}   style={{ backgroundColor: bgColorClass }}>
+        <div className={`w-16 h-16 rounded-full flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`} style={{ backgroundColor: accentColorClass }}>
           <Icon className={`w-8 h-8 ${iconColorClass}`} strokeWidth={2} />
         </div>
         <h3 className="text-xl font-semibold text-agri-text-dark mb-1 font-heading3">{title}</h3>
@@ -30,7 +33,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
       <div className="p-6 pt-2 text-center flex-grow">
         <p className="text-agri-text-light leading-relaxed text-sm font-sans3">{description}</p>
       </div>
-      <div className={`h-1.5 ${accentColorClass} transition-all duration-300 group-hover:h-2.5`}></div>
+      <div className={`h-1.5  transition-all duration-300 group-hover:h-2.5`} style={{ backgroundColor: accentColorClass }}></div>
     </div>
   );
 };
@@ -55,8 +58,8 @@ interface FeatureItem {
   icon: string;
   accentColorClass: string;
   iconColorClass: string;
+  bgColorClass: string;   
 }
-
 interface WhyChooseUsData {
   SectionTitle?: LocalizedText;
   features?: FeatureItem[];
@@ -80,6 +83,7 @@ const WhyChooseUs: React.FC = () => {
             description,
             icon,
             accentColorClass,
+            bgColorClass,
             iconColorClass
           }
         }`);
@@ -126,6 +130,8 @@ const WhyChooseUs: React.FC = () => {
                 description={feature.description?.[language] || feature.description?.hi || ""}
                 accentColorClass={feature.accentColorClass}
                 iconColorClass={feature.iconColorClass}
+                bgColorClass={feature.bgColorClass}
+
               />
             ))}
           </div>

@@ -24,18 +24,20 @@ module.exports = {
         'agri-footer-bg-light': '#E6F0E7',
         'agri-green-deep': '#2A4B2C',
         'agri-green-medium': '#5E8C61', // This is identical to shipra-green-500, can be consolidated if desired
+        'agri-lightgreen-medium':'#C8E6C9',
         'agri-green-light': '#A3D9A5',
         'agri-brown-rich': '#795548',
         'agri-brown-light': '#D7CCC8', // This is identical to agri-brown-light from the first snippet, kept to avoid breaking existing styles if they were used.
         'agri-yellow-sun': '#FFD700',
-        'agri-orange-harvest': '#FFA726',
-        'agri-sky-blue': '#E0F2F7',     // This is identical to agri-sky-blue from the first snippet, kept.
+        'agri-orange-harvest': '#B37118',
+        'agri-sky-blue': '#A8D4E0',     // This is identical to agri-sky-blue from the first snippet, kept.
         'agri-text-dark': '#333333',
         'agri-text-light': '#555555',
         'agri-card-bg': '#E8F5E9',      // This is identical to agri-card-bg from the first snippet, kept.
         'agri-section-bg': '#ECEFF1',
         'agri-footer-bg': '#1F2937',
         'grayish': '#6B7280',
+        'pastel-orange': '#0c0c0dff',
 
         // Futuristic accents (kept from second config)
         'futuristic-bg': '#0D1117',
