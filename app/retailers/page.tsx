@@ -44,7 +44,8 @@ const FormInput = ({
       htmlFor={name}
       className="flex items-center text-md font-medium text-white mb-1"
     >
-      {Icon && <Icon className="w-4 h-4 mr-2 text-amber-500" />}
+      {/* Icon color changed from amber-500 to orange-500 for better contrast/sophistication */}
+      {Icon && <Icon className="w-4 h-4 mr-2 text-orange-500" />}
       {label}
     </label>
     <input
@@ -54,7 +55,10 @@ const FormInput = ({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-amber-500 focus:border-transparent outline-none transition-all duration-300"
+      // Input background changed from green-800/75 to emerald-900/75 (darker)
+      // Border changed from green-400/60 to emerald-600/60
+      // Focus ring changed from amber-500 to orange-500
+      className="w-full p-3 bg-emerald-900/75 border border-emerald-600/60 rounded-lg text-white placeholder-slate-300/80 focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-300"
     />
   </div>
 );
@@ -68,7 +72,8 @@ const RetailerPage = () => {
     district: "",
     name: "",
     mobileNumber: "",
-    businessType: "रिटेलर",
+    // Retaining 'रिटेलर' as a default if it's the required default value
+    businessType: "रिटेलर", 
   });
 
   const [availableStates, setAvailableStates] = useState<string[]>([]);
@@ -309,10 +314,12 @@ const RetailerPage = () => {
 
   return (
     <div className="relative w-full min-h-screen overflow-hidden py-5 px-4">
-      <div className="absolute m-4 mb-0 sm:m-5 sm:mb-0 inset-0 bg-gradient-to-br from-yellow-300 via-green-500 to-white opacity-95 rounded-[30px] sm:rounded-[42px]" />
+      {/* Background gradient changed to muted amber-100 and emerald-100 */}
+      <div className="absolute m-4 mb-0 sm:m-5 sm:mb-0 inset-0 bg-gradient-to-br from-amber-100 via-emerald-100 to-white opacity-95 rounded-[30px] sm:rounded-[42px]" />
 
-      <Sprout className="absolute top-5 left-5 sm:top-10 sm:left-10 w-12 h-12 sm:w-16 sm:h-16 text-green-500 opacity-50 transform -rotate-12 pointer-events-none" />
-      <Leaf className="absolute bottom-5 right-5 sm:bottom-10 sm:right-10 w-16 h-16 sm:w-20 sm:h-20 text-green-500 opacity-50 transform rotate-12 pointer-events-none" />
+      {/* Decorative icons changed from green-500 to emerald-600 (darker, more earthy) */}
+      <Sprout className="absolute top-5 left-5 sm:top-10 sm:left-10 w-12 h-12 sm:w-16 sm:h-16 text-emerald-600 opacity-50 transform -rotate-12 pointer-events-none" />
+      <Leaf className="absolute bottom-5 right-5 sm:bottom-10 sm:right-10 w-16 h-16 sm:w-20 sm:h-20 text-emerald-600 opacity-50 transform rotate-12 pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center px-4 pt-16 sm:pt-24 pb-12 mt-10">
         <motion.div
@@ -322,22 +329,27 @@ const RetailerPage = () => {
           className="w-full max-w-3xl mx-auto space-y-10"
         >
           <section className="text-center">
+            {/* Slate text is fine for contrast */}
             <p className="text-slate-700 text-sm sm:text-base leading-relaxed font-sans3">
               {cardData.item1?.[language] || cardData.item1?.hi}
             </p>
           </section>
 
           <header className="text-center">
-            <UserCircle className="mx-auto text-amber-500 h-12 w-12 sm:h-16 mb-3" />
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-green-700 drop-shadow-sm font-heading3">
+            {/* Icon color changed from amber-500 to orange-500 */}
+            <UserCircle className="mx-auto text-orange-500 h-12 w-12 sm:h-16 mb-3" />
+            {/* Heading text changed from green-700 to emerald-800 */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-emerald-800 drop-shadow-sm font-heading3">
               👨‍🌾 {cardData.item2?.[language] || cardData.item2?.hi}
             </h1>
           </header>
 
-          <section className="bg-green-700/80 p-6 rounded-xl shadow-lg backdrop-blur-sm">
+          {/* Background changed from green-700/80 to emerald-800/90 (darker, less translucent) */}
+          <section className="bg-emerald-800/90 p-6 rounded-xl shadow-lg backdrop-blur-sm">
             <ul className="space-y-2.5">
               <li className="flex items-start">
-                <CheckCircle className="w-5 h-5 text-amber-500 mr-2.5 mt-0.5 flex-shrink-0" />
+                {/* Icon color changed from amber-500 to orange-500 */}
+                <CheckCircle className="w-5 h-5 text-orange-500 mr-2.5 mt-0.5 flex-shrink-0" />
                 <span className="text-base sm:text-lg text-white mb-4 font-sans3">
                   {cardData.item3?.[language] || cardData.item3?.hi}
                 </span>
@@ -345,14 +357,17 @@ const RetailerPage = () => {
             </ul>
           </section>
 
-          <section className="bg-green-700/80 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
+          {/* Background changed from green-700/80 to emerald-800/90 */}
+          <section className="bg-emerald-800/90 p-6 sm:p-8 rounded-xl shadow-lg backdrop-blur-sm">
+            {/* Heading icon color changed from amber-500 to orange-500 */}
             <h2 className="flex items-center text-xl sm:text-2xl font-semibold text-white mb-6 font-heading3">
-              <ClipboardList className="w-7 h-7 mr-3 text-amber-500" />
+              <ClipboardList className="w-7 h-7 mr-3 text-orange-500" />
               {t("basicFormInfo")}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6 font-sans3">
               <div>
+                {/* FormInput component uses updated colors internally */}
                 <FormInput
                   label={t("retailerNameLabel")}
                   name="name"
@@ -385,7 +400,8 @@ const RetailerPage = () => {
 
               <div>
                 <label className="flex items-center text-md font-medium text-white mb-2">
-                  <ClipboardList className="w-5 h-5 mr-2 text-amber-500" />
+                  {/* Icon color changed from amber-500 to orange-500 */}
+                  <ClipboardList className="w-5 h-5 mr-2 text-orange-500" />
                   {t("retailerBusinessType")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
@@ -398,7 +414,8 @@ const RetailerPage = () => {
                         value={type}
                         checked={formData.businessType === type}
                         onChange={handleChange}
-                        className="w-4 h-4 accent-amber-500 bg-green-800 border-green-400/60 focus:ring-yellow-500 focus:outline-none cursor-pointer"
+                        // Radio button colors changed from amber-500 & green-800 & green-400 to orange-500 & emerald-900 & emerald-600
+                        className="w-4 h-4 accent-orange-500 bg-emerald-900 border-emerald-600/60 focus:ring-orange-500 focus:outline-none cursor-pointer"
                       />
                       <span className="text-sm">{t(type)}</span>
                     </label>
@@ -411,7 +428,8 @@ const RetailerPage = () => {
 
               <div>
                 <label className="flex items-center text-md font-medium text-white mb-2">
-                  <MapPin className="w-4 h-4 mr-2 text-amber-500" />
+                  {/* Icon color changed from amber-500 to orange-500 */}
+                  <MapPin className="w-4 h-4 mr-2 text-orange-500" />
                   {t("place")}
                   <span className="text-red-400 ml-1">*</span>
                 </label>
@@ -421,7 +439,8 @@ const RetailerPage = () => {
                       name="state"
                       value={formData.state}
                       onChange={handleStateChange}
-                      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                      // Select field colors changed to emerald-900/75, emerald-600/60, and orange-500
+                      className="w-full p-3 bg-emerald-900/75 border border-emerald-600/60 rounded-lg text-white focus:ring-2 focus:ring-orange-500 outline-none"
                     >
                       <option value="">{t("state")}</option>
                       {availableStates.map((state) => (
@@ -440,7 +459,8 @@ const RetailerPage = () => {
                       value={formData.district}
                       onChange={handleDistrictChange}
                       disabled={!formData.state}
-                      className="w-full p-3 bg-green-800/75 border border-green-400/60 rounded-lg text-white focus:ring-2 focus:ring-amber-500 outline-none"
+                      // Select field colors changed to emerald-900/75, emerald-600/60, and orange-500
+                      className="w-full p-3 bg-emerald-900/75 border border-emerald-600/60 rounded-lg text-white focus:ring-2 focus:ring-orange-500 outline-none"
                     >
                       <option value="">{t("district")}</option>
                       {availableDistricts.map((district) => (
@@ -460,7 +480,8 @@ const RetailerPage = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 type="submit"
-                className="w-full flex items-center justify-center p-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-lg shadow-md transition-colors duration-300 text-base sm:text-lg"
+                // Button color changed from amber-500/600 to a stronger orange-600/700
+                className="w-full flex items-center justify-center p-3.5 bg-orange-600 hover:bg-orange-700 text-white font-bold rounded-lg shadow-md transition-colors duration-300 text-base sm:text-lg"
               >
                 <Send className="w-5 h-5 mr-2" />
                 {t("sendInquiry")}
@@ -468,11 +489,14 @@ const RetailerPage = () => {
             </form>
           </section>
 
-          <section className="bg-green-700/80 p-4 rounded-xl shadow-lg backdrop-blur-sm">
+          {/* Background changed from green-700/80 to emerald-800/90 */}
+          <section className="bg-emerald-800/90 p-4 rounded-xl shadow-lg backdrop-blur-sm">
             <div className="flex items-start">
-              <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-amber-500 mr-3 flex-shrink-0" />
+              {/* Icon color changed from amber-500 to orange-500 */}
+              <AlertTriangle className="w-10 h-10 sm:w-6 sm:h-6 text-orange-500 mr-3 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-amber-500 mb-1 font-heading3">
+                {/* Heading color changed from amber-500 to orange-500 */}
+                <h3 className="font-semibold text-orange-500 mb-1 font-heading3">
                   {t("note")}
                 </h3>
                 <p className="text-sm text-white leading-relaxed font-sans3">
@@ -486,8 +510,10 @@ const RetailerPage = () => {
 
       {showSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4">
-          <div className="bg-green-800 w-full max-w-md sm:max-w-sm rounded-2xl shadow-xl text-center text-green-50 px-5 py-6 sm:px-6 sm:py-8">
-            <CheckCircle className="w-12 h-12 mx-auto text-yellow-400 mb-4" />
+          {/* Success popup background changed from green-800 to emerald-900 */}
+          <div className="bg-emerald-900 w-full max-w-md sm:max-w-sm rounded-2xl shadow-xl text-center text-green-50 px-5 py-6 sm:px-6 sm:py-8">
+            {/* Icon color changed from yellow-400 to orange-400 */}
+            <CheckCircle className="w-12 h-12 mx-auto text-orange-400 mb-4" />
             <h2 className="text-xl sm:text-2xl font-bold mb-2">
               {t("retailerSuccessTitle") || "🎉 Successful!"}
             </h2>
@@ -497,7 +523,9 @@ const RetailerPage = () => {
             </p>
             <button
               onClick={() => setShowSuccess(false)}
-              className="mt-2 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-green-900 font-bold rounded-lg shadow transition-colors text-sm sm:text-base"
+              // Button color changed from amber-500/600 to orange-600/700
+              // Text color changed from green-900 to emerald-900 (for consistency, though green-900 is close)
+              className="mt-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-emerald-900 font-bold rounded-lg shadow transition-colors text-sm sm:text-base"
             >
               OK
             </button>
