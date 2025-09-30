@@ -12,6 +12,7 @@ import { WhyProcessedSeedCard } from "@/components/ProcessedSeed/seeds";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext"; // 👈 import the context
+import { CardFive } from "@/components/cards/cardFive";
 
 export default function Home() {
   const { t, setLang } = useLanguage(); // 👈 use translation function from context
@@ -103,10 +104,11 @@ export default function Home() {
 
       {/* Cards Section */}
       <div className="relative w-full min-h-[400vh] px-4 sm:px-6 md:px-12 py-20 space-y-20">
-        <CardOne />
+        {/* <CardOne /> */}
         <CardTwo />
         <CardThree />
         <CardFour />
+        <CardFive/>
       </div>
       <div className="px-4 sm:px-6 md:px-12">
         <WhyProcessedSeedCard />

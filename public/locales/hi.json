@@ -27,7 +27,9 @@
   "yourTrustedSeedPartner": "आपका भरोसेमंद बीज साथी।",
   "learnMoreAboutUs": "हमारे बारे में अधिक जानें",
   "registerNow": "अभी रजिस्टर करें",
+  "joinUs": "अभी आवेदन करें",
   "sendInquiry": "पूछताछ भेजें",
+  "submit": "जमा करें",
   "viewProducts": "उत्पाद देखें",
   "knowShipraSeeds": "शिप्रा सीड्स को जानिए",
   "basmatiRiceVarieties": "बासमती धान की किस्में",
@@ -56,9 +58,12 @@
   ],
 "retailerNameLabel":"दुकान / व्यवसाय का नाम",
 "retailerNamePlaceholder":"आपके व्यवसाय का नाम",
+"namePlaceholder": "आपका नाम",
 "retailerMobileNumberLabel":"मोबाइल नंबर",
 "retailerMobileNumberPlaceholder":"आपका मोबाइल नंबर",
 "retailerBusinessType":"व्यवसाय का प्रकार:",
+"emailLabel": "ईमेल",
+"emailPlaceholder": "ईमेल दर्ज करें",
 "place":"स्थान:",
 "district":"जिला",
 "state":"राज्य",
@@ -68,6 +73,8 @@
 "note":"नोट",
 "registrationFormIntro":"अगर आप धान या गेहूं की खेती करते हैं, तो यह फॉर्म आपके लिए है। इसमें रजिस्ट्रेशन करके आप पाएंगे:",
 "farmingLocation":"आपका खेती करने का स्थान:",
+"location":"स्थान:",
+"areaOfInterest":"आपकी रुचि",
 "language":"पसंदीदा भाषा",
 "farmerNameLabel":"आपका नाम",
 "registrationFormInfo":"कृपया नीचे अपनी जानकारी भरें:",
@@ -86,7 +93,9 @@
 "retailerSuccessTitle":"सफल!",
 "retailerSuccessMessage":"आपकी पूछताछ सफलतापूर्वक सबमिट हो गई है।",
 "retailerLabel":"रिटेलर",
-"wholesalerLabel":"होलसेलर"
+"wholesalerLabel":"होलसेलर",
+"uploadCvLabel": "अपना सीवी / रिज़्यूमे अपलोड करें (PDF/DOC)"
+
 
 
 

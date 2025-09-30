@@ -27,7 +27,9 @@
   "yourTrustedSeedPartner": "ਤੁਹਾਡਾ ਭਰੋਸੇਯੋਗ ਬੀਜ ਸਾਥੀ।",
   "learnMoreAboutUs": "ਸਾਡੇ ਬਾਰੇ ਹੋਰ ਜਾਣੋ",
   "registerNow": "ਹੁਣੇ ਰਜਿਸਟਰ ਕਰੋ",
+  "joinUs": "ਹੁਣੇ ਅਰਜ਼ੀ ਦਿਓ",
   "sendInquiry": "ਪੁੱਛਗਿੱਛ ਭੇਜੋ",
+  "submit": "ਜਮ੍ਹਾਂ ਕਰੋ",
   "viewProducts": "ਉਤਪਾਦ ਦੇਖੋ",
   "knowShipraSeeds": "ਸ਼ਿਪਰਾ ਸੀਡਜ਼ ਬਾਰੇ ਜਾਣੋ",
   "basmatiRiceVarieties": "ਬਾਸਮਤੀ ਚੌਲਾਂ ਦੀਆਂ ਕਿਸਮਾਂ",
@@ -56,9 +58,12 @@
 ],
 "retailerNameLabel": "ਦੁਕਾਨ / ਕਾਰੋਬਾਰ ਦਾ ਨਾਮ",
 "retailerNamePlaceholder": "ਤੁਹਾਡੇ ਵਪਾਰ ਦਾ ਨਾਂ",
+"namePlaceholder": "ਨਾਮ ਦਰਜ ਕਰੋ",
 "retailerMobileNumberLabel": "ਮੋਬਾਈਲ ਨੰਬਰ",
 "retailerMobileNumberPlaceholder": "ਤੁਹਾਡਾ ਮੋਬਾਈਲ ਨੰਬਰ",
 "retailerBusinessType": "ਕਾਰੋਬਾਰ ਦੀ ਕਿਸਮ:",
+"emailLabel": "ਈਮੇਲ",
+"emailPlaceholder": "ਈਮੇਲ ਦਰਜ ਕਰੋ",
 "place": "ਸਥਾਨ:",
 "district": "ਜ਼ਿਲ੍ਹਾ",
 "state":"ਰਾਜ",
@@ -68,6 +73,8 @@
 "note":"ਨੋਟ",
 "registrationFormIntro":"ਜੇ ਤੁਸੀਂ ਧਾਨ ਜਾਂ ਗੇਹੂੰ ਦੀ ਖੇਤੀ ਕਰਦੇ ਹੋ, ਤਾਂ ਇਹ ਫਾਰਮ ਤੁਹਾਡੇ ਲਈ ਹੈ। ਇੱਥੇ ਰਜਿਸਟ੍ਰੇਸ਼ਨ ਕਰਕੇ ਤੁਸੀਂ ਪ੍ਰਾਪਤ ਕਰੋਗੇ:",
 "farmingLocation":"ਤੁਹਾਡੀ ਖੇਤੀ ਕਰਨ ਦੀ ਜਗ੍ਹਾ:",
+"location":"ਜਗ੍ਹਾ:",
+"areaOfInterest":"ਤੁਹਾਡੀ ਰੁਚੀ",
 "language":"ਮਨਪਸੰਦ ਭਾਸ਼ਾ",
 "farmerNameLabel":"ਨਾਮ",
 "registrationFormInfo": "ਕਿਰਪਾ ਕਰਕੇ ਹੇਠਾਂ ਆਪਣੀ ਜਾਣਕਾਰੀ ਭਰੋ:",
@@ -86,7 +93,9 @@
 "retailerSuccessTitle":"ਸਫਲ!",
 "retailerSuccessMessage":"ਤੁਹਾਡੀ ਪੁੱਛਗਿੱਛ ਸਫਲਤਾਪੂਰਵਕ ਭੇਜੀ ਗਈ ਹੈ।",
 "retailerLabel":"ਰਿਟੇਲਰ",
-"wholesalerLabel":"ਹੋਲਸੇਲਰ"
+"wholesalerLabel":"ਹੋਲਸੇਲਰ",
+"uploadCvLabel": "ਆਪਣਾ ਸੀਵੀ / ਰਿਜ਼ਯੂਮ ਅਪਲੋਡ ਕਰੋ (PDF/DOC)"
+
 
 
 

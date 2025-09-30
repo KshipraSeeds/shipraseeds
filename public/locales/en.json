@@ -27,7 +27,9 @@
   "yourTrustedSeedPartner": "Your Trusted Seed Partner.",
   "learnMoreAboutUs": "Learn more about us",
   "registerNow": "Register Now",
+  "joinUs": "Apply Now",
   "sendInquiry": "Send Inquiry",
+  "submit":"Submit",
   "viewProducts": "View Products",
   "knowShipraSeeds": "Know Shipra Seeds",
   "basmatiRiceVarieties": "Basmati Rice Varieties",
@@ -56,6 +58,9 @@
 ],
 "retailerNameLabel": "Shop / Business Name",
 "retailerNamePlaceholder": "business name",
+"emailLabel": "Email",
+"emailPlaceholder": "Enter email",
+"namePlaceholder": "Enter name",
 "retailerMobileNumberLabel": "Mobile Number",
 "retailerMobileNumberPlaceholder": "mobile number",
 "retailerBusinessType": "Type of Business:",
@@ -68,6 +73,8 @@
 "note":"Note",
 "registrationFormIntro":"If you grow paddy or wheat, this form is for you. By registering here, you will get:",
 "farmingLocation":"Your farming location:",
+"location":"Location:",
+"areaOfInterest":"Area of Interest",
 "language":"Your Language",
 "farmerNameLabel":"Name",
 "registrationFormInfo": "Please fill in your details below:",
@@ -86,7 +93,8 @@
 "retailerSuccessTitle":"Successful!",
 "retailerSuccessMessage":"Your inquiry has been submitted successfully.",
 "retailerLabel":"Retailer",
-"wholesalerLabel":"Wholesaler"
+"wholesalerLabel":"Wholesaler",
+"uploadCvLabel":"Upload Your CV / Resume (PDF/DOC)"
 
 
 

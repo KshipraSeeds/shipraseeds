@@ -53,7 +53,7 @@ export const CardTwo = () => {
     cardData.description?.[language] || cardData.description?.en || "";
 
   return (
-    <div className="relative sticky top-4 z-[20]">
+    <div className="relative sticky top-4 z-[10]">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
