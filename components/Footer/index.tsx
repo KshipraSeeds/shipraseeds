@@ -101,11 +101,11 @@ const Footer: React.FC = () => {
         },
         {
           text: {
-            hi: "संपर्क",
-            en: "Contact",
-            pa: "ਸੰਪਰਕ",
+            hi: "करियर",
+            en: "Career",
+            pa: "ਕਰੀਅਰ",
           },
-          href: "/contact",
+          href: "/career",
         },
       ],
     },

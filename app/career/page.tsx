@@ -752,8 +752,14 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     accept=".pdf,.doc,.docx"
     onChange={(e) => {
       const file = e.target.files?.[0] || null;
-      if (file && file.size > 5 * 1024 * 1024) { // optional: 5 MB limit
-        alert("File too large. Max 5 MB allowed.");
+      if (file && file.size > 1 * 1024 * 1024) { // optional: 5 MB limit
+        alert(
+        language === "hi"
+          ? "फ़ाइल का आकार 1MB से अधिक नहीं होना चाहिए।"
+          : language === "pa"
+          ? "ਫਾਈਲ ਦਾ ਆਕਾਰ 1MB ਤੋਂ ਵੱਧ ਨਹੀਂ ਹੋਣਾ ਚਾਹੀਦਾ।"
+          : "File size should not exceed 1MB."
+      );
         return;
       }
       setFormData((prev) => ({ ...prev, cvFile: file }));

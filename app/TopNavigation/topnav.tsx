@@ -230,11 +230,14 @@ export default function TopNav() {
               <Link href="/products" className={linkClass("/products")}>
                 {t("products")}
               </Link>
-              <Link href="/registration" className={linkClass("/registration")}>
+              {/* <Link href="/registration" className={linkClass("/registration")}>
                 {t("registration")}
-              </Link>
+              </Link> */}
               <Link href="/retailers" className={linkClass("/retailers")}>
                 {t("retailers")}
+              </Link>
+              <Link href="/career" className={linkClass("/career")}>
+                {t("career")}
               </Link>
 
               <div className="relative group">
@@ -329,13 +332,13 @@ export default function TopNav() {
           >
             {t("products")}
           </Link>
-          <Link
+          {/* <Link
             href="/registration"
             onClick={closeMenu}
             className={mobileLinkClass("/registration")}
           >
             {t("registration")}
-          </Link>
+          </Link> */}
           <Link
             href="/retailers"
             onClick={closeMenu}
@@ -343,17 +346,23 @@ export default function TopNav() {
           >
             {t("retailers")}
           </Link>
+          <Link
+            href="/career"
+            onClick={closeMenu}
+            className={mobileLinkClass("/career")}
+          >
+            {t("career")}
+          </Link>
 
-      <div className="mt-4 border-t border-gray-200 w-full text-center">
-  <Link href="/" onClick={closeMenu}>
-    <img
-      src="/logo2.png"
-      alt="Shipra Seeds"
-      className="mx-auto h-12 sm:h-14 object-contain"
-    />
-  </Link>
-</div>
-
+          <div className="mt-4 border-t border-gray-200 w-full text-center">
+            <Link href="/" onClick={closeMenu}>
+              <img
+                src="/logo2.png"
+                alt="Shipra Seeds"
+                className="mx-auto h-12 sm:h-14 object-contain"
+              />
+            </Link>
+          </div>
 
           {/* <div className="mt-8 mb-6 pt-6 border-t border-gray-200 w-full text-center">
   <Link href="/" onClick={closeMenu}>
