@@ -162,7 +162,27 @@ const Footer: React.FC = () => {
                   if (item.type === "address") {
                     return (
                       <li key={itemIndex} className="group/item">
-                        <Link href={item.href || "#"} legacyBehavior>
+                        <Link
+                          href={item.href || "#"}
+                          target={item.isExternal ? "_blank" : "_self"}
+                          rel={
+                            item.isExternal ? "noopener noreferrer" : undefined
+                          }
+                          className="flex items-start text-slate-300 hover:text-sky-300 hover:underline focus:outline-none focus:ring-2 focus:ring-sky-500 focus:rounded-sm transition-all duration-300 ease-in-out group/link"
+                        >
+                          {item.icon && (
+                            <item.icon className="w-5 h-5 mr-3 mt-[3px] flex-shrink-0 text-sky-500 transition-colors duration-300 group-hover/link:text-sky-300" />
+                          )}
+
+                          <span className="leading-relaxed font-sans3">
+                            {text}
+                            <Navigation
+                              size={14}
+                              className="ml-1.5 inline-block opacity-70 group-hover/link:opacity-100 group-hover/link:translate-x-1 transition-all duration-300 text-sky-400 group-hover/link:text-sky-300"
+                            />
+                          </span>
+                        </Link>
+                         {/* <Link href={item.href || "#"} legacyBehavior>
                           <a
                             className="flex items-start text-slate-300 hover:text-sky-300 hover:underline focus:outline-none focus:ring-2 focus:ring-sky-500 focus:rounded-sm transition-all duration-300 ease-in-out group/link"
                             target={item.isExternal ? "_blank" : "_self"}
@@ -179,7 +199,7 @@ const Footer: React.FC = () => {
                               />
                             </span>
                           </a>
-                        </Link>
+                        </Link> */}
                       </li>
                     );
                   }
@@ -192,7 +212,7 @@ const Footer: React.FC = () => {
                       {item?.icon && (
                         <item.icon className="w-5 h-5 mr-3 mt-[2px] flex-shrink-0 text-sky-500 transition-colors duration-300 group-hover/item:text-sky-300" />
                       )}
-                      <Link href={item.href || "#"} legacyBehavior>
+                      {/* <Link href={item.href || "#"} legacyBehavior>
                         <a
                           className="text-slate-300 hover:text-sky-300 hover:underline focus:outline-none focus:ring-2 focus:ring-sky-500 focus:rounded-sm transition-colors duration-300 ease-in-out leading-relaxed group/link inline-flex items-center"
                           target={item.isExternal ? "_blank" : "_self"}
@@ -208,6 +228,25 @@ const Footer: React.FC = () => {
                             />
                           )}
                         </a>
+                      </Link> */}
+                      <Link
+                        href={item.href || "#"}
+                        target={item.isExternal ? "_blank" : "_self"}
+                        rel={
+                          item.isExternal ? "noopener noreferrer" : undefined
+                        }
+                        className="text-slate-300 hover:text-sky-300 hover:underline focus:outline-none focus:ring-2 focus:ring-sky-500 focus:rounded-sm transition-colors duration-300 ease-in-out leading-relaxed group/link inline-flex items-center"
+                      >
+                        <span className="hover:translate-x-1 transition-transform duration-200 inline-block font-sans3">
+                          {text}
+                        </span>
+
+                        {item.isExternal && item.type !== "address" && (
+                          <ExternalLink
+                            size={14}
+                            className="ml-1.5 opacity-70 group-hover/link:opacity-100 transition-opacity duration-300 text-sky-400 group-hover/link:text-sky-300"
+                          />
+                        )}
                       </Link>
                     </li>
                   );
