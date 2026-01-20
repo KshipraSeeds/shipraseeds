@@ -1,3 +1,4 @@
+
 // app/layout.tsx
 import type { Metadata, Viewport } from "next";
 import {
@@ -19,6 +20,8 @@ import Footer from "@/components/Footer";
 import ProvidersWrapper from "@/app/Components/ProvidersWrapper";
 import React, { Suspense } from "react";
 import Script from "next/script";
+import { headers } from "next/headers";
+import Chrome from "./Components/Crome";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -145,11 +148,13 @@ export const viewport: Viewport = {
   themeColor: "#0d9488", // adjust to your brand color
 };
 
-export default function RootLayout({
+export default async  function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+
+
   return (
     <html lang="en">
 
@@ -158,15 +163,15 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} ${playfair.variable} ${poppins.variable} ${outfit.variable} ${dmSans.variable} ${spaceGrotesk.variable} ${workSans.variable} ${raleway.variable} ${sourceSans.variable} antialiased relative`}
       >
         <ProvidersWrapper>
-          <div className="absolute top-0 left-0 w-full z-50">
+          {/* {!hideChrome && <div className="absolute top-0 left-0 w-full z-50">
             <TopNav />
-          </div>
+          </div>} */}
 
           <main className="min-h-screen">
-            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+            <Suspense fallback={<div>Loading...</div>}> <Chrome>{children}</Chrome></Suspense>
           </main>
 
-          <Footer />
+         {/* {!hideChrome && <Footer />}  */}
         </ProvidersWrapper>
 
         {/* ✅ Organization Schema (JSON-LD) */}
