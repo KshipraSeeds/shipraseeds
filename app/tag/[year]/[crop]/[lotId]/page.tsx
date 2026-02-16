@@ -409,7 +409,7 @@ export default function Page({ params }) {
 
   const summaryFields = [
     { label: "Lot Number", value: lotId },
-    { label: "Total Tags", value: data.tags },
+    // { label: "Total Tags", value: data.tags },
     { label: "Class of Seed", value: data.class },
     { label: "SPA", value: data.spa },
   ].filter((f) => hasValue(f.value));
