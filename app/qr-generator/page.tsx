@@ -97,6 +97,10 @@ export default function AdminLotQRPage() {
         "Inert Matter": Number(row[17]) || 0,
         "Weed Seeds": Number(row[18]) || 0,
         "Total WS per kg": Number(row[19]) || 0,
+        "Other Crop Seeds" :Number(row[20]) || 0,
+        "Germination":Number(row[21]) || 0,
+        "Dead Seeds":Number(row[22]) || 0,
+        "Abnormal Seeds":Number(row[23]) || 0,
       };
 
       if (includeGrower) {

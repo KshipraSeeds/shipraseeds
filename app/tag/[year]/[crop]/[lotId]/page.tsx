@@ -58,6 +58,10 @@ export default function Page({ params }) {
           inertMatter: excel["Inert Matter"],
           weedSeed: excel["Weed Seeds"],
           totalWSPERKG: excel["Total WS per kg"],
+            otherCropSeeds: excel["Other Crop Seeds"],
+  germination: excel["Germination"],
+  deadSeeds: excel["Dead Seeds"],
+  abnormalSeeds: excel["Abnormal Seeds"],
         },
 
         processedBy: {
@@ -175,10 +179,16 @@ export default function Page({ params }) {
   const testReportFields = [
     { label: "Lab Name", value: test.labName },
     { label: "Lab Report No", value: test.labReport },
-    { label: "Pure Seeds", value: test.pureSeed },
+    { label: "Pure Seeds", value: `${test.pureSeed * 100}%` },
     { label: "Inert Matter", value: test.inertMatter },
     { label: "Weed Seeds", value: test.weedSeed },
     { label: "Total WS Per Kg", value: test.totalWSPERKG },
+  { label: "Other Crop Seeds", value: `${test.otherCropSeeds}%` },
+{ label: "Germination", value: `${test.germination}%` },
+{ label: "Dead Seeds", value: `${test.deadSeeds}%` },
+{ label: "Abnormal Seeds", value: `${test.abnormalSeeds}%` },
+
+
   ].filter((f) => hasValue(f.value));
 
   /* ---------------- UI ---------------- */
