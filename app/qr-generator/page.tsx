@@ -26,6 +26,8 @@ export default function AdminLotQRPage() {
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
   const [includeGrower, setIncludeGrower] = useState(true);
+  const [deadSeed, setDeadSeed] = useState(true);
+
 
   useEffect(() => {
     fetchLots();
@@ -99,9 +101,14 @@ export default function AdminLotQRPage() {
         "Total WS per kg": Number(row[19]) || 0,
         "Other Crop Seeds" :Number(row[20]) || 0,
         "Germination":Number(row[21]) || 0,
-        "Dead Seeds":Number(row[22]) || 0,
-        "Abnormal Seeds":Number(row[23]) || 0,
+       // "Dead Seeds":Number(row[22]) || 0,
+       // "Abnormal Seeds":Number(row[23]) || 0,
       };
+
+       if (deadSeed) {
+        excel["Dead Seeds"] = Number(row[22]);
+        excel["Abnormal Seeds"] = Number(row[23]);
+      }
 
       if (includeGrower) {
         excel["GROWER NAME"] = String(row[6]).trim();
@@ -256,16 +263,34 @@ export default function AdminLotQRPage() {
 
     {/* RIGHT SECTION */}
     <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 w-full lg:w-1/2 lg:justify-end">
+ {/* Dead Seed Toggle */}
+      <div className="flex items-center gap-3 h-11">
+        <span className="text-sm font-semibold">
+          Dead Seeds
+        </span>
 
+        
+        <button
+          onClick={() => setDeadSeed(!deadSeed)}
+          className={`h-8 px-5 rounded-lg text-sm font-semibold transition ${
+            deadSeed
+              ? "bg-green-500 text-white"
+              : "bg-gray-300 text-gray-700"
+          }`}
+        >
+          {deadSeed ? "YES" : "NO"}
+        </button>
+      </div>
       {/* Grower Toggle */}
       <div className="flex items-center gap-3 h-11">
         <span className="text-sm font-semibold">
           Grower
         </span>
 
-        <button
+        
+         <button
           onClick={() => setIncludeGrower(!includeGrower)}
-          className={`h-11 px-5 rounded-lg text-sm font-semibold transition ${
+          className={`h-8 px-5 rounded-lg text-sm font-semibold transition ${
             includeGrower
               ? "bg-green-500 text-white"
               : "bg-gray-300 text-gray-700"

@@ -153,6 +153,8 @@ export default function Page({ params }) {
     { label: "Lot Number", value: lotId },
     // { label: "Total Tags", value: data.tags },
     { label: "Class of Seed", value: data.class },
+     { label: "Pure Seeds", value: `${test.pureSeed * 100}%` },
+     { label: "Germination", value: `${test.germination}%` },
     { label: "SPA", value: data.spa },
   ].filter((f) => hasValue(f.value));
 
@@ -192,7 +194,13 @@ export default function Page({ params }) {
   ].filter((f) => hasValue(f.value));
 
   /* ---------------- UI ---------------- */
-
+const filteredFields = testReportFields.filter(
+  (field) =>
+    field.value !== undefined &&
+    field.value !== null &&
+    field.value !== "undefined%" &&
+    field.value !== ""
+);
   return (
     <div className="min-h-screen bg-[#F6F7F9] px-4 py-6 sm:px-6 md:px-10">
       <div className="max-w-3xl mx-auto bg-white rounded-3xl shadow-lg p-6 mb-8">
@@ -224,13 +232,18 @@ export default function Page({ params }) {
           {crop} • {data.class} Seed • {year}
         </p>
 
-        {summaryFields.length > 0 && (
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {summaryFields.map((field, i) => (
-              <SummaryField key={i} label={field.label} value={field.value} />
-            ))}
-          </div>
-        )}
+      {summaryFields.length > 0 && (
+  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+    {summaryFields.map((field, i) => (
+      <SummaryField
+        key={i}
+        label={field.label}
+        value={field.value}
+        index={i}   // ✅ add this
+      />
+    ))}
+  </div>
+)}
       </div>
 
       <div className="max-w-3xl mx-auto space-y-6">
@@ -250,9 +263,9 @@ export default function Page({ params }) {
           </ExpandableCard>
         )}
 
-        {testReportFields.length > 0 && (
+        {filteredFields.length > 0 && (
           <ExpandableCard title="Complete Test Report">
-            {testReportFields.map((field, i) => (
+            {filteredFields.map((field, i) => (
               <Detail key={i} label={field.label} value={field.value} />
             ))}
           </ExpandableCard>
@@ -268,11 +281,34 @@ export default function Page({ params }) {
 
 /* ---------------- UI HELPERS ---------------- */
 
-function SummaryField({ label, value }) {
+function SummaryField({ label, value, index }) {
+  const styles = [
+    "from-blue-100/60 to-blue-50/40 text-blue-900 border-blue-200/60",
+    "from-emerald-100/60 to-emerald-50/40 text-emerald-900 border-emerald-200/60",
+    "from-violet-100/60 to-violet-50/40 text-violet-900 border-violet-200/60",
+    "from-orange-100/60 to-orange-50/40 text-orange-900 border-orange-200/60",
+    "from-pink-100/60 to-pink-50/40 text-pink-900 border-pink-200/60",
+  ];
+
+  const color = styles[index % styles.length];
+
   return (
-    <div className="bg-gray-50 p-4 rounded-xl border">
-      <p className="text-xs text-gray-500 uppercase">{label}</p>
-      <p className="text-lg font-bold">{value}</p>
+    <div
+      className={`relative p-3.5 rounded-xl 
+      bg-gradient-to-br ${color}
+      backdrop-blur-md border
+      hover:shadow-[0_12px_40px_rgba(0,0,0,0.12)]
+      transition duration-300 hover:-translate-y-1`}
+    >
+      {/* Label */}
+      <p className="text-[11px] italic tracking-wide opacity-70 mb-0.5">
+        {label}
+      </p>
+
+      {/* Value */}
+      <p className="text-lg font-semibold tracking-tight leading-tight">
+        {value}
+      </p>
     </div>
   );
 }
