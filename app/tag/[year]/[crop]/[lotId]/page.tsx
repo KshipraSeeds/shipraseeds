@@ -27,7 +27,9 @@ export default function Page({ params }) {
 
   async function fetchLot() {
     try {
-      const docId = `${year}_${lotId}`;
+      const decodedLotId = decodeURIComponent(lotId);
+      //const docId = `${year}_${lotId}`;
+      const docId = `${year}_${decodedLotId}`;
       const ref = doc(db, "lots", docId);
       const snap = await getDoc(ref);
 
@@ -150,7 +152,7 @@ export default function Page({ params }) {
   /* ---------------- FIELD ARRAYS ---------------- */
 
   const summaryFields = [
-    { label: "Lot Number", value: lotId },
+    { label: "Lot Number", value: decodeURIComponent(lotId) },
     // { label: "Total Tags", value: data.tags },
     { label: "Class of Seed", value: data.class },
      { label: "Pure Seeds", value: `${test.pureSeed * 100}%` },
